@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class RESTControllerUtil {
 
     /**
@@ -17,14 +20,18 @@ public class RESTControllerUtil {
      * @param baseUrl the base url for the resource, e.g. "/users"
      * @param id the id of the new resource
      * @return a ResponseEntity with the status code, Location header and body
+     * @throws IllegalArgumentException if the Location URI is illegal
      */
     public static <T> ResponseEntity<T> makePOSTResponse(@Nullable T object, String baseUrl, Long id) {
 
-        Assert.isTrue(baseUrl.startsWith("/"), "baseUrl is relative to host");
-        Assert.isTrue(!baseUrl.endsWith("/"), "baseUrl is pretty (no trailing /)");
+        Assert.isTrue(baseUrl.startsWith("/"), "baseUrl must be relative to host");
+        Assert.isTrue(!baseUrl.endsWith("/"), "baseUrl must be pretty (no trailing /)");
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", String.format("%s/%d", baseUrl, id));
-        return new ResponseEntity<>(object, headers, HttpStatus.CREATED);
+        try {
+            URI location = new URI(String.format("%s/%d", baseUrl, id));
+            return ResponseEntity.created(location).body(object);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException();
+        }
     }
 }
