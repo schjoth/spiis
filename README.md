@@ -8,9 +8,9 @@ Appen er delt i to deler.
 
 ## Bygging
 
-For å bygge tjeneren må `maven` og Java 14 være installert. Pass på at `JAVA_HOME` ikke peker til noen annen installasjon av Java.
+For å bygge tjeneren må `maven 3.6.3`  og `Java 15` være installert. Pass på at `JAVA_HOME` ikke peker til noen annen installasjon av Java.
 
-For å bygge klienten må `yarn` og `nodejs` være installert.
+For å bygge klienten må `yarn 1.22.10` og `nodejs 15.6.0` være installert.
 
 ### Lokal bygging+kjøring
 
