@@ -79,7 +79,19 @@ Setningen skal ikke ha stor forbokstav, ikke ha punktum, og skal passe inn i for
 Dersom denne forandringen flettes inn i prosjektet, vil den ___________________.
 ```
 
-Når du har gjort ferdig oppgaven, pakket det inn i én eller flere commits, og ønsker å laste forandringene opp på GitLab, bruk:
+Når du har gjort ferdig oppgaven og pakket det inn i én eller flere commits,
+er det lurt å sjekke om noe har skjedd på master-grenen siden du begynte.
+Isåfall må du flette de forandingene inn i din egen gren før du laster den opp.
+
+```sh
+# Vi antar at vi er i oppgave-grenen
+git fetch origin master:master #Oppdater master fra GitLab
+git merge master #Flett master inn i oppgave-grenen
+```
+Det kan potensielt oppstå merge-konflikter. I såfall kan du bruke `git status` for å se hvilke filer det gjelder,
+fikse dem, og `git add <fil>` til alt er fikset.
+
+Når du til slutt skal laste grenen din opp på GitLab kan du bruke
 ```sh
 git push -u origin <gren-navn>
 ```
