@@ -1,5 +1,4 @@
 .idea/
 
 # Database files
-**/spiis-database
-**/spiis-database.mv.db
+**/spiis-database.*
