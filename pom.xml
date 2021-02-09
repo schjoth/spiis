@@ -1,0 +1,13 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>TDT4140</groupId>
+    <artifactId>spiis</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Spiis</name>
+
+    <modules>
+        <module>client</module>
+        <module>server</module>
+    </modules>
+</project>
