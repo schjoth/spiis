@@ -12,17 +12,20 @@ For å bygge tjeneren må `maven 3.6.3`  og `Java 15` være installert. Pass på
 
 For å bygge klienten må `yarn 1.22.10` og `nodejs 15.6.0` være installert.
 
+**Tips:** IntelliJ Ultimate har maven innebygd, og laster ned `Java`.
+En maven-plugin laster ned `yarn` og `nodejs`.
+
 ### Lokal bygging+kjøring
 
 For å bygge og kjøre tjeneren lokalt, skriv
 ``` sh
 mvn spring-boot:run -pl server
 ```
-Dette starter Spring Boot-tjeneren på port `XXX`.
+Dette starter Spring Boot-tjeneren på port `8180`.
 
-For å bygge og åpne webappen lokalt, gå inn i `client/` og skriv
+For å bygge og åpne webappen lokalt, skriv
 ``` sh
-yarn serve
+mvn frontend:yarn@serve -pl client
 ```
 Dette starter en enkel webserver med Vue-nettsiden på `localhost:XXX`.
 
@@ -40,3 +43,6 @@ mvn verify
 
 ### CI/CD
 
+Når Pipeline er satt opp skrives det her.
+
+Når kontinuerlig utrulling er satt opp skrives det her.

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import spiis.server.api.ExampleCreateRequest;
 import spiis.server.api.ExampleResponse;
 import spiis.server.controller.ExampleController;
@@ -24,6 +25,7 @@ class ExampleTest {
     private ExampleController exampleController;
 
     @Test
+    @Transactional
     void createExampleEntity() {
         ExampleCreateRequest request = new ExampleCreateRequest("Fredrik");
 

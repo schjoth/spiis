@@ -8,14 +8,20 @@
         <version>2.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>TDT4140</groupId>
     <artifactId>spiis-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spiis-server</name>
+    <name>Spiis Server</name>
     <description>Backend server for Spiis webapp</description>
+
     <properties>
         <java.version>15</java.version>
+
+        <!-- used when running spring boot -->
+        <app.profiles>dev</app.profiles>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -28,10 +34,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -93,18 +95,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>14</source>
-                    <target>14</target>
+                    <profiles>${app.profiles}</profiles>
                 </configuration>
             </plugin>
-
-
-
 
             <!-- Checkstyle code quality tool -->
             <plugin>
@@ -176,6 +170,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>14</source>
+                    <target>14</target>
+                </configuration>
             </plugin>
 
         </plugins>

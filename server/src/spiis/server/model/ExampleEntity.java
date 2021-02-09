@@ -1,6 +1,9 @@
 package spiis.server.model;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -11,6 +14,7 @@ import java.util.Set;
 public class ExampleEntity {
     @Id
     @GeneratedValue
+    @Nullable
     private Long id;
 
     @Column(nullable = false)
@@ -18,7 +22,7 @@ public class ExampleEntity {
 
     // We own this many-to-many because we don't use
     @ManyToMany
-    private Set<ExampleSubject> subjects;
+    private Set<ExampleSubject> subjects = new HashSet<>();
 
     // All entities must have a default constructor
     protected ExampleEntity() {}
@@ -27,7 +31,7 @@ public class ExampleEntity {
         this.name = name;
     }
 
-    @Id
+    @Nullable
     public Long getId() {
         return id;
     }
