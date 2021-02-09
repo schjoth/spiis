@@ -12,7 +12,7 @@
     <groupId>TDT4140</groupId>
     <artifactId>spiis-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spiis-server</name>
+    <name>Spiis Server</name>
     <description>Backend server for Spiis webapp</description>
 
     <properties>
