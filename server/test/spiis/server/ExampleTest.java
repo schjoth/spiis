@@ -10,8 +10,7 @@ import spiis.server.api.ExampleCreateRequest;
 import spiis.server.api.ExampleResponse;
 import spiis.server.controller.ExampleController;
 import spiis.server.error.SpiisException;
-import spiis.server.model.ExampleEntity;
-import spiis.server.repository.ExampleEntityRepository;
+import spiis.server.service.ExampleEntityService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,37 +18,38 @@ import static org.junit.jupiter.api.Assertions.*;
 class ExampleTest {
 
     @Autowired
-    private ExampleEntityRepository exampleEntityRepository;
-
-    @Autowired
     private ExampleController exampleController;
 
+    @Autowired
+    private ExampleEntityService exampleEntityService;
+
     @Test
-    @Transactional
     void createExampleEntity() {
         ExampleCreateRequest request = new ExampleCreateRequest("Fredrik");
 
-        ResponseEntity<ExampleResponse> response = exampleController.createEntity(request);
-        ExampleResponse body = response.getBody();
+        ResponseEntity<ExampleResponse> responseEntity = exampleController.createEntity(request);
+        ExampleResponse response = responseEntity.getBody();
+        assertNotNull(response);
+        Long id = response.getId();
 
-        assertNotNull(body);
-        assertEquals(response.getHeaders().getFirst("Location"), String.format("/entities/%d", body.getId()));
+        assertEquals("Fredrik", response.getName());
+        assertEquals(0, response.getSubjectCount());
 
-        ExampleEntity entity = exampleEntityRepository.findById(body.getId()).orElseThrow();
+        // check that we can request it again
+        ExampleResponse response2 = exampleEntityService.makeResponse(id);
 
-        assertEquals(entity.getId(), body.getId());
-        assertEquals(entity.getName(), body.getName());
-        assertEquals(0, body.getSubjectCount());
-        assertEquals(0, entity.getSubjects().size());
+        assertEquals(id, response.getId());
+        assertEquals("Fredrik", response.getName());
+        assertEquals(0, response.getSubjectCount());
 
-        exampleEntityRepository.delete(entity);
+        // remove it from the database
+        exampleEntityService.removeEntity(id);
 
-        // This Entity has an illegal name!
+        // This new Entity has an illegal name!
         ExampleCreateRequest request2 = new ExampleCreateRequest("   x   ");
-        var ex = assertThrows(SpiisException.class, () -> {
+        SpiisException ex = assertThrows(SpiisException.class, () -> {
             exampleController.createEntity(request2);
         });
-
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, ex.getStatusCode());
     }
 }

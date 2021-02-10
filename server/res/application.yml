@@ -15,7 +15,7 @@ spring:
     password: ""
 
   jpa:
-    # This is best practice, otherwise we get a warning
+    # This is best practise, we use manual @Transactions
     open-in-view: false
 
     # More h2 stuff

@@ -20,7 +20,7 @@ public class ExampleEntity {
     @Column(nullable = false)
     private String name;
 
-    // We own this many-to-many because we don't use
+    // We own this many-to-many because we don't use mappedBy
     @ManyToMany
     private Set<ExampleSubject> subjects = new HashSet<>();
 
