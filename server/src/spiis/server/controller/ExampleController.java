@@ -22,55 +22,28 @@ import java.util.Optional;
 @RequestMapping("/entities")
 public class ExampleController {
 
-    private final ExampleEntityRepository exampleEntityRepository;
     private final ExampleEntityService exampleEntityService;
 
     @Autowired
-    public ExampleController(ExampleEntityRepository exampleEntityRepository,
-                             ExampleEntityService exampleEntityService) {
-        this.exampleEntityRepository = exampleEntityRepository;
+    public ExampleController(ExampleEntityService exampleEntityService) {
         this.exampleEntityService = exampleEntityService;
     }
-
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ExampleResponse> getAllEntities() {
-        List<ExampleResponse> response = new ArrayList<>();
-        for (var entity : exampleEntityRepository.findAll())
-            response.add(exampleEntityService.makeResponse(entity));
-
-        return response;
+        return exampleEntityService.getAllEntities();
     }
 
     @GetMapping("/{id}")
     public ExampleResponse getEntityById(@PathVariable("id") Long id) {
-        Optional<ExampleEntity> entity = exampleEntityRepository.findById(id);
-        return exampleEntityService.makeResponse(entity.orElseThrow());
+        return exampleEntityService.makeResponse(id);
     }
 
-    /**
-     * POST is about creating a new resource
-     * @param request the details of the new resource
-     * @return a response object with:
-     *     - CREATED status code
-     *     - A Location: header for the URL of the new resource
-     *     - A body containing the object
-     */
     @PostMapping
     public ResponseEntity<ExampleResponse> createEntity(ExampleCreateRequest request) {
-        String name = request.getName();
-        if (name == null || name.trim().length() < 3)
-            throw new SpiisException(HttpStatus.UNPROCESSABLE_ENTITY,
-                    "Entity must have name of at least length 3");
-
-        ExampleEntity newEntity = new ExampleEntity(name);
-
-        // Saving to the repository gives the entity an id
-        exampleEntityRepository.save(newEntity);
-
-        return RESTControllerUtil.makePOSTResponse(
-                exampleEntityService.makeResponse(newEntity), "/entities", newEntity.getId());
+        ExampleResponse response = exampleEntityService.makeExampleEntity(request);
+        return RESTControllerUtil.makePOSTResponse(response, "/entities", response.getId());
     }
 
     /*
