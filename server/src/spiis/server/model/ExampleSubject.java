@@ -55,7 +55,7 @@ public class ExampleSubject {
     // See: https://stackoverflow.com/questions/1082095/how-to-remove-entity-with-manytomany-relationship-in-jpa-and-corresponding-join
     @PreRemove
     public void onRemove() {
-        for(ExampleEntity entity:entities)
+        for (ExampleEntity entity : entities)
             entity.getSubjects().remove(this);
     }
 }

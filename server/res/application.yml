@@ -23,7 +23,7 @@ spring:
     hibernate.ddl-auto: update
 
 logging:
-  # Set all log levels to WARN, except for spring web
+  # Set all log levels to WARN
   level.root: WARN
 
   # Write the logs to a tmp file
