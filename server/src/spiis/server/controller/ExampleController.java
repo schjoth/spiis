@@ -1,7 +1,6 @@
 package spiis.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +13,7 @@ import spiis.server.service.ExampleEntityService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 // See: https://www.baeldung.com/spring-boot-start#web-and-the-controller
@@ -26,7 +26,8 @@ public class ExampleController {
     private final ExampleEntityService exampleEntityService;
 
     @Autowired
-    public ExampleController(ExampleEntityRepository exampleEntityRepository, ExampleEntityService exampleEntityService) {
+    public ExampleController(ExampleEntityRepository exampleEntityRepository,
+                             ExampleEntityService exampleEntityService) {
         this.exampleEntityRepository = exampleEntityRepository;
         this.exampleEntityService = exampleEntityService;
     }
@@ -52,15 +53,16 @@ public class ExampleController {
      * POST is about creating a new resource
      * @param request the details of the new resource
      * @return a response object with:
-     *  - CREATED status code
-     *  - A Location: header for the URL of the new resource
-     *  - A body containing the object
+     *     - CREATED status code
+     *     - A Location: header for the URL of the new resource
+     *     - A body containing the object
      */
     @PostMapping
     public ResponseEntity<ExampleResponse> createEntity(ExampleCreateRequest request) {
         String name = request.getName();
-        if(name == null || name.trim().length() < 3)
-            throw new SpiisException(HttpStatus.UNPROCESSABLE_ENTITY, "Entity must have name of at least length 3");
+        if (name == null || name.trim().length() < 3)
+            throw new SpiisException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "Entity must have name of at least length 3");
 
         ExampleEntity newEntity = new ExampleEntity(name);
 

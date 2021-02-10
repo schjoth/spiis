@@ -1,13 +1,12 @@
 package spiis.server.controller;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 public class RESTControllerUtil {
 
@@ -18,14 +17,16 @@ public class RESTControllerUtil {
      *
      * @param object the optional body of the response, an object representing the resource
      * @param baseUrl the base url for the resource, e.g. "/users"
-     * @param id the id of the new resource
+     * @param id the id of the new resource, can't be null
      * @return a ResponseEntity with the status code, Location header and body
      * @throws IllegalArgumentException if the Location URI is illegal
+     * @throws NullPointerException if the id is null
      */
-    public static <T> ResponseEntity<T> makePOSTResponse(@Nullable T object, String baseUrl, Long id) {
+    public static <T> ResponseEntity<T> makePOSTResponse(@Nullable T object, String baseUrl, @Nullable Long id) {
 
         Assert.isTrue(baseUrl.startsWith("/"), "baseUrl must be relative to host");
         Assert.isTrue(!baseUrl.endsWith("/"), "baseUrl must be pretty (no trailing /)");
+        Objects.requireNonNull(id);
 
         try {
             URI location = new URI(String.format("%s/%d", baseUrl, id));
