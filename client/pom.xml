@@ -66,11 +66,10 @@
                         <configuration>
                             <arguments>build</arguments>
                         </configuration>
-                        <phase>none</phase>
+                        <phase>install</phase>
                     </execution>
 
                     <execution>
-
                         <id>serve</id>
                         <goals>
                             <goal>yarn</goal>
