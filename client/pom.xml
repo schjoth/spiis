@@ -64,9 +64,9 @@
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <arguments>yarn build</arguments>
+                            <arguments>build</arguments>
                         </configuration>
-                        <phase>None</phase>
+                        <phase>none</phase>
                     </execution>
 
                     <execution>
@@ -76,9 +76,9 @@
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <arguments>yarn serve</arguments>
+                            <arguments>serve</arguments>
                         </configuration>
-                        <phase>None</phase>
+                        <phase>none</phase>
                     </execution>
 
                     <execution>
@@ -87,9 +87,9 @@
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <arguments>yarn lint --fix</arguments>
+                            <arguments>lint --fix</arguments>
                         </configuration>
-                        <phase>None</phase>
+                        <phase>none</phase>
                     </execution>
                 </executions>
             </plugin>
