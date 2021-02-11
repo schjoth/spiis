@@ -1,4 +1,5 @@
 .idea/
+*.iml
 
 # Database files
 **/spiis-database.*
