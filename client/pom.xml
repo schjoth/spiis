@@ -53,9 +53,9 @@
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <arguments>verify: lint --no-fix --max-errors=0 --max-warnings=0</arguments>
+                            <arguments>lint --no-fix --max-errors=0 --max-warnings=0</arguments>
                         </configuration>
-                        <phase>test</phase>
+                        <phase>verify</phase>
                     </execution>
 
                     <execution>
@@ -66,10 +66,11 @@
                         <configuration>
                             <arguments>yarn build</arguments>
                         </configuration>
-                        <phase>package</phase>
+                        <phase>None</phase>
                     </execution>
 
                     <execution>
+
                         <id>serve</id>
                         <goals>
                             <goal>yarn</goal>
