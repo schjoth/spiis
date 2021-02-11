@@ -1,0 +1,32 @@
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+
+default:
+  image: maven:3.6-openjdk-15
+  cache:
+    key: maven-cache
+    paths:
+      - server/node
+      - server/node_modules
+      - .m2/repository
+
+workflow: #Only run for changes pushed to branches
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+
+test:
+  stage: test
+  script: mvn verify
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "master"'
+
+deploy:
+  stage: deploy
+  script:
+    - mvn install
+  artifacts:
+    paths:
+      - client/dist
+      - server/target/spiis-server-0.1-SNAPSHOT.jar
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
