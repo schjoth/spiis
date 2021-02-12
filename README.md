@@ -31,7 +31,7 @@ mvn frontend:yarn@serve -pl client
 Dette starter en enkel webserver med Vue-nettsiden på `localhost:XXX`.
 
 **Tips:** Hvis du er i IntelliJ kan man kjøre maven-kommandoer derfra.
-Se [wiki-siden om IntelliJ](/wikis/setup-intellij).
+Se [wiki-siden om IntelliJ](https://gitlab.stud.iie.ntnu.no/tdt4140/landsby-3/gruppe-53/spiis/-/wikis/setup-intellij).
 
 ### Testing
 
