@@ -1,8 +1,10 @@
 <template>
   <div id="container">
-    <div v-bind:key="dinner.id" v-for="dinner in dinners">
-      <Dinner v-bind:dinner="dinner" />
-    </div>
+    <Dinner
+      v-for="dinner in dinners"
+      v-bind:dinner="dinner"
+      v-bind:key="dinner.id"
+    />
   </div>
 </template>
 
@@ -38,7 +40,8 @@ export default {
 </script>
 
 <style scoped>
-div {
+#container {
   display: flex;
+  width: 80vw;
 }
 </style>
