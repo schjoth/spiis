@@ -44,27 +44,28 @@ describe("login.ts", () => {
   });
 
   it("can log in with an existing token", async () => {
-     scope
-         .matchHeader("Authorization", dummyToken)
-         .get("/token/user")
-         .reply(200, dummyUser);
+    scope
+      .matchHeader("Authorization", dummyToken)
+      .get("/token/user")
+      .reply(200, dummyUser);
 
-     await logInWithToken(dummyToken);
+    await logInWithToken(dummyToken);
 
-      expect(getLogInState().status).toBe("loggedIn");
-      expect(getLogInState().user).toMatchObject(dummyUser);
-      expect(getLogInState().token).toBe(dummyToken);
-      expect(localStorage.getItem("token")).toBe(dummyToken);
+    expect(getLogInState().status).toBe("loggedIn");
+    expect(getLogInState().user).toMatchObject(dummyUser);
+    expect(getLogInState().token).toBe(dummyToken);
+    expect(localStorage.getItem("token")).toBe(dummyToken);
   });
 
   it("will throw when password is wrong", async () => {
-      scope
-          .post("/login")
-          .reply(401, {message: "Wrong email/password"});
+    scope.post("/login").reply(401, { message: "Wrong email/password" });
 
-      const logInCall = logIn("test@example.com", "12345");
-      expect(getLogInState().status).toBe("loggingIn");
-      await expect(logInCall).rejects.toHaveProperty("message", "Wrong email/password");
-      expect(getLogInState().status).toBe("loggedOut");
+    const logInCall = logIn("test@example.com", "12345");
+    expect(getLogInState().status).toBe("loggingIn");
+    await expect(logInCall).rejects.toHaveProperty(
+      "message",
+      "Wrong email/password"
+    );
+    expect(getLogInState().status).toBe("loggedOut");
   });
 });

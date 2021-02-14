@@ -9,7 +9,7 @@ export default {
   components: {
     Profile
   },
-  data: function() {
+  data: function () {
     return {
       user: {
         firstname: "Ola",
