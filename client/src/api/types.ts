@@ -1,7 +1,7 @@
 export interface User {
   userId: number;
-  firstName: number;
-  lastName: number;
+  firstName: string;
+  lastName: string;
 }
 
 export interface LogInRequest {

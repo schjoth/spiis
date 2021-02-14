@@ -1,11 +1,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig, Method } from "axios";
-import { getLogInState, logOut } from "./login";
+import { logOut } from "./login";
+import { getLogInState } from "@/store/loginState";
 import { watch } from "vue";
 
-const DEFAULT_BASEURL =
+export const DEFAULT_BASEURL =
   process.env.NODE_ENV == "production"
-    ? "spiis.haved.no/api/"
-    : "localhost:8080";
+    ? "https://spiis.haved.no/api/"
+    : process.env.NODE_ENV == "test"
+    ? location.href
+    : "http://localhost:8180";
 
 class RESTClient {
   httpInstance: AxiosInstance;

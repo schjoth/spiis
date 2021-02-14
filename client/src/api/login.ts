@@ -1,24 +1,6 @@
-// This file contains state and state manipulation for logging in and out
-
-import { reactive, readonly } from "vue";
 import client from "./client";
 import type { LogInRequest, LogInResponse, User } from "./types";
-
-interface LogInState {
-  user: User | null;
-  token: string | null;
-  status: "loggedOut" | "loggingIn" | "loggedIn";
-}
-
-const defaultLogInState = (): LogInState => ({
-  user: null,
-  token: null,
-  status: "loggedOut"
-});
-
-const logInState = reactive(defaultLogInState());
-
-export const getLogInState = () => readonly(logInState);
+import { setLoggedIn, setLoggedOut, setLoggingIn } from "@/store/loginState";
 
 /**
  * Try logging in with email and password.
@@ -31,16 +13,12 @@ export const getLogInState = () => readonly(logInState);
  * @throws error if logging in failed
  */
 export async function logIn(email: string, password: string) {
-  if (logInState.status != "loggedOut") logOut();
-  logInState.status = "loggingIn";
+  setLoggingIn();
 
   try {
     const request: LogInRequest = { email, password };
     const response: LogInResponse = await client.post("/login", request);
-    logInState.status = "loggedIn";
-    logInState.user = response.user;
-    logInState.token = response.token;
-    localStorage.setItem("token", response.token);
+    setLoggedIn(response.user, response.token);
   } catch (error) {
     logOut(); //Failed to log in, reset state
     throw error;
@@ -56,15 +34,12 @@ export async function logIn(email: string, password: string) {
  * @param token
  */
 export async function logInWithToken(token: string) {
-  if (logInState.status != "loggedOut") logOut();
-  logInState.status = "loggingIn";
+  setLoggingIn();
 
   try {
     const config = { headers: { Authorization: token } };
-    logInState.user = await client.post("/token/user", config);
-    logInState.token = token;
-    logInState.status = "loggedIn";
-    localStorage.setItem("token", token);
+    const user: User = await client.get("/token/user", config);
+    setLoggedIn(user, token);
   } catch (error) {
     logOut();
     throw error;
@@ -76,8 +51,5 @@ export async function logInWithToken(token: string) {
  * Sets status to loggedOut.
  */
 export function logOut() {
-  logInState.user = null;
-  logInState.token = null;
-  logInState.status = "loggedOut";
-  localStorage.removeItem("token");
+  setLoggedOut();
 }
