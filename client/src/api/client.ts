@@ -10,6 +10,16 @@ export const DEFAULT_BASEURL =
     ? location.href
     : "http://localhost:8180";
 
+/**
+ * The type thrown if a request failed.
+ * Failing can either mean not getting a response from the server,
+ * og getting a response with a status code outside of [200,300>.
+ */
+export interface RESTClientError {
+  status?: number;
+  message: string;
+}
+
 class RESTClient {
   httpInstance: AxiosInstance;
 
@@ -53,10 +63,12 @@ class RESTClient {
             reject({
               status: error.response.status,
               message: error.response.data.message
-            });
+            } as RESTClientError);
           } else {
             console.log(`Request failed, no response: ${error.config}`);
-            reject(error);
+            reject({
+              message: error.config
+            } as RESTClientError);
           }
         });
     });
