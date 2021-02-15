@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #login {
   max-width: 500px;
   padding: 20px;
