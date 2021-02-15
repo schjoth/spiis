@@ -2,29 +2,34 @@ package spiis.server.model;
 
 import org.springframework.lang.Nullable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-public class Middag {
+public class Dinner {
 
     @Id
     @GeneratedValue
     @Nullable
     private Long id;
 
+    @Column(nullable = false)
     private String title;
-    private String date;
-    private String time;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
+    private Date time;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private String place;
 
-    protected Middag() {}
+    protected Dinner() {}
 
-    public Middag(String title, String date, String time, String description, String place) {
+    public Dinner(String title, Date time, String description, String place) {
         this.title = title;
-        this.date=date;
         this.time = time;
         this.description = description;
         this.place = place;
@@ -47,19 +52,11 @@ public class Middag {
         this.title = title;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
