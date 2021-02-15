@@ -21,11 +21,26 @@ export default {
 </script>
 
 <style lang="scss">
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 1vh;
+}
+
+main {
+  margin: auto;
+  width: 100%;
+  max-width: 700px;
 }
 </style>

@@ -1,35 +1,28 @@
 <template>
-  <div>
-    <h1>Opprette nytt arrangement</h1>
-    <form>
-      <div id="formFlex">
-        <div>
-          <label for="title">Tittel: </label>
-          <br />
-          <label for="time">Tidspunkt: </label>
-          <br />
-          <label for="location">Sted: </label>
-          <br />
-          <label for="guests">Antall plasser: </label>
-          <br />
-          <label for="description">Beskrivelse: </label>
-        </div>
-        <div>
-          <input type="text" id="title" name="tittel" />
-          <br />
-          <input type="date" id="time" name="tidspunkt" />
-          <br />
-          <input type="text" id="location" name="sted" />
-          <br />
-          <input type="number" id="guests" name="plasser" min="1" />
-          <br />
-          <textarea id="description" name="beskrivelse" rows="4" cols="50" />
-          <br />
-          <input type="submit" value="Opprett arrangement" />
-        </div>
+  <h1>Opprette nytt arrangement</h1>
+  <form>
+    <div id="form">
+      <div>
+        <label>Tittel:</label><input type="text" id="title" name="tittel" />
       </div>
-    </form>
-  </div>
+      <div>
+        <label>Tidspunkt:</label
+        ><input type="date" id="time" name="tidspunkt" />
+      </div>
+      <div>
+        <label>Sted:</label><input type="text" id="location" name="sted" />
+      </div>
+      <div>
+        <label>Plasser:</label
+        ><input type="number" id="guests" name="plasser" min="1" />
+      </div>
+      <div>
+        <label>Beskrivelse:</label
+        ><textarea id="description" name="beskrivelse" rows="4" cols="50" />
+      </div>
+      <input type="submit" value="Opprett arrangement" />
+    </div>
+  </form>
 </template>
 
 <script>
@@ -38,26 +31,38 @@ export default {
 };
 </script>
 
-<style scoped>
-#formFlex {
+<style lang="scss" scoped>
+h1 {
+  text-align: center;
+}
+
+#form {
+  display: flex;
+  flex-direction: column;
+  margin: -12px 0;
+}
+
+#form > div {
   display: flex;
   flex-direction: row;
-  width: 50vh;
-  margin: auto;
+  align-items: baseline;
+  margin: 12px 0;
 }
 
 label {
-  text-align: left;
-  margin-right: auto;
-  width: 120px;
-  padding: 2px 0;
+  display: block;
+  margin-right: 10px;
+  width: 100px;
 }
 
-label,
 input,
 textarea {
   display: block;
-  margin-top: 20px;
-  margin-right: auto;
+  flex-grow: 1;
+  font-size: 1rem;
+}
+
+input[type="submit"] {
+  margin: 20px 110px;
 }
 </style>
