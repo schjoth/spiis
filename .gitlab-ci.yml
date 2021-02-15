@@ -27,6 +27,6 @@ deploy:
   artifacts:
     paths:
       - client/dist
-      - server/target/spiis-server-0.1-SNAPSHOT.jar
+      - server/target/spiis-server-0.0.1-SNAPSHOT.jar
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
