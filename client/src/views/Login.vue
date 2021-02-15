@@ -1,63 +1,81 @@
 <template>
-  <div id="login">
+  <main id="login">
     <h1>Login</h1>
-    <label>
-      <input
-        type="text"
-        name="email"
-        v-model="input.email"
-        placeholder="Email"
-      />
-    </label>
-    <label>
-      <input
-        type="password"
-        name="password"
-        v-model="input.password"
-        placeholder="Password"
-      />
-    </label>
-    <div class="error" v-if="errorMessage">error: {{ errorMessage }}</div>
-    <button type="button" v-on:click="login()">Login</button>
-  </div>
+    <input type="text" name="email" v-model="input.email" placeholder="Email" />
+    <input
+      type="password"
+      name="password"
+      v-model="input.password"
+      placeholder="Password"
+    />
+    <div class="error" v-if="errorMessage">Error: {{ errorMessage }}</div>
+    <button type="button" v-on:click="onLogin" v-bind:disabled="waiting">
+      Login
+    </button>
+  </main>
 </template>
 
 <script>
 import { logIn } from "@/api/login";
+import { reactive, ref, computed } from "vue";
+import { getLogInState } from "@/store/loginState";
+
 export default {
   name: "Login",
 
-  data() {
-    return {
-      input: {
-        email: "",
-        password: ""
-      },
-      errorMessage: ""
-    };
-  },
-  methods: {
-    async login() {
-      if (this.input.email !== "" && this.input.password !== "") {
-        this.errorMessage = "";
-        try {
-          await logIn(this.input.email, this.input.password);
-        } catch (error) {
-          this.errorMessage = error.message;
-        }
+  setup() {
+    const input = reactive({ email: "", password: "" });
+    const errorMessage = ref("");
+
+    const onLogin = async () => {
+      errorMessage.value = "";
+      try {
+        await logIn(input.email, input.password);
+      } catch (error) {
+        errorMessage.value = error.message;
       }
-    }
+    };
+
+    const waiting = computed(() => getLogInState().status === "loggingIn");
+
+    return {
+      input,
+      errorMessage,
+      onLogin,
+      waiting
+    };
   }
 };
 </script>
 
 <style scoped>
 #login {
-  width: 500px;
+  max-width: 500px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 1px solid #cccccc;
   background-color: #ffffff;
-  margin: auto;
-  margin-top: 200px;
-  padding: 20px;
+}
+
+#login > * {
+  margin: 10px 0;
+}
+
+input[type="text"],
+input[type="password"] {
+  max-width: 400px;
+  width: 100%;
+}
+
+button {
+  max-width: 200px;
+  width: 100%;
+}
+
+.error {
+  color: red;
 }
 </style>

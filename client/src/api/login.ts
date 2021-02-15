@@ -1,4 +1,4 @@
-import client, { RESTClientError } from "./client";
+import client from "./client";
 import type { LogInRequest, LogInResponse, User } from "./types";
 import { setLoggedIn, setLoggedOut, setLoggingIn } from "@/store/loginState";
 

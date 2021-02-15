@@ -1,5 +1,7 @@
 <template>
-  <Profile v-bind:user="user"></Profile>
+  <main id="profile">
+    <Profile v-bind:user="user"></Profile>
+  </main>
 </template>
 
 <script>
@@ -21,3 +23,5 @@ export default {
   }
 };
 </script>
+
+<style lang="scss"></style>
