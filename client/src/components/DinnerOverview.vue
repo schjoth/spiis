@@ -42,6 +42,5 @@ export default {
 <style scoped>
 #container {
   display: flex;
-  width: 80vw;
 }
 </style>

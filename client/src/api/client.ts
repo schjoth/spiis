@@ -65,9 +65,8 @@ class RESTClient {
               message: error.response.data.message
             } as RESTClientError);
           } else {
-            console.log(`Request failed, no response: ${error.config}`);
             reject({
-              message: error.config
+              message: error.message
             } as RESTClientError);
           }
         });
