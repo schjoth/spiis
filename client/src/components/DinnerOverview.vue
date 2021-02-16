@@ -41,10 +41,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #container {
   display: flex;
-  width: 80vw;
-  margin: auto;
+  flex-wrap: wrap;
 }
 </style>

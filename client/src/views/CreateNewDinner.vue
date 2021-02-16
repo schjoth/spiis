@@ -1,5 +1,7 @@
 <template>
-  <NewDinner />
+  <main>
+    <NewDinner />
+  </main>
 </template>
 
 <script>

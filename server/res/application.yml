@@ -20,7 +20,10 @@ spring:
 
     # More h2 stuff
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: update # Create missing tables
+
+  jackson:
+    time-zone: UTC
 
 logging:
   # Set all log levels to WARN
@@ -28,5 +31,3 @@ logging:
 
   # Write the logs to a tmp file
   file.name: "${java.io.tmpdir}/${spring.application.name}.log"
-
-
