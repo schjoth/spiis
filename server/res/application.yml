@@ -31,5 +31,3 @@ logging:
 
   # Write the logs to a tmp file
   file.name: "${java.io.tmpdir}/${spring.application.name}.log"
-
-

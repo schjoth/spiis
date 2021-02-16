@@ -20,6 +20,7 @@ export default {
       dinners: [
         //Replace with call from server
         {
+          id: "1",
           title: "Taco",
           guests: "1",
           maxGuests: "4",
@@ -27,6 +28,7 @@ export default {
           location: "Gløshaugen"
         },
         {
+          id: "2",
           title: "Pizza",
           guests: "0",
           maxGuests: "7",
@@ -39,8 +41,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #container {
   display: flex;
+  flex-wrap: wrap;
 }
 </style>
