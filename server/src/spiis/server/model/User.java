@@ -46,6 +46,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Allergy> allergies = new HashSet<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Nullable
+    private AuthToken token;
+
     @CreatedDate
     @Nullable
     private OffsetDateTime createdTime;
@@ -187,6 +191,26 @@ public class User {
 
     public void removeAllergy(Allergy allergy) {
         allergy.setUser(null);
+    }
+
+    @Nullable
+    public AuthToken getToken() {
+        return token;
+    }
+
+    public void setToken(@Nullable AuthToken token) {
+        if (token == this.token)
+            return;
+
+        AuthToken oldToken = this.token;
+
+        this.token = null;
+        if (oldToken != null)
+            oldToken.setUser(null);
+
+        this.token = token;
+        if (token != null)
+            token.setUser(this);
     }
 
     @Nullable

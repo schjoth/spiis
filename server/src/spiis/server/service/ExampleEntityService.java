@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spiis.server.api.ExampleCreateRequest;
 import spiis.server.api.ExampleResponse;
 import spiis.server.error.SpiisException;
-import spiis.server.error.SpiisNotFoundException;
+import spiis.server.error.NotFoundException;
 import spiis.server.model.ExampleEntity;
 import spiis.server.repository.ExampleEntityRepository;
 
@@ -33,7 +33,7 @@ public class ExampleEntityService {
     @Transactional(readOnly = true)
     public ExampleResponse makeResponse(Long id) {
         return makeResponse(exampleEntityRepository.findById(id)
-                .orElseThrow(SpiisNotFoundException::new));
+                .orElseThrow(NotFoundException::new));
     }
 
     @Transactional(readOnly = true)
@@ -63,7 +63,7 @@ public class ExampleEntityService {
     @Transactional
     public void removeEntity(Long id) {
         ExampleEntity entity = exampleEntityRepository.findById(id)
-                .orElseThrow(SpiisNotFoundException::new);
+                .orElseThrow(NotFoundException::new);
         exampleEntityRepository.delete(entity);
     }
 }
