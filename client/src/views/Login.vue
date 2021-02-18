@@ -1,17 +1,19 @@
 <template>
-  <main id="login">
-    <h1>Login</h1>
-    <input type="text" name="email" v-model="input.email" placeholder="Email" />
-    <input
-      type="password"
-      name="password"
-      v-model="input.password"
-      placeholder="Password"
-    />
-    <div class="error" v-if="errorMessage">Error: {{ errorMessage }}</div>
-    <button type="button" v-on:click="onLogin" v-bind:disabled="waiting">
-      Login
-    </button>
+  <main>
+    <div id="login">
+      <h1>Login</h1>
+      <input type="text" name="email" v-model="input.email" placeholder="Email" />
+      <input
+        type="password"
+        name="password"
+        v-model="input.password"
+        placeholder="Password"
+      />
+      <div class="error" v-if="errorMessage">Error: {{ errorMessage }}</div>
+      <button type="button" v-on:click="onLogin" v-bind:disabled="waiting">
+        Login
+      </button>
+    </div>
   </main>
 </template>
 
@@ -52,6 +54,7 @@ export default {
 #login {
   max-width: 500px;
   padding: 20px;
+  margin: auto;
 
   display: flex;
   flex-direction: column;

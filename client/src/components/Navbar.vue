@@ -16,6 +16,7 @@ export default {
 <style lang="scss" scoped>
 nav {
   padding: 30px 0;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
