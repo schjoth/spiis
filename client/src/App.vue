@@ -34,13 +34,14 @@ html {
   color: #2c3e50;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   min-height: 1vh;
 }
 
 main {
-  margin: auto;
   width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
   max-width: 700px;
 }
 </style>
