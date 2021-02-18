@@ -2,7 +2,12 @@
   <main>
     <div id="login">
       <h1>Login</h1>
-      <input type="text" name="email" v-model="input.email" placeholder="Email" />
+      <input
+        type="text"
+        name="email"
+        v-model="input.email"
+        placeholder="Email"
+      />
       <input
         type="password"
         name="password"
