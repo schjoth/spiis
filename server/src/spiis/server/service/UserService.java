@@ -78,8 +78,5 @@ public class UserService {
         String token = authService.makeTokenForUser(user.getId());
         UserResponse userResponse = makeUserResponse(user.getId());
         return new LogInResponse(userResponse, token);
-
-        //NB: Throw the exact same exception if the email is wrong or password is wrong
-        //Use authService to create a token for the user
     }
 }

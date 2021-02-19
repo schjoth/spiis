@@ -42,7 +42,6 @@ public class LoginController {
      */
     @PostMapping("/login")
     public LogInResponse login(LogInRequest request) {
-        // TODO: A login request has email and password
         return userService.login(request.getEmail(), request.getPassword());
     }
 }
