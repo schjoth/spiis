@@ -1,32 +1,28 @@
 <template>
-  <main id="profile">
-    <Profile v-bind:user="user" v-bind:is-my-user="isMyProfile"></Profile>
-  </main>
+  <Profile v-bind:user="user" v-bind:is-my-user="isMyProfile"></Profile>
 </template>
 
 <script>
 import Profile from "../components/Profile";
 export default {
-  name: "MyProfile",
+  name: "profile",
   components: {
     Profile
   },
   data: () => {
     return {
-      isMyProfile: true,
-      userId: "", //TODO: replace with logged in user
+      isMyProfile: false,
+      userId: this.$route.params.userId,
       user: {
         //TODO: replace meta date with http request on userId
+        id: 2,
         firstname: "Ola",
         lastname: "Nordmann",
         email: "ola_nordmann@gmail.com",
-        location: "gate 1, 7069, Trondheim",
         postcode: "7069, Trondheim",
-        allergies: "Skalldyr"
+        allergies: "Gluten"
       }
     };
   }
 };
 </script>
-
-<style lang="scss" scoped></style>
