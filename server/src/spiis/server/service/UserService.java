@@ -7,6 +7,7 @@ import spiis.server.api.LogInResponse;
 import spiis.server.api.SignUpRequest;
 import spiis.server.api.UserResponse;
 import spiis.server.error.InvalidTokenException;
+import spiis.server.error.ModelError;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.Allergy;
 import spiis.server.model.User;
@@ -38,11 +39,17 @@ public class UserService {
                 user.getLastName(), user.getAge(), user.getLocation(), makeAllergyList(user));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public UserResponse makeUserResponse(Long userId) {
         return makeUserResponse(userRepository.findById(userId).orElseThrow(NotFoundException::new));
     }
 
+    /**
+     * Creates a new user with the given information
+     * @param request information about the new User
+     * @return UserResponse for the new User
+     * @throws ModelError if the resulting User object is invalid
+     */
     @Transactional
     public UserResponse createUser(SignUpRequest request) {
         User.UserBuilder builder = new User.UserBuilder();
@@ -61,7 +68,6 @@ public class UserService {
         return makeUserResponse(user);
     }
 
-    /*
     /**
      * Logs in a user with email and password.
      * @param email the user's email
@@ -70,13 +76,13 @@ public class UserService {
      */
     @Transactional
     public LogInResponse login(String email, String password) {
-        //TODO: Write log in code.
         User user = userRepository.findUserByEmail(email).orElseThrow(InvalidTokenException::new);
-        if (!password.equals(user.getPassword())) {
+        Objects.requireNonNull(user.getId());
+        if (!password.equals(user.getPassword()))
             throw new InvalidTokenException();
-        }
+
         String token = authService.makeTokenForUser(user.getId());
-        UserResponse userResponse = makeUserResponse(user.getId());
+        UserResponse userResponse = makeUserResponse(user);
         return new LogInResponse(userResponse, token);
     }
 }

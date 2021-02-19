@@ -34,7 +34,6 @@ public class LoginController {
         return new LogInResponse(user, token);
     }
 
-    /*
     /**
      * Logs in with email and password
      * @param request the credentials

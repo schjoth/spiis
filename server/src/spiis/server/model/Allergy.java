@@ -8,12 +8,12 @@ import java.util.Objects;
 @Entity
 public class Allergy {
     @Id
+    @GeneratedValue
     @Nullable
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @Nullable
-    @MapsId
     private User user;
 
     @Column(nullable = false)
