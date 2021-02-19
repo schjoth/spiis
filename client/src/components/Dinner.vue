@@ -15,6 +15,7 @@ export default {
   props: ["dinner"]
 };
 </script>
+
 <style lang="scss" scoped>
 div {
   width: 300px;

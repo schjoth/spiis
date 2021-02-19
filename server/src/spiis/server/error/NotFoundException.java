@@ -2,13 +2,13 @@ package spiis.server.error;
 
 import org.springframework.http.HttpStatus;
 
-public class SpiisNotFoundException extends SpiisException {
+public class NotFoundException extends SpiisException {
 
-    public SpiisNotFoundException() {
+    public NotFoundException() {
         this("The requested resource was not found");
     }
 
-    public SpiisNotFoundException(String message) {
+    public NotFoundException(String message) {
         super(HttpStatus.NOT_FOUND, message);
     }
 }

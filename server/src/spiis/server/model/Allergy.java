@@ -1,6 +1,5 @@
 package spiis.server.model;
 
-import org.hibernate.annotations.NaturalId;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -15,11 +14,9 @@ public class Allergy {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @Nullable
-    @NaturalId
     private User user;
 
     @Column(nullable = false)
-    @NaturalId
     private String allergy;
 
     protected Allergy() {}
