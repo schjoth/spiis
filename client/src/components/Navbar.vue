@@ -3,7 +3,8 @@
     <router-link to="/">Middager</router-link> |
     <router-link to="/CreateNewDinner">Ny Middag</router-link> |
     <router-link to="/MyProfile">Profil</router-link> |
-    <router-link to="/Login">Login</router-link>
+    <router-link to="/Login">Login</router-link> |
+    <router-link to="/signup">Ny Bruker</router-link>
   </nav>
 </template>
 
