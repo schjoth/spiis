@@ -15,6 +15,7 @@ export default {
   props: ["dinner"]
 };
 </script>
+
 <style scoped>
 div {
   width: 300px;
