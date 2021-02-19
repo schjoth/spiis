@@ -3,8 +3,10 @@ package spiis.server.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import spiis.server.api.LogInResponse;
 import spiis.server.api.SignUpRequest;
 import spiis.server.api.UserResponse;
+import spiis.server.error.InvalidTokenException;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.Allergy;
 import spiis.server.model.User;
@@ -12,6 +14,7 @@ import spiis.server.repository.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,10 +69,25 @@ public class UserService {
      * @param password the password used to log in
      * @throws InvalidTokenException if email or password is incorrect
      */
-    /* @Transactional
+    @Transactional
     public LogInResponse login(String email, String password) {
         //TODO: Write log in code.
+        Optional<User> user;
+        UserResponse userResponse;
+        String token;
+        try{
+            user=userRepository.findUserByEmail(email);
+            if(!password.equals(user.get().getPassword())){
+                throw new InvalidTokenException();
+            }
+            token=authService.makeTokenForUser(user.get().getId());
+            userResponse=makeUserResponse(user.get().getId());
+        }catch(InvalidTokenException e){
+            userResponse=null;
+            token=null;
+        }
+        return new LogInResponse(userResponse,token);
         //NB: Throw the exact same exception if the email is wrong or password is wrong
         //Use authService to create a token for the user
-    }*/
+    }
 }

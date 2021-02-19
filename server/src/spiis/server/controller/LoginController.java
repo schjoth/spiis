@@ -3,9 +3,11 @@ package spiis.server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import spiis.server.api.LogInRequest;
 import spiis.server.api.LogInResponse;
 import spiis.server.api.SignUpRequest;
 import spiis.server.api.UserResponse;
+import spiis.server.error.InvalidTokenException;
 import spiis.server.service.AuthService;
 import spiis.server.service.UserService;
 
@@ -39,9 +41,9 @@ public class LoginController {
      * @param request the credentials
      * @return LogInResponse with user info and token
      */
-    /*@PostMapping("/login")
+    @PostMapping("/login")
     public LogInResponse login(LogInRequest request) {
         // TODO: A login request has email and password
-        // return userService.login(request.getEmail(), request.getPassword());
-    }*/
+        return userService.login(request.getEmail(), request.getPassword());
+    }
 }
