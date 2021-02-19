@@ -7,7 +7,6 @@ import spiis.server.api.LogInRequest;
 import spiis.server.api.LogInResponse;
 import spiis.server.api.SignUpRequest;
 import spiis.server.api.UserResponse;
-import spiis.server.error.InvalidTokenException;
 import spiis.server.service.AuthService;
 import spiis.server.service.UserService;
 

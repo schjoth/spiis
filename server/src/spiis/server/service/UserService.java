@@ -14,7 +14,6 @@ import spiis.server.repository.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,21 +71,14 @@ public class UserService {
     @Transactional
     public LogInResponse login(String email, String password) {
         //TODO: Write log in code.
-        Optional<User> user;
-        UserResponse userResponse;
-        String token;
-        try{
-            user=userRepository.findUserByEmail(email);
-            if(!password.equals(user.get().getPassword())){
-                throw new InvalidTokenException();
-            }
-            token=authService.makeTokenForUser(user.get().getId());
-            userResponse=makeUserResponse(user.get().getId());
-        }catch(InvalidTokenException e){
-            userResponse=null;
-            token=null;
+        User user = userRepository.findUserByEmail(email).orElseThrow(InvalidTokenException::new);
+        if (!password.equals(user.getPassword())) {
+            throw new InvalidTokenException();
         }
-        return new LogInResponse(userResponse,token);
+        String token = authService.makeTokenForUser(user.getId());
+        UserResponse userResponse = makeUserResponse(user.getId());
+        return new LogInResponse(userResponse, token);
+
         //NB: Throw the exact same exception if the email is wrong or password is wrong
         //Use authService to create a token for the user
     }
