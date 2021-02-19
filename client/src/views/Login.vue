@@ -1,23 +1,29 @@
 <template>
-  <main>
-    <div id="login">
-      <h1>Login</h1>
-      <input
-        type="text"
-        name="email"
-        v-model="input.email"
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        name="password"
-        v-model="input.password"
-        placeholder="Password"
-      />
-      <div class="error" v-if="errorMessage">Error: {{ errorMessage }}</div>
-      <button type="button" v-on:click="onLogin" v-bind:disabled="waiting">
-        Login
-      </button>
+  <main class="max-600 box">
+    <h1>Login</h1>
+    <div class="field">
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="email" placeholder="Email" />
+        <span class="icon is-small is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-check"></i>
+        </span>
+      </p>
+    </div>
+    <div class="field">
+      <p class="control has-icons-left">
+        <input class="input" type="password" placeholder="Password" />
+        <span class="icon is-small is-left">
+          <i class="fas fa-lock"></i>
+        </span>
+      </p>
+    </div>
+    <div class="field is-grouped is-grouped-centered">
+      <p class="control">
+        <button class="button is-success">Login</button>
+      </p>
     </div>
   </main>
 </template>
@@ -55,35 +61,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-#login {
-  max-width: 500px;
-  padding: 20px;
-  margin: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
-}
-
-#login > * {
-  margin: 10px 0;
-}
-
-input[type="text"],
-input[type="password"] {
-  max-width: 400px;
-  width: 100%;
-}
-
-button {
-  max-width: 200px;
-  width: 100%;
-}
-
-.error {
-  color: red;
-}
-</style>
+<style lang="scss" scoped></style>

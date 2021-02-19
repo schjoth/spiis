@@ -1,10 +1,50 @@
 <template>
-  <nav>
-    <router-link to="/">Middager</router-link> |
-    <router-link to="/CreateNewDinner">Ny Middag</router-link> |
-    <router-link to="/MyProfile">Profil</router-link> |
-    <router-link to="/Login">Login</router-link> |
-    <router-link to="/signup">Ny Bruker</router-link>
+  <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://spiis.haved.no">
+        <h1>Spiis</h1>
+        <!--<img src="" width="112" height="28">-->
+      </a>
+
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <router-link to="/" class="navbar-item"> Middager </router-link>
+
+        <router-link to="/CreateNewDinner" class="navbar-item">
+          Inviter til Middag
+        </router-link>
+
+        <router-link to="/MyProfile" class="navbar-item">
+          Min Profil
+        </router-link>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <router-link to="/signup" class="button is-primary">
+              <strong>Sign up</strong>
+            </router-link>
+            <router-link to="/Login" class="button is-light">
+              Log in
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </nav>
 </template>
 
@@ -14,22 +54,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-nav {
-  padding: 30px 0;
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 0 10px;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

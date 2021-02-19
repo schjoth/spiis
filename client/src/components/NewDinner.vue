@@ -1,6 +1,6 @@
 <template>
-  <h1>Opprette nytt arrangement</h1>
-  <form>
+  <main>
+    <h1>Inviter til middag!</h1>
     <label>Tittel:<input type="text" id="title" name="tittel" /></label>
     <label>Tidspunkt:<input type="date" id="time" name="tidspunkt" /></label>
     <label>Sted:<input type="text" id="location" name="sted" /></label>
@@ -15,8 +15,8 @@
         cols="50"
       />
     </label>
-    <input type="submit" value="Opprett arrangement" />
-  </form>
+    <button class="is-primary">Opprett arrangement</button>
+  </main>
 </template>
 
 <script>
@@ -25,6 +25,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "src/assets/form.scss";
-</style>
+<style lang="scss" scoped></style>

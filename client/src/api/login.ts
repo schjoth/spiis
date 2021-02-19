@@ -1,5 +1,5 @@
 import client from "./client";
-import type { LogInRequest, LogInResponse, User } from "./types";
+import type { LogInRequest, LogInResponse, SignUpRequest, User } from "./types";
 import { setLoggedIn, setLoggedOut, setLoggingIn } from "@/store/loginState";
 
 /**
@@ -60,4 +60,20 @@ export async function tryReusingToken() {
  */
 export function logOut() {
   setLoggedOut();
+}
+
+/**
+ * Creates a new user on the Server, and logs in if successful
+ * @param request
+ */
+export async function signUp(request: SignUpRequest) {
+  setLoggingIn();
+
+  try {
+    const response: LogInResponse = await client.post("/signup", request);
+    setLoggedIn(response.user, response.token);
+  } catch (error) {
+    logOut(); //Failed to log in, reset state
+    throw error;
+  }
 }
