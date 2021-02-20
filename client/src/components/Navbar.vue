@@ -54,7 +54,7 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 import { computed } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { logOut } from "@/api/login";

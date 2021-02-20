@@ -4,8 +4,8 @@
   </article>
 </template>
 
-<script>
-import NewDinner from "../components/NewDinner";
+<script lang="ts">
+import NewDinner from "../components/NewDinner.vue";
 export default {
   name: "CreateNewDinner",
   components: {

@@ -10,7 +10,7 @@
   </article>
 </template>
 
-<script>
+<script lang="ts">
 //get dinner instance where id = $route.params.dinnerId
 export default {
   name: "DinnerEvent"

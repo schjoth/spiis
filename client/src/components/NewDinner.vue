@@ -50,7 +50,7 @@
   </article>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, reactive } from "vue";
 
 export default {

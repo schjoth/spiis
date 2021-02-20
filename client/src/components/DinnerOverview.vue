@@ -8,8 +8,8 @@
   </div>
 </template>
 
-<script>
-import Dinner from "./Dinner";
+<script lang="ts">
+import Dinner from "./Dinner.vue";
 export default {
   name: "DinnerOverview",
   components: {
