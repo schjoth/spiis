@@ -58,21 +58,19 @@ const router = createRouter({
 
 const loggedIn = computed(() => getLogInState().status === "loggedIn");
 
-const ensureCorrectPage = (
-  page: RouteLocationNormalized,
-  changePage: (path: string) => void,
-  stay: () => void
-) => {
-  if (page.meta.requiresAuth && !loggedIn.value) changePage("/");
-  else if (page.meta.requiresAnon && loggedIn.value) changePage("/");
-  else stay();
-};
+router.beforeEach((to, from, next) => {
+  if(to.meta.requiresAuth && !loggedIn.value)
+    next("/login");
+  else if(to.meta.requiresAnon && loggedIn.value)
+    next("/");
+  next();
+});
 
-router.beforeEach((to, from, next) => ensureCorrectPage(to, next, next));
-watch(loggedIn, () =>
-  ensureCorrectPage(router.currentRoute.value, router.replace, () => {
-    /* Nothing */
-  })
-);
+watch(loggedIn, async () => {
+  if (router.currentRoute.value.meta.requiresAuth && !loggedIn.value)
+    await router.replace("/login?invalidated=true");
+  else if (router.currentRoute.value.meta.requiresAnon && loggedIn.value)
+    await router.replace("/");
+});
 
 export default router;

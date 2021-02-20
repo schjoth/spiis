@@ -58,7 +58,7 @@ class RESTClient {
           if (error.response) {
             if (error.response.status == 401) {
               //Unauthorized, we need to get a (new) token!
-              if (getLogInState().status === "loggedIn") await logOut(true);
+              if (getLogInState().status === "loggedIn") await logOut();
             }
             reject({
               status: error.response.status,

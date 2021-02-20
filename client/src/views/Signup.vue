@@ -116,7 +116,7 @@ export default {
         email: input.email,
         password: input.password,
         location: input.location,
-        age: 20,
+        age: +input.age,
         allergies: []
       };
 

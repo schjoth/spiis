@@ -58,11 +58,9 @@ export async function tryReusingToken() {
 /**
  * Removes user info and token, also from localStorage.
  * Sets status to loggedOut.
- * @param invalidated - true if the reason for being logged out is sudden token invalidation
  */
-export async function logOut(invalidated = false) {
+export async function logOut() {
   setLoggedOut();
-  if (invalidated) await router.replace("/login?invalidated=true");
 }
 
 /**

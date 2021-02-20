@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://spiis.haved.no">
+      <router-link class="navbar-item" to="/">
         <h1>Spiis</h1>
         <!--<img src="" width="112" height="28">-->
-      </a>
+      </router-link>
 
       <a
         role="button"
@@ -58,6 +58,7 @@
 import { computed } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { logOut } from "@/api/login";
+import router from "@/router";
 
 export default {
   name: "Navbar",
@@ -72,7 +73,10 @@ export default {
     return {
       loggedIn,
       name,
-      logOut: () => logOut(false)
+      logOut: async() => {
+        await router.replace("/");
+        await logOut();
+      }
     };
   }
 };
