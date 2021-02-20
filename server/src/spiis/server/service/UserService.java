@@ -2,6 +2,7 @@ package spiis.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import spiis.server.api.LogInResponse;
 import spiis.server.api.SignUpRequest;
@@ -33,7 +34,8 @@ public class UserService {
         return user.getAllergies().stream().map(Allergy::getAllergy).collect(Collectors.toList());
     }
 
-    private UserResponse makeUserResponse(User user) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public UserResponse makeUserResponse(User user) {
         Objects.requireNonNull(user.getId());
         return new UserResponse(user.getId(), user.getEmail(), user.getFirstName(),
                 user.getLastName(), user.getAge(), user.getLocation(), makeAllergyList(user));
