@@ -62,8 +62,7 @@ export async function tryReusingToken() {
  */
 export async function logOut(invalidated = false) {
   setLoggedOut();
-  if (invalidated)
-    await router.replace("/login?invalidated=true")
+  if (invalidated) await router.replace("/login?invalidated=true");
 }
 
 /**

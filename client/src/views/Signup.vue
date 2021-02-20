@@ -70,7 +70,7 @@
     </div>
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
-        {{errorMessage}}
+        {{ errorMessage }}
       </p>
     </div>
     <div class="field is-grouped is-grouped-centered">

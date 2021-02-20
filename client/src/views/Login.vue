@@ -3,7 +3,12 @@
     <h1>Login</h1>
     <div class="field">
       <p class="control has-icons-left has-icons-right">
-        <input class="input" type="email" placeholder="Email" v-model="input.email" />
+        <input
+          class="input"
+          type="email"
+          placeholder="Email"
+          v-model="input.email"
+        />
         <span class="icon is-small is-left">
           <i class="fas fa-envelope"></i>
         </span>
@@ -14,7 +19,12 @@
     </div>
     <div class="field">
       <p class="control has-icons-left">
-        <input class="input" type="password" placeholder="Password" v-model="input.password" />
+        <input
+          class="input"
+          type="password"
+          placeholder="Password"
+          v-model="input.password"
+        />
         <span class="icon is-small is-left">
           <i class="fas fa-lock"></i>
         </span>
@@ -22,12 +32,14 @@
     </div>
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
-        {{errorMessage}}
+        {{ errorMessage }}
       </p>
     </div>
     <div class="field is-grouped is-grouped-centered">
       <p class="control">
-        <button class="button is-success" v-on:click="loginClicked">Login</button>
+        <button class="button is-success" v-on:click="loginClicked">
+          Login
+        </button>
       </p>
     </div>
   </article>
@@ -52,8 +64,7 @@ export default {
       } catch (error) {
         if (error.status === 401)
           errorMessage.value = "Feil brukernavn / passord";
-        else
-          errorMessage.value = error.message;
+        else errorMessage.value = error.message;
       }
     };
 

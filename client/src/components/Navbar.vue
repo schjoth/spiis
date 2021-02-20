@@ -30,7 +30,7 @@
 
       <div class="navbar-end">
         <router-link class="navbar-item" to="/MyProfile" v-if="loggedIn">
-          {{name}}
+          {{ name }}
         </router-link>
         <div class="navbar-item" v-if="loggedIn">
           <div class="buttons">
@@ -64,7 +64,10 @@ export default {
 
   setup() {
     const loggedIn = computed(() => getLogInState().status === "loggedIn");
-    const name = computed(() => `${getLogInState().user?.firstName} ${getLogInState().user?.lastName}`);
+    const name = computed(
+      () =>
+        `${getLogInState().user?.firstName} ${getLogInState().user?.lastName}`
+    );
 
     return {
       loggedIn,
