@@ -36,10 +36,10 @@
         <div class="navbar-item">
           <div class="buttons">
             <router-link to="/signup" class="button is-primary">
-              <strong>Sign up</strong>
+              <strong>Opprett bruker</strong>
             </router-link>
             <router-link to="/Login" class="button is-light">
-              Log in
+              Logg inn
             </router-link>
           </div>
         </div>

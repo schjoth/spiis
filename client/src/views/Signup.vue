@@ -1,5 +1,5 @@
 <template>
-  <main class="max-600">
+  <article class="max-600">
     <h1>Ny Bruker</h1>
     <div class="field">
       <label class="label">Fornavn</label>
@@ -68,6 +68,11 @@
         <input class="input" type="number" placeholder="" v-model="input.age" />
       </div>
     </div>
+    <div class="content has-text-centered" v-if="errorMessage">
+      <p class="has-text-danger">
+        {{errorMessage}}
+      </p>
+    </div>
     <div class="field is-grouped is-grouped-centered">
       <div class="control">
         <button class="button is-primary" v-on:click="signupClick">
@@ -75,7 +80,7 @@
         </button>
       </div>
     </div>
-  </main>
+  </article>
 </template>
 
 <script lang="ts">
@@ -110,7 +115,7 @@ export default {
         email: input.email,
         password: input.password,
         location: input.location,
-        age: +input.age,
+        age: 20,
         allergies: []
       };
 

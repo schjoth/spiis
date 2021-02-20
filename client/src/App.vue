@@ -1,6 +1,13 @@
 <template>
   <navbar />
-  <router-view />
+  <main>
+    <router-view />
+  </main>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <strong>Spiis</strong> er laget av gruppe 53 i TDT4140, våren 2021.
+    </div>
+  </footer>
 </template>
 
 <script>

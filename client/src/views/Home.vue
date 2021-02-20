@@ -1,7 +1,7 @@
 <template>
-  <main>
+  <article>
     <DinnerOverview />
-  </main>
+  </article>
 </template>
 
 <script lang="ts">

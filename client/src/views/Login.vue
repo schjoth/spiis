@@ -1,5 +1,5 @@
 <template>
-  <main class="max-600 box">
+  <article class="max-600 box">
     <h1>Login</h1>
     <div class="field">
       <p class="control has-icons-left has-icons-right">
@@ -25,7 +25,7 @@
         <button class="button is-success">Login</button>
       </p>
     </div>
-  </main>
+  </article>
 </template>
 
 <script>

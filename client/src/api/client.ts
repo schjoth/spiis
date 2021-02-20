@@ -62,7 +62,7 @@ class RESTClient {
             }
             reject({
               status: error.response.status,
-              message: error.response.data.message
+              message: error.response?.data?.message ?? `Status code ${error.response.status}`
             } as RESTClientError);
           } else {
             reject({

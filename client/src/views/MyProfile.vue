@@ -1,7 +1,7 @@
 <template>
-  <main id="profile">
+  <article id="profile">
     <Profile v-bind:user="user" v-bind:is-my-user="isMyProfile"></Profile>
-  </main>
+  </article>
 </template>
 
 <script>
