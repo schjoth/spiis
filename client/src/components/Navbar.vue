@@ -26,14 +26,20 @@
         <router-link to="/CreateNewDinner" class="navbar-item">
           Inviter til Middag
         </router-link>
-
-        <router-link to="/MyProfile" class="navbar-item">
-          Min Profil
-        </router-link>
       </div>
 
       <div class="navbar-end">
-        <div class="navbar-item">
+        <router-link class="navbar-item" to="/MyProfile" v-if="loggedIn">
+          {{name}}
+        </router-link>
+        <div class="navbar-item" v-if="loggedIn">
+          <div class="buttons">
+            <a class="button is-primary" v-on:click="logOut">
+              <strong>Logg ut</strong>
+            </a>
+          </div>
+        </div>
+        <div class="navbar-item" v-else>
           <div class="buttons">
             <router-link to="/signup" class="button is-primary">
               <strong>Opprett bruker</strong>
@@ -49,8 +55,23 @@
 </template>
 
 <script>
+import { computed } from "vue";
+import { getLogInState } from "@/store/loginState";
+import { logOut } from "@/api/login";
+
 export default {
-  name: "Navbar"
+  name: "Navbar",
+
+  setup() {
+    const loggedIn = computed(() => getLogInState().status === "loggedIn");
+    const name = computed(() => `${getLogInState().user?.firstName} ${getLogInState().user?.lastName}`);
+
+    return {
+      loggedIn,
+      name,
+      logOut: () => logOut(false)
+    };
+  }
 };
 </script>
 

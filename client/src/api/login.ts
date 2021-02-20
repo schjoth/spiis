@@ -1,6 +1,7 @@
 import client from "./client";
 import type { LogInRequest, LogInResponse, SignUpRequest, User } from "./types";
 import { setLoggedIn, setLoggedOut, setLoggingIn } from "@/store/loginState";
+import router from "@/router";
 
 /**
  * Try logging in with email and password.
@@ -20,7 +21,7 @@ export async function logIn(email: string, password: string) {
     const response: LogInResponse = await client.post("/login", request);
     setLoggedIn(response.user, response.token);
   } catch (error) {
-    logOut(); //Failed to log in, reset state
+    await logOut(); //Failed to log in, reset state
     throw error;
   }
 }
@@ -41,7 +42,7 @@ export async function logInWithToken(token: string) {
     const user: User = await client.get("/token/user", config);
     setLoggedIn(user, token);
   } catch (error) {
-    logOut();
+    await logOut();
     throw error;
   }
 }
@@ -57,9 +58,12 @@ export async function tryReusingToken() {
 /**
  * Removes user info and token, also from localStorage.
  * Sets status to loggedOut.
+ * @param invalidated - true if the reason for being logged out is sudden token invalidation
  */
-export function logOut() {
+export async function logOut(invalidated = false) {
   setLoggedOut();
+  if (invalidated)
+    await router.replace("/login?invalidated=true")
 }
 
 /**
@@ -73,7 +77,7 @@ export async function signUp(request: SignUpRequest) {
     const response: LogInResponse = await client.post("/signup", request);
     setLoggedIn(response.user, response.token);
   } catch (error) {
-    logOut(); //Failed to log in, reset state
+    await logOut(); //Failed to log in, reset state
     throw error;
   }
 }

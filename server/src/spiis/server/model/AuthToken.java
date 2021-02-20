@@ -11,6 +11,7 @@ import java.time.OffsetDateTime;
 public class AuthToken {
 
     @Id
+    @GeneratedValue
     @Nullable
     private Long id;
 
@@ -19,7 +20,6 @@ public class AuthToken {
     private String token;
 
     @OneToOne(optional = false)
-    @MapsId
     @Nullable
     private User user;
 

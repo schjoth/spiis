@@ -1,7 +1,5 @@
 package spiis.server.api;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 public class SignUpRequest {
@@ -9,12 +7,9 @@ public class SignUpRequest {
     private String password;
     private String firstName;
     private String lastName;
-    @JsonProperty("age")
     private Integer age;
     private String location;
     private List<String> allergies;
-
-    protected SignUpRequest() {}
 
     public SignUpRequest(String email, String password, String firstName, String lastName,
                          Integer age, String location, List<String> allergies) {

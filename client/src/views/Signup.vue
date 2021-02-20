@@ -84,7 +84,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
+import { getLogInState } from "@/store/loginState";
 import { signUp } from "@/api/login";
 import { SignUpRequest } from "@/api/types";
 
@@ -126,7 +127,9 @@ export default {
       }
     };
 
-    return { input, errorMessage, signupClick };
+    const waiting = computed(() => getLogInState().status === "loggingIn");
+
+    return { input, errorMessage, signupClick, waiting };
   }
 };
 </script>
