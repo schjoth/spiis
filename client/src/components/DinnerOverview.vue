@@ -5,6 +5,9 @@
       v-bind:dinner="dinner"
       v-bind:key="dinner.id"
     />
+    <div v-if="invite">
+      <router-link to="/CreateNewDinner" id="invite"> + </router-link>
+    </div>
   </div>
 </template>
 
@@ -15,29 +18,7 @@ export default {
   components: {
     Dinner
   },
-  data() {
-    return {
-      dinners: [
-        //Replace with call from server
-        {
-          id: "1",
-          title: "Taco",
-          guests: "1",
-          maxGuests: "4",
-          date: "23/02/2021",
-          location: "Gløshaugen"
-        },
-        {
-          id: "2",
-          title: "Pizza",
-          guests: "0",
-          maxGuests: "7",
-          date: "15/03/2021",
-          location: "Italia"
-        }
-      ]
-    };
-  }
+  props: ["dinners", "invite"]
 };
 </script>
 
@@ -45,5 +26,10 @@ export default {
 #container {
   display: flex;
   flex-wrap: wrap;
+}
+#invite {
+  line-height: 150px;
+  height: 150px;
+  font-size: 50px;
 }
 </style>

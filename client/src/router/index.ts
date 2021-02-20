@@ -42,7 +42,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/User/:userid",
     name: "User",
+    meta: { requiresAuth: true },
     component: () => import("@/views/User.vue")
+  },
+  {
+    path: "/MyDinners",
+    name: "MyDinners",
+    meta: { requiresAuth: true },
+    component: () => import("@/views/MyDinners.vue")
   }
 ];
 
