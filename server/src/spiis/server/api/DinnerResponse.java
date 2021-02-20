@@ -1,36 +1,27 @@
 package spiis.server.api;
 
-import spiis.server.model.Dinner;
-import spiis.server.model.User;
-
 import java.time.OffsetDateTime;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class DinnerResponse {
 
-    private String title;
     private Long id;
+    private String title;
     private OffsetDateTime time;
     private String place;
     private int maxPeople;
-    private Set<Long> guestIds;
+    private Long hostId;
+    private List<Long> guestIds;
 
-    public DinnerResponse(Dinner dinner) {
-        this.title = dinner.getTitle();
-        this.id = dinner.getId();
-        this.time = dinner.getTime();
-        this.place = dinner.getPlace();
-        this.maxPeople = dinner.getMaxPeople();
-        this.guestIds = dinner.getGuests().stream().map(User::getId).collect(Collectors.toSet());
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
+    public DinnerResponse(Long id, String title, OffsetDateTime time,
+                          String place, int maxPeople, Long hostId, List<Long> guestIds) {
+        this.id = id;
         this.title = title;
+        this.time = time;
+        this.place = place;
+        this.maxPeople = maxPeople;
+        this.hostId = hostId;
+        this.guestIds = guestIds;
     }
 
     public Long getId() {
@@ -39,6 +30,14 @@ public class DinnerResponse {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public OffsetDateTime getTime() {
@@ -65,11 +64,19 @@ public class DinnerResponse {
         this.maxPeople = maxPeople;
     }
 
-    public Set<Long> getGuestIds() {
+    public Long getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(Long hostId) {
+        this.hostId = hostId;
+    }
+
+    public List<Long> getGuestIds() {
         return guestIds;
     }
 
-    public void setGuestIds(Set<Long> guestIds) {
+    public void setGuestIds(List<Long> guestIds) {
         this.guestIds = guestIds;
     }
 

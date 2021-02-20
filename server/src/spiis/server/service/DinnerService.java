@@ -2,15 +2,17 @@ package spiis.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import spiis.server.api.AllDinnerResponse;
 import spiis.server.api.DinnerResponse;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.Dinner;
+import spiis.server.model.User;
 import spiis.server.repository.DinnerRepository;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,17 +25,29 @@ public class DinnerService {
         this.dinnerRepository = dinnerRepository;
     }
 
-    @Transactional(readOnly = true)
-    public DinnerResponse getDinnerById(long id) {
-        Dinner dinner = dinnerRepository.findById(id).orElseThrow(NotFoundException::new);
-        return new DinnerResponse(dinner);
+    @Transactional(propagation = Propagation.MANDATORY)
+    public DinnerResponse makeDinnerResponse(Dinner dinner) {
+        Objects.requireNonNull(dinner.getId());
+        Objects.requireNonNull(dinner.getHost());
+        Objects.requireNonNull(dinner.getHost().getId());
+
+        return new DinnerResponse(dinner.getId(), dinner.getTitle(),
+                dinner.getTime(), dinner.getPlace(), dinner.getMaxPeople(), dinner.getHost().getId(),
+                dinner.getGuests().stream().map(User::getId).collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
-    public AllDinnerResponse getDinners() {
+    public DinnerResponse getDinnerById(long id) {
+        Dinner dinner = dinnerRepository.findById(id).orElseThrow(NotFoundException::new);
+        return makeDinnerResponse(dinner);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DinnerResponse> getDinners() {
         Iterable<Dinner> dinnerIterable = dinnerRepository.findAll();
-        Set<Dinner> dinnerSet = new HashSet<>();
-        dinnerIterable.forEach(dinnerSet::add);
-        return new AllDinnerResponse(dinnerSet.stream().map(DinnerResponse::new).collect(Collectors.toSet()));
+        List<DinnerResponse> responses = new ArrayList<>();
+        for (Dinner dinner : dinnerIterable)
+            responses.add(makeDinnerResponse(dinner));
+        return responses;
     }
 }
