@@ -45,7 +45,7 @@
   </article>
 </template>
 
-<script>
+<script lang="ts">
 import { logIn } from "@/api/login";
 import { reactive, ref, computed } from "vue";
 import { getLogInState } from "@/store/loginState";

@@ -23,8 +23,16 @@
       <div class="navbar-start">
         <router-link to="/" class="navbar-item"> Middager </router-link>
 
+        <router-link to="/MyDinners" class="navbar-item">
+          Mine Middager
+        </router-link>
+
         <router-link to="/CreateNewDinner" class="navbar-item">
           Inviter til Middag
+        </router-link>
+
+        <router-link to="/MyProfile" class="navbar-item">
+          Min Profil
         </router-link>
       </div>
 
@@ -54,7 +62,7 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 import { computed } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { logOut } from "@/api/login";
