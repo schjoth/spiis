@@ -73,7 +73,7 @@ export default {
     return {
       loggedIn,
       name,
-      logOut: async() => {
+      logOut: async () => {
         await router.replace("/");
         await logOut();
       }

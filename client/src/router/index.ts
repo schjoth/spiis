@@ -1,9 +1,4 @@
-import {
-  createRouter,
-  createWebHistory,
-  RouteLocationNormalized,
-  RouteRecordRaw
-} from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { getLogInState } from "@/store/loginState";
 import { watch, computed } from "vue";
 import Home from "@/views/Home.vue";
@@ -59,10 +54,8 @@ const router = createRouter({
 const loggedIn = computed(() => getLogInState().status === "loggedIn");
 
 router.beforeEach((to, from, next) => {
-  if(to.meta.requiresAuth && !loggedIn.value)
-    next("/login");
-  else if(to.meta.requiresAnon && loggedIn.value)
-    next("/");
+  if (to.meta.requiresAuth && !loggedIn.value) next("/login");
+  else if (to.meta.requiresAnon && loggedIn.value) next("/");
   next();
 });
 

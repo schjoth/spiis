@@ -1,7 +1,6 @@
 import client from "./client";
 import type { LogInRequest, LogInResponse, SignUpRequest, User } from "./types";
 import { setLoggedIn, setLoggedOut, setLoggingIn } from "@/store/loginState";
-import router from "@/router";
 
 /**
  * Try logging in with email and password.
