@@ -1,68 +1,81 @@
 <template>
-  <h1>Opprette nytt arrangement</h1>
-  <form>
-    <div id="form">
-      <div>
-        <label>Tittel:</label><input type="text" id="title" name="tittel" />
+  <article class="max-600">
+    <h1>Inviter til middag!</h1>
+    <div class="field">
+      <label class="label">Tittel</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="" v-model="input.title" />
       </div>
-      <div>
-        <label>Tidspunkt:</label
-        ><input type="date" id="time" name="tidspunkt" />
-      </div>
-      <div>
-        <label>Sted:</label><input type="text" id="location" name="sted" />
-      </div>
-      <div>
-        <label>Plasser:</label
-        ><input type="number" id="guests" name="plasser" min="1" />
-      </div>
-      <div>
-        <label>Beskrivelse:</label
-        ><textarea id="description" name="beskrivelse" rows="4" cols="50" />
-      </div>
-      <input type="submit" value="Opprett arrangement" />
     </div>
-  </form>
+    <div class="field">
+      <label class="label">Beskrivelse</label>
+      <div class="control">
+        <textarea class="textarea" placeholder="" v-model="input.description" />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Sted</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder=""
+          v-model="input.location"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Maks deltagere</label>
+      <div class="control">
+        <input
+          class="input"
+          type="number"
+          placeholder=""
+          v-model="input.maxGuests"
+        />
+      </div>
+    </div>
+    <div class="content has-text-centered" v-if="errorMessage">
+      <p class="has-text-danger">
+        {{ errorMessage }}
+      </p>
+    </div>
+    <div class="field is-grouped is-grouped-centered">
+      <div class="control">
+        <button class="button is-primary" v-on:click="createClicked">
+          Opprett arrangement!
+        </button>
+      </div>
+    </div>
+  </article>
 </template>
 
 <script>
+import { ref, reactive } from "vue";
+
 export default {
-  name: "NewDinner"
+  name: "NewDinner",
+
+  setup() {
+    const input = reactive({
+      title: "",
+      description: "",
+      location: "",
+      maxGuests: ""
+    });
+    const errorMessage = ref("");
+
+    const createClicked = () => {
+      //TODO
+    };
+
+    return {
+      input,
+      errorMessage,
+      createClicked
+    };
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-h1 {
-  text-align: center;
-}
-
-#form {
-  display: flex;
-  flex-direction: column;
-  margin: -12px 0;
-}
-
-#form > div {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  margin: 12px 0;
-}
-
-label {
-  display: block;
-  margin-right: 10px;
-  width: 100px;
-}
-
-input,
-textarea {
-  display: block;
-  flex-grow: 1;
-  font-size: 1rem;
-}
-
-input[type="submit"] {
-  margin: 20px 110px;
-}
-</style>
+<style lang="scss" scoped></style>

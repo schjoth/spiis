@@ -16,10 +16,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 div {
   width: 300px;
   height: 300px;
-  display: block;
 }
 </style>

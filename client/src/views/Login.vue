@@ -1,25 +1,48 @@
 <template>
-  <main>
-    <div id="login">
-      <h1>Login</h1>
-      <input
-        type="text"
-        name="email"
-        v-model="input.email"
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        name="password"
-        v-model="input.password"
-        placeholder="Password"
-      />
-      <div class="error" v-if="errorMessage">Error: {{ errorMessage }}</div>
-      <button type="button" v-on:click="onLogin" v-bind:disabled="waiting">
-        Login
-      </button>
+  <article class="max-600 box">
+    <h1>Login</h1>
+    <div class="field">
+      <p class="control has-icons-left has-icons-right">
+        <input
+          class="input"
+          type="email"
+          placeholder="Email"
+          v-model="input.email"
+        />
+        <span class="icon is-small is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-check"></i>
+        </span>
+      </p>
     </div>
-  </main>
+    <div class="field">
+      <p class="control has-icons-left">
+        <input
+          class="input"
+          type="password"
+          placeholder="Password"
+          v-model="input.password"
+        />
+        <span class="icon is-small is-left">
+          <i class="fas fa-lock"></i>
+        </span>
+      </p>
+    </div>
+    <div class="content has-text-centered" v-if="errorMessage">
+      <p class="has-text-danger">
+        {{ errorMessage }}
+      </p>
+    </div>
+    <div class="field is-grouped is-grouped-centered">
+      <p class="control">
+        <button class="button is-success" v-on:click="loginClicked">
+          Login
+        </button>
+      </p>
+    </div>
+  </article>
 </template>
 
 <script>
@@ -34,12 +57,14 @@ export default {
     const input = reactive({ email: "", password: "" });
     const errorMessage = ref("");
 
-    const onLogin = async () => {
+    const loginClicked = async () => {
       errorMessage.value = "";
       try {
         await logIn(input.email, input.password);
       } catch (error) {
-        errorMessage.value = error.message;
+        if (error.status === 401)
+          errorMessage.value = "Feil brukernavn / passord";
+        else errorMessage.value = error.message;
       }
     };
 
@@ -48,42 +73,11 @@ export default {
     return {
       input,
       errorMessage,
-      onLogin,
+      loginClicked,
       waiting
     };
   }
 };
 </script>
 
-<style lang="scss" scoped>
-#login {
-  max-width: 500px;
-  padding: 20px;
-  margin: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
-}
-
-#login > * {
-  margin: 10px 0;
-}
-
-input[type="text"],
-input[type="password"] {
-  max-width: 400px;
-  width: 100%;
-}
-
-button {
-  max-width: 200px;
-  width: 100%;
-}
-
-.error {
-  color: red;
-}
-</style>
+<style lang="scss" scoped></style>

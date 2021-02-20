@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spiis.server.api.ExampleCreateRequest;
 import spiis.server.api.ExampleResponse;
+import spiis.server.api.SignUpRequest;
 import spiis.server.error.SpiisException;
 import spiis.server.model.ExampleEntity;
 import spiis.server.repository.ExampleEntityRepository;
@@ -41,7 +42,7 @@ public class ExampleController {
     }
 
     @PostMapping
-    public ResponseEntity<ExampleResponse> createEntity(ExampleCreateRequest request) {
+    public ResponseEntity<ExampleResponse> createEntity(@RequestBody ExampleCreateRequest request) {
         ExampleResponse response = exampleEntityService.makeExampleEntity(request);
         return RESTControllerUtil.makePOSTResponse(response, "/entities", response.getId());
     }

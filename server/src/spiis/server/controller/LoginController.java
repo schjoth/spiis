@@ -2,6 +2,7 @@ package spiis.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import spiis.server.api.LogInRequest;
 import spiis.server.api.LogInResponse;
@@ -28,7 +29,7 @@ public class LoginController {
      * @return LogInResponse with user info and token
      */
     @PostMapping("/signup")
-    public LogInResponse signup(SignUpRequest request) {
+    public LogInResponse signup(@RequestBody SignUpRequest request) {
         UserResponse user = userService.createUser(request);
         String token = authService.makeTokenForUser(user.getId());
         return new LogInResponse(user, token);
@@ -40,7 +41,8 @@ public class LoginController {
      * @return LogInResponse with user info and token
      */
     @PostMapping("/login")
-    public LogInResponse login(LogInRequest request) {
+    public LogInResponse login(@RequestBody LogInRequest request) {
+        System.out.println(request.getEmail());
         return userService.login(request.getEmail(), request.getPassword());
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <article>
     <p>id: {{ $route.params.dinnerId }}</p>
     <p>Denne siden vil ikke vise noe den før koblet til databasen</p>
     <!-- <h1>{{ dinner.title }}</h1>
@@ -7,7 +7,7 @@
     <p><b>Sted:</b> {{ dinner.location }}</p>
     <p><b>Beskrivelse: </b> {{ dinner.description }}</p>
     -->
-  </main>
+  </article>
 </template>
 
 <script>

@@ -7,14 +7,12 @@ public class SignUpRequest {
     private String password;
     private String firstName;
     private String lastName;
-    private int age;
+    private Integer age;
     private String location;
     private List<String> allergies;
 
-    protected SignUpRequest() {}
-
     public SignUpRequest(String email, String password, String firstName, String lastName,
-                         int age, String location, List<String> allergies) {
+                         Integer age, String location, List<String> allergies) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -56,11 +54,11 @@ public class SignUpRequest {
         this.lastName = lastName;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 

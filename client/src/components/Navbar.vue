@@ -1,34 +1,85 @@
 <template>
-  <nav>
-    <router-link to="/">Middager</router-link> |
-    <router-link to="/CreateNewDinner">Ny Middag</router-link> |
-    <router-link to="/MyProfile">Profil</router-link> |
-    <router-link to="/Login">Login</router-link>
+  <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <router-link class="navbar-item" to="/">
+        <h1>Spiis</h1>
+        <!--<img src="" width="112" height="28">-->
+      </router-link>
+
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <router-link to="/" class="navbar-item"> Middager </router-link>
+
+        <router-link to="/CreateNewDinner" class="navbar-item">
+          Inviter til Middag
+        </router-link>
+      </div>
+
+      <div class="navbar-end">
+        <router-link class="navbar-item" to="/MyProfile" v-if="loggedIn">
+          {{ name }}
+        </router-link>
+        <div class="navbar-item" v-if="loggedIn">
+          <div class="buttons">
+            <a class="button is-primary" v-on:click="logOut">
+              <strong>Logg ut</strong>
+            </a>
+          </div>
+        </div>
+        <div class="navbar-item" v-else>
+          <div class="buttons">
+            <router-link to="/signup" class="button is-primary">
+              <strong>Opprett bruker</strong>
+            </router-link>
+            <router-link to="/Login" class="button is-light">
+              Logg inn
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </nav>
 </template>
 
 <script>
+import { computed } from "vue";
+import { getLogInState } from "@/store/loginState";
+import { logOut } from "@/api/login";
+import router from "@/router";
+
 export default {
-  name: "Navbar"
+  name: "Navbar",
+
+  setup() {
+    const loggedIn = computed(() => getLogInState().status === "loggedIn");
+    const name = computed(
+      () =>
+        `${getLogInState().user?.firstName} ${getLogInState().user?.lastName}`
+    );
+
+    return {
+      loggedIn,
+      name,
+      logOut: async () => {
+        await router.replace("/");
+        await logOut();
+      }
+    };
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-nav {
-  padding: 30px 0;
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 0 10px;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>
