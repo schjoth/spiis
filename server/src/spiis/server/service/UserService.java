@@ -77,7 +77,6 @@ public class UserService {
     @Transactional
     public LogInResponse login(String email, String password) {
         User user = userRepository.findUserByEmail(email).orElseThrow(InvalidTokenException::new);
-        System.out.println("Her!");
         Objects.requireNonNull(user.getId());
         if (!password.equals(user.getPassword()))
             throw new InvalidTokenException();
