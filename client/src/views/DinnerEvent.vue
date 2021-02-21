@@ -7,16 +7,15 @@
     <p><b>Sted:</b> {{ dinner.location }}</p>
     <p><b>Beskrivelse: </b> {{ dinner.description }}</p>
     -->
+    <router-link :to="'/event/' + $route.params.dinnerId + '/edit'">
+      rediger
+    </router-link>
   </article>
 </template>
 
 <script lang="ts">
-//get dinner instance where id = $route.params.dinnerId
 export default {
   name: "DinnerEvent"
-  /* props: () -> {
-    return GetDinnerFromServer( $route.params.dinnerId )
-  }
-  */
+  //TODO hent middag som har id $route.params.dinnerId )
 };
 </script>

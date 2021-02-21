@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   {
-    path: "/CreateNewDinner",
+    path: "/event/new",
     name: "CreateNewDinner",
     meta: { requiresAuth: true },
     component: () => import("@/views/CreateNewDinner.vue")
@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/MyProfile.vue")
   },
   {
-    path: "/DinnerEvent/:dinnerId",
+    path: "/event/:dinnerId",
     name: "DinnerEvent",
     meta: { requiresAuth: true },
     component: () => import("@/views/DinnerEvent.vue")
@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/Signup.vue")
   },
   {
-    path: "/User/:userid",
+    path: "/user/:userid",
     name: "User",
     meta: { requiresAuth: true },
     component: () => import("@/views/User.vue")
@@ -50,6 +50,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "MyDinners",
     meta: { requiresAuth: true },
     component: () => import("@/views/MyDinners.vue")
+  },
+  {
+    path: "/event/:eventId/edit",
+    name: "EditEvent",
+    meta: { requiresAuth: true },
+    component: () => import("@/views/EditEvent.vue")
   }
 ];
 
