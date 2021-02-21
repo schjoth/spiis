@@ -1,15 +1,23 @@
 <template>
-  <p>Fornavn: {{ user.firstname }}</p>
-  <p>Etternavn: {{ user.lastname }}</p>
-  <p v-if="isMyUser">Epost: {{ user.email }}</p>
-  <p v-if="isMyUser">Adresse: {{ user.location }}</p>
-  <p v-else>Adresse: {{ user.postcode }}</p>
-  <p>Allergener: {{ user.allergies }}</p>
+  <div>
+    <p>Fornavn: {{ user.firstName }}</p>
+    <p>Etternavn: {{ user.lastName }}</p>
+    <p v-if="isMyUser">Epost: {{ user.email }}</p>
+    <p>By: {{ user.location }}</p>
+    <p>
+      Allergier:
+      <span v-for="(allergy, index) in user.allergies" :key="index">
+        {{ allergy }}
+      </span>
+    </p>
+  </div>
 </template>
 
 <script lang="ts">
 export default {
   name: "Profile",
-  props: ["user", "isMyUser"]
+  props: {
+    user: Object
+  }
 };
 </script>

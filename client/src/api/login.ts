@@ -1,5 +1,10 @@
 import client from "./client";
-import type { LogInRequest, LogInResponse, SignUpRequest, User } from "./types";
+import type {
+  LogInRequest,
+  LogInResponse,
+  SignUpRequest,
+  UserResponse
+} from "./types";
 import { setLoggedIn, setLoggedOut, setLoggingIn } from "@/store/loginState";
 
 /**
@@ -38,7 +43,7 @@ export async function logInWithToken(token: string) {
 
   try {
     const config = { headers: { Authorization: token } };
-    const user: User = await client.get("/token/user", config);
+    const user: UserResponse = await client.get("/token/user", config);
     setLoggedIn(user, token);
   } catch (error) {
     await logOut();

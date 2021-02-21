@@ -1,30 +1,21 @@
 <template>
   <article id="profile">
-    <Profile v-bind:user="user" v-bind:is-my-user="isMyProfile"></Profile>
+    <Profile :user="user" :is-my-user="true"></Profile>
   </article>
 </template>
 
 <script lang="ts">
 import Profile from "../components/Profile.vue";
+import { getLogInState } from "@/store/loginState";
+import { ref } from "vue";
 export default {
   name: "MyProfile",
   components: {
     Profile
   },
-  data: () => {
-    return {
-      isMyProfile: true,
-      userId: "", //TODO: replace with logged in user
-      user: {
-        //TODO: replace meta date with http request on userId
-        firstname: "Ola",
-        lastname: "Nordmann",
-        email: "ola_nordmann@gmail.com",
-        location: "gate 1, 7069, Trondheim",
-        postcode: "7069, Trondheim",
-        allergies: "Skalldyr"
-      }
-    };
+  setup() {
+    const user = ref(getLogInState().user);
+    return { user };
   }
 };
 </script>
