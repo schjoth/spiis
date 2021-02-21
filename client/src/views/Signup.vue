@@ -75,7 +75,11 @@
     </div>
     <div class="field is-grouped is-grouped-centered">
       <div class="control">
-        <button class="button is-primary" v-on:click="signupClick">
+        <button
+          class="button is-primary"
+          v-on:click="signupClick"
+          :disabled="waiting"
+        >
           Ny bruker
         </button>
       </div>

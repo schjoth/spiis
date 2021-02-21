@@ -30,10 +30,6 @@
         <router-link to="/CreateNewDinner" class="navbar-item">
           Inviter til Middag
         </router-link>
-
-        <router-link to="/MyProfile" class="navbar-item">
-          Min Profil
-        </router-link>
       </div>
 
       <div class="navbar-end">

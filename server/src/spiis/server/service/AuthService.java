@@ -2,6 +2,7 @@ package spiis.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spiis.server.error.ForbiddenException;
@@ -11,21 +12,45 @@ import spiis.server.model.AuthToken;
 import spiis.server.model.User;
 import spiis.server.repository.UserRepository;
 
+import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.UUID;
 
 @Service
 public class AuthService {
 
+    private static final int BCRYPT_STRENGTH = 10;
+
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder(BCRYPT_STRENGTH, new SecureRandom());
     }
 
     private String generateToken() {
         return UUID.randomUUID().toString();
+    }
+
+    /**
+     * Hashes a password using bcrypt, using a salt
+     * @param rawPassword the password as received from the user
+     * @return the hashed and salted password, including the salt and meta-info
+     */
+    public String encodePassword(String rawPassword) {
+        return bCryptPasswordEncoder.encode(rawPassword);
+    }
+
+    /**
+     * Checks if a given password matches a salted and hashed password from the database
+     * @param rawPassword the raw password
+     * @param encodedPassword the salted and hashed password
+     * @return true if match
+     */
+    public boolean passwordMatches(String rawPassword, String encodedPassword) {
+        return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
     }
 
     /**

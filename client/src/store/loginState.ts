@@ -1,8 +1,8 @@
-import { User } from "@/api/types";
+import { UserResponse } from "@/api/types";
 import { reactive, readonly } from "vue";
 
 interface LogInState {
-  user: User | null;
+  user: UserResponse | null;
   token: string | null;
   status: "loggedOut" | "loggingIn" | "loggedIn";
 }
@@ -19,7 +19,7 @@ const logInState = reactive(defaultLogInState());
 
 export const getLogInState = () => readonly(logInState);
 
-export function setLoggedIn(user: User, token: string) {
+export function setLoggedIn(user: UserResponse, token: string) {
   logInState.user = user;
   logInState.token = token;
   logInState.status = "loggedIn";
