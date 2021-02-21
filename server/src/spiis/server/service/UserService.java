@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import spiis.server.api.LogInResponse;
 import spiis.server.api.SignUpRequest;
 import spiis.server.api.UserResponse;
+import spiis.server.error.ConflictException;
 import spiis.server.error.InvalidTokenException;
 import spiis.server.error.ModelError;
 import spiis.server.error.NotFoundException;
@@ -54,9 +55,19 @@ public class UserService {
      */
     @Transactional
     public UserResponse createUser(SignUpRequest request) {
+
+        String email = request.getEmail().toLowerCase();
+        if (userRepository.findUserByEmail(email).isPresent())
+            throw new ConflictException("Email is taken");
+
+        if (request.getPassword().length() < 5)
+            throw new ModelError("Password is too short");
+
+        final String encodedPassword = authService.encodePassword(request.getPassword());
+
         User.UserBuilder builder = new User.UserBuilder();
-        builder.email(request.getEmail())
-                .password(request.getPassword()) //TODO: Hash and salt the stored password
+        builder.email(email)
+                .password(encodedPassword)
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .age(request.getAge())
@@ -80,7 +91,8 @@ public class UserService {
     public LogInResponse login(String email, String password) {
         User user = userRepository.findUserByEmail(email).orElseThrow(InvalidTokenException::new);
         Objects.requireNonNull(user.getId());
-        if (!password.equals(user.getPassword()))
+
+        if (!authService.passwordMatches(password, user.getPassword()))
             throw new InvalidTokenException();
 
         String token = authService.makeTokenForUser(user.getId());

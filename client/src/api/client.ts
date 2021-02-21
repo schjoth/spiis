@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, Method } from "axios";
 import { logOut } from "./login";
 import { getLogInState } from "@/store/loginState";
-import { watch } from "vue";
+import { watchEffect } from "vue";
 
 export const DEFAULT_BASEURL =
   process.env.NODE_ENV == "production"
@@ -33,14 +33,12 @@ class RESTClient {
       }
     });
 
-    const onTokenChange = (token: string | null) => {
+    watchEffect(() => {
+      const token = getLogInState().token;
       if (token)
         this.httpInstance.defaults.headers.common["Authorization"] = token;
       else delete this.httpInstance.defaults.headers.common["Authorization"];
-    };
-
-    onTokenChange(getLogInState().token);
-    watch(() => getLogInState().token, onTokenChange);
+    });
   }
 
   request<T>(

@@ -1,7 +1,7 @@
 import { logIn, logInWithToken, logOut } from "@/api/login";
 import { getLogInState } from "@/store/loginState";
 import nock from "nock";
-import { User } from "@/api/types";
+import { UserResponse } from "@/api/types";
 import client, { DEFAULT_BASEURL } from "@/api/client";
 
 const scope = nock(DEFAULT_BASEURL);
@@ -15,10 +15,14 @@ describe("login.ts", () => {
     expect(localStorage.getItem("token")).toBeNull();
   });
 
-  const dummyUser: User = {
-    userId: 4,
+  const dummyUser: UserResponse = {
+    id: 4,
+    email: "test@example.com",
     firstName: "Per",
-    lastName: "Fredrik"
+    lastName: "Fredrik",
+    location: "Trondheim",
+    age: 20,
+    allergies: []
   };
   const dummyToken = "HE845AXE2F9CE";
 
