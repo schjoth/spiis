@@ -22,12 +22,12 @@ public class AuthService {
     private static final int BCRYPT_STRENGTH = 10;
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     @Autowired
     public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = new BCryptPasswordEncoder(BCRYPT_STRENGTH, new SecureRandom());
+        this.bcryptPasswordEncoder = new BCryptPasswordEncoder(BCRYPT_STRENGTH, new SecureRandom());
     }
 
     private String generateToken() {
@@ -40,7 +40,7 @@ public class AuthService {
      * @return the hashed and salted password, including the salt and meta-info
      */
     public String encodePassword(String rawPassword) {
-        return bCryptPasswordEncoder.encode(rawPassword);
+        return bcryptPasswordEncoder.encode(rawPassword);
     }
 
     /**
@@ -50,7 +50,7 @@ public class AuthService {
      * @return true if match
      */
     public boolean passwordMatches(String rawPassword, String encodedPassword) {
-        return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
+        return bcryptPasswordEncoder.matches(rawPassword, encodedPassword);
     }
 
     /**
