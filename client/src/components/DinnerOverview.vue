@@ -6,7 +6,7 @@
       v-bind:key="dinner.id"
     />
     <div v-if="invite">
-      <router-link to="/CreateNewDinner" id="invite"> + </router-link>
+      <router-link to="/event/new" id="invite"> + </router-link>
     </div>
   </div>
 </template>

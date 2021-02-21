@@ -1,6 +1,6 @@
 <template>
   <article class="max-600">
-    <h1>Inviter til middag!</h1>
+    <h1>{{ !edit ? "Inviter til middag!" : "Rediger arrangment" }}</h1>
     <div class="field">
       <label class="label">Tittel</label>
       <div class="control">
@@ -43,7 +43,7 @@
     <div class="field is-grouped is-grouped-centered">
       <div class="control">
         <button class="button is-primary" v-on:click="createClicked">
-          Opprett arrangement!
+          {{ !edit ? "Opprett Arrangemet!" : "Oppdater" }}
         </button>
       </div>
     </div>
@@ -51,21 +51,29 @@
 </template>
 
 <script lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "NewDinner",
+  props: {
+    dinner: Object,
+    edit: Boolean
+  },
 
-  setup() {
+  setup(props) {
     const input = reactive({
-      title: "",
-      description: "",
-      location: "",
-      maxGuests: ""
+      title: props.dinner?.title,
+      description: props.dinner?.description,
+      location: props.dinner?.location,
+      maxGuests: props.dinner?.maxGuests
     });
+
     const errorMessage = ref("");
 
     const createClicked = () => {
+      if (props.edit == true) {
+        //TODO updateDinner
+      }
       //TODO
     };
 
@@ -75,7 +83,7 @@ export default {
       createClicked
     };
   }
-};
+});
 </script>
 
 <style lang="scss" scoped></style>

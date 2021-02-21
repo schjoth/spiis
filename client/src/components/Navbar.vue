@@ -27,7 +27,7 @@
           Mine Middager
         </router-link>
 
-        <router-link to="/CreateNewDinner" class="navbar-item">
+        <router-link to="/event/new" class="navbar-item">
           Inviter til Middag
         </router-link>
       </div>
