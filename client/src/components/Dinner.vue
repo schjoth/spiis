@@ -14,8 +14,11 @@ export default {
 </script>
 <style scoped>
 div {
-  width: 300px;
-  height: 300px;
+  width: 100%;
   display: block;
+  position: normal;
+  background-color: rgb(135,62,35, 0.3);
+  border-radius: 20%;
+  margin: 5%
 }
 </style>
