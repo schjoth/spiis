@@ -1,11 +1,14 @@
 <template>
-
-  <div>
-      <navbar />
-      <img id="bakgrunn" src="@/assets/middagsdeling_bakgrunnsbilde.jpg" alt="bakgrunn"/>
-      <router-view/>
-  </div>
-
+  <img id="bakgrunn" src="@/assets/middagsdeling_bakgrunnsbilde.jpg" alt="bakgrunn"/>
+  <navbar />
+  <main>
+    <router-view />
+  </main>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <strong>Spiis</strong> er laget av gruppe 53 i TDT4140, våren 2021.
+    </div>
+  </footer>
 </template>
 
 <script>
@@ -28,26 +31,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import "src/assets/main.scss";
 
-body{
-    margin: 0 0 0 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #ffffff;
-  z-index: 0;
-  height: 100%;
-}
-
-
-#bakgrunn{
+#bakgrunn {
   position: fixed;
   top: 0;
   left: 0;
@@ -55,5 +41,4 @@ body{
   //height: 100wh; --media query? 975px
   z-index: -1;
 }
-
 </style>

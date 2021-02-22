@@ -5,43 +5,31 @@
       v-bind:dinner="dinner"
       v-bind:key="dinner.id"
     />
+    <div v-if="invite">
+      <router-link to="/event/new" id="invite"> + </router-link>
+    </div>
   </div>
 </template>
 
-<script>
-import Dinner from "./Dinner";
+<script lang="ts">
+import Dinner from "./Dinner.vue";
 export default {
   name: "DinnerOverview",
   components: {
     Dinner
   },
-  data() {
-    return {
-      dinners: [
-        //Replace with call from server
-        {
-          title: "Taco",
-          guests: "1",
-          maxGuests: "4",
-          date: "23/02/2021",
-          location: "Gløshaugen"
-        },
-        {
-          title: "Pizza",
-          guests: "0",
-          maxGuests: "7",
-          date: "15/03/2021",
-          location: "Italia"
-        }
-      ]
-    };
-  }
+  props: ["dinners", "invite"]
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #container {
   display: flex;
-  width: 80vw;
+  flex-wrap: wrap;
+}
+#invite {
+  line-height: 150px;
+  height: 150px;
+  font-size: 50px;
 }
 </style>

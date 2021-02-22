@@ -1,23 +1,23 @@
 <template>
-  <Profile v-bind:user="user"></Profile>
+  <article id="profile">
+    <Profile :user="user" :is-my-user="true"></Profile>
+  </article>
 </template>
 
-<script>
-import Profile from "../components/Profile";
+<script lang="ts">
+import Profile from "../components/Profile.vue";
+import { getLogInState } from "@/store/loginState";
+import { ref } from "vue";
 export default {
   name: "MyProfile",
   components: {
     Profile
   },
-  data: function () {
-    return {
-      user: {
-        firstname: "Ola",
-        lastname: "Nordmann",
-        email: "ola_nordmann@gmail.com",
-        location: "Trondheim"
-      }
-    };
+  setup() {
+    const user = ref(getLogInState().user);
+    return { user };
   }
 };
 </script>
+
+<style lang="scss" scoped></style>

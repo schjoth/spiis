@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
+import { getLogInState } from "@/store/loginState";
+import { watch, computed } from "vue";
+import Home from "@/views/Home.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -8,24 +10,73 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   {
-    path: "/CreateNewDinner",
+    path: "/event/new",
     name: "CreateNewDinner",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/CreateNewDinner.vue")
+    meta: { requiresAuth: true },
+    component: () => import("@/views/CreateNewDinner.vue")
   },
   {
     path: "/MyProfile",
     name: "MyProfile",
-    component: () => import("../views/MyProfile.vue")
+    meta: { requiresAuth: true },
+    component: () => import("@/views/MyProfile.vue")
+  },
+  {
+    path: "/event/:dinnerId",
+    name: "DinnerEvent",
+    meta: { requiresAuth: true },
+    component: () => import("@/views/DinnerEvent.vue")
+  },
+  {
+    path: "/Login",
+    name: "Login",
+    meta: { requiresAnon: true },
+    component: () => import("@/views/Login.vue")
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    meta: { requiresAnon: true },
+    component: () => import("@/views/Signup.vue")
+  },
+  {
+    path: "/user/:userid",
+    name: "User",
+    meta: { requiresAuth: true },
+    component: () => import("@/views/User.vue")
+  },
+  {
+    path: "/MyDinners",
+    name: "MyDinners",
+    meta: { requiresAuth: true },
+    component: () => import("@/views/MyDinners.vue")
+  },
+  {
+    path: "/event/:eventId/edit",
+    name: "EditEvent",
+    meta: { requiresAuth: true },
+    component: () => import("@/views/EditEvent.vue")
   }
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+});
+
+const loggedIn = computed(() => getLogInState().status === "loggedIn");
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !loggedIn.value) next("/login");
+  else if (to.meta.requiresAnon && loggedIn.value) next("/");
+  next();
+});
+
+watch(loggedIn, async () => {
+  if (router.currentRoute.value.meta.requiresAuth && !loggedIn.value)
+    await router.replace("/login?invalidated=true");
+  else if (router.currentRoute.value.meta.requiresAnon && loggedIn.value)
+    await router.replace("/");
 });
 
 export default router;

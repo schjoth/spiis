@@ -1,5 +1,10 @@
 import client from "./client";
-import type { LogInRequest, LogInResponse, User } from "./types";
+import type {
+  LogInRequest,
+  LogInResponse,
+  SignUpRequest,
+  UserResponse
+} from "./types";
 import { setLoggedIn, setLoggedOut, setLoggingIn } from "@/store/loginState";
 
 /**
@@ -20,7 +25,7 @@ export async function logIn(email: string, password: string) {
     const response: LogInResponse = await client.post("/login", request);
     setLoggedIn(response.user, response.token);
   } catch (error) {
-    logOut(); //Failed to log in, reset state
+    await logOut(); //Failed to log in, reset state
     throw error;
   }
 }
@@ -38,10 +43,10 @@ export async function logInWithToken(token: string) {
 
   try {
     const config = { headers: { Authorization: token } };
-    const user: User = await client.get("/token/user", config);
+    const user: UserResponse = await client.get("/token/user", config);
     setLoggedIn(user, token);
   } catch (error) {
-    logOut();
+    await logOut();
     throw error;
   }
 }
@@ -58,6 +63,22 @@ export async function tryReusingToken() {
  * Removes user info and token, also from localStorage.
  * Sets status to loggedOut.
  */
-export function logOut() {
+export async function logOut() {
   setLoggedOut();
+}
+
+/**
+ * Creates a new user on the Server, and logs in if successful
+ * @param request
+ */
+export async function signUp(request: SignUpRequest) {
+  setLoggingIn();
+
+  try {
+    const response: LogInResponse = await client.post("/signup", request);
+    setLoggedIn(response.user, response.token);
+  } catch (error) {
+    await logOut(); //Failed to log in, reset state
+    throw error;
+  }
 }

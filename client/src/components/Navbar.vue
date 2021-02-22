@@ -1,140 +1,89 @@
 <template>
-  <div id="nav">
+  <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <router-link class="navbar-item" to="/">
+        <h1>Spiis</h1>
+        <!--<img src="" width="112" height="28">-->
+      </router-link>
 
-    <div class="burgerIcon">
-        <div class="L1"></div>
-        <div class="L2"></div>
-        <div class="L3"></div>
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
 
-    <ul class="hamburgerDiv">
-        <li><router-link to="/MyProfile">Min bruker</router-link></li>
-        <li><router-link to="/">Mine middager</router-link></li>
-        <li><router-link to="/CreateNewDinner">Ny Middag</router-link></li>
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <router-link to="/" class="navbar-item"> Middager </router-link>
 
-    </ul>
+        <router-link to="/MyDinners" class="navbar-item">
+          Mine Middager
+        </router-link>
 
-  </div>
+        <router-link to="/event/new" class="navbar-item">
+          Inviter til Middag
+        </router-link>
+      </div>
+
+      <div class="navbar-end">
+        <router-link class="navbar-item" to="/MyProfile" v-if="loggedIn">
+          {{ name }}
+        </router-link>
+        <div class="navbar-item" v-if="loggedIn">
+          <div class="buttons">
+            <a class="button is-primary" v-on:click="logOut">
+              <strong>Logg ut</strong>
+            </a>
+          </div>
+        </div>
+        <div class="navbar-item" v-else>
+          <div class="buttons">
+            <router-link to="/signup" class="button is-primary">
+              <strong>Opprett bruker</strong>
+            </router-link>
+            <router-link to="/Login" class="button is-light">
+              Logg inn
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 </template>
 
+<script lang="ts">
+import { computed } from "vue";
+import { getLogInState } from "@/store/loginState";
+import { logOut } from "@/api/login";
+import router from "@/router";
 
+export default {
+  name: "Navbar",
 
+  setup() {
+    const loggedIn = computed(() => getLogInState().status === "loggedIn");
+    const name = computed(
+      () =>
+        `${getLogInState().user?.firstName} ${getLogInState().user?.lastName}`
+    );
 
-<script>
-
-    export default {
-      name: "Navbar"
+    return {
+      loggedIn,
+      name,
+      logOut: async () => {
+        await router.replace("/");
+        await logOut();
+      }
     };
-
+  }
+};
 </script>
 
-
-
-
-
-<style lang="scss">
-    #nav {
-      width: 100vw; /*gir navbaren bredden til hele viewporten*/
-        height: 70px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        margin: 0 0 0 0;
-        background-color: rgb(125,62,35, 0.3);
-        top: 0;
-
-        .hamburgerDiv{
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            font-size: 14pt;
-            letter-spacing: 5px;
-
-            /* Styling felles for hamburgermenyen i begge media queriene: */
-            z-index: 3;
-            position: absolute;
-            top: 60px;
-            padding: 0;
-            height: 100vh; /*gir hamburgermenyen høyden til hele viewporten*/
-            width: 100vw; /*gir hamburgermenyen bredden til hele viewporten*/
-            color: white;
-
-
-            display: flex;
-            flex-direction: column;
-            align-items: right;
-            justify-content: space-around;
-            transform: translate(0, -150%);
-            transition: transform 0.3s ease-in;
-        }
-
-
-    .burgerIcon{
-            /*plasserer ikonet*/
-        position: absolute;
-        display: inline;
-        cursor: pointer;
-        right: 2%;
-        top: 3%;
-        //transform: translate(-5%, -50%);
-    }
-
-
-    .burgerIcon div{
-        z-index: 3;
-        width: 30px;
-        height: 3px;
-        margin: 6px;
-        background-color: white;
-        border-radius: 5px;
-    }
-
-
-    ul, li{
-        list-style-type: none;
-    }
-
-
-    .hamLinks:hover, .hamburgerDiv .dropbutton:hover{
-        font-size: 18pt;
-    }
-
-
-      /* Viser hamburgermenyen når brukeren trykker på hamburger ikonet */
-      .hamburgerDiv-active{
-          transform: translateX(0%);
-      }
-
-
-
-      /* endrer hamburger-ikonet til et kryss, slik at det blir tydelig for brukeren at vedkommende må trykke
-      på samme punkt på skjermen for å gå ut av hamburgermenyen (om vedkommende ikke trykker på en av linkene)*/
-      .exit .L1{
-          transform: rotate(-45deg) translate(-8px, 5px);
-          background-color: rgb(153, 153, 153);
-      }
-
-      .exit .L2{
-          background-color: transparent;
-      }
-
-      .exit .L3{
-          transform: rotate(45deg) translate(-8px, -5px);
-          background-color: rgb(153, 153, 153);
-      }
-
-
-
-
-      a {
-        font-weight: bold;
-        color: #2c3e50;
-
-        &.router-link-exact-active {
-          color: #42b983;
-        }
-      }
-    }
-
-</style>
+<style lang="scss" scoped></style>

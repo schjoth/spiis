@@ -1,63 +1,89 @@
 <template>
-  <div>
-    <h1>Opprette nytt arrangement</h1>
-    <form>
-      <div id="formFlex">
-        <div>
-          <label for="title">Tittel: </label>
-          <br />
-          <label for="time">Tidspunkt: </label>
-          <br />
-          <label for="location">Sted: </label>
-          <br />
-          <label for="guests">Antall plasser: </label>
-          <br />
-          <label for="description">Beskrivelse: </label>
-        </div>
-        <div>
-          <input type="text" id="title" name="tittel" />
-          <br />
-          <input type="date" id="time" name="tidspunkt" />
-          <br />
-          <input type="text" id="location" name="sted" />
-          <br />
-          <input type="number" id="guests" name="plasser" min="1" />
-          <br />
-          <textarea id="description" name="beskrivelse" rows="4" cols="50" />
-          <br />
-          <input type="submit" value="Opprett arrangement" />
-        </div>
+  <article class="max-600">
+    <h1>{{ !edit ? "Inviter til middag!" : "Rediger arrangment" }}</h1>
+    <div class="field">
+      <label class="label">Tittel</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="" v-model="input.title" />
       </div>
-    </form>
-  </div>
+    </div>
+    <div class="field">
+      <label class="label">Beskrivelse</label>
+      <div class="control">
+        <textarea class="textarea" placeholder="" v-model="input.description" />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Sted</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder=""
+          v-model="input.location"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Maks deltagere</label>
+      <div class="control">
+        <input
+          class="input"
+          type="number"
+          placeholder=""
+          v-model="input.maxGuests"
+        />
+      </div>
+    </div>
+    <div class="content has-text-centered" v-if="errorMessage">
+      <p class="has-text-danger">
+        {{ errorMessage }}
+      </p>
+    </div>
+    <div class="field is-grouped is-grouped-centered">
+      <div class="control">
+        <button class="button is-primary" v-on:click="createClicked">
+          {{ !edit ? "Opprett Arrangemet!" : "Oppdater" }}
+        </button>
+      </div>
+    </div>
+  </article>
 </template>
 
-<script>
-export default {
-  name: "NewDinner"
-};
+<script lang="ts">
+import { ref, reactive, defineComponent } from "vue";
+
+export default defineComponent({
+  name: "NewDinner",
+  props: {
+    dinner: Object,
+    edit: Boolean
+  },
+
+  setup(props) {
+    const input = reactive({
+      title: props.dinner?.title,
+      description: props.dinner?.description,
+      location: props.dinner?.location,
+      maxGuests: props.dinner?.maxGuests
+    });
+
+    const errorMessage = ref("");
+
+    const createClicked = () => {
+      if (props.edit == true) {
+        //TODO updateDinner
+      }
+      //TODO
+    };
+
+    return {
+      input,
+      errorMessage,
+      createClicked
+    };
+  }
+});
 </script>
 
-<style scoped>
-#formFlex {
-  display: flex;
-  flex-direction: row;
-  width: 50vh;
-  margin: auto;
-}
-
-label {
-  text-align: left;
-  margin-right: auto;
-  width: 120px;
-  padding: 2px 0;
-}
-
-label,
-input,
-textarea {
-  display: block;
-  margin-top: 20px;
-  margin-right: auto;
-}
-</style>
+<style lang="scss" scoped></style>

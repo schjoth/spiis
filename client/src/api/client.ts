@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, Method } from "axios";
 import { logOut } from "./login";
 import { getLogInState } from "@/store/loginState";
-import { watch } from "vue";
+import { watchEffect } from "vue";
 
 export const DEFAULT_BASEURL =
   process.env.NODE_ENV == "production"
@@ -33,14 +33,12 @@ class RESTClient {
       }
     });
 
-    const onTokenChange = (token: string | null) => {
+    watchEffect(() => {
+      const token = getLogInState().token;
       if (token)
         this.httpInstance.defaults.headers.common["Authorization"] = token;
       else delete this.httpInstance.defaults.headers.common["Authorization"];
-    };
-
-    onTokenChange(getLogInState().token);
-    watch(() => getLogInState().token, onTokenChange);
+    });
   }
 
   request<T>(
@@ -54,20 +52,21 @@ class RESTClient {
         .then((response) => {
           resolve(response.data);
         })
-        .catch((error) => {
+        .catch(async (error) => {
           if (error.response) {
             if (error.response.status == 401) {
               //Unauthorized, we need to get a (new) token!
-              if (getLogInState().status == "loggedIn") logOut();
+              if (getLogInState().status === "loggedIn") await logOut();
             }
             reject({
               status: error.response.status,
-              message: error.response.data.message
+              message:
+                error.response?.data?.message ??
+                `Status code ${error.response.status}`
             } as RESTClientError);
           } else {
-            console.log(`Request failed, no response: ${error.config}`);
             reject({
-              message: error.config
+              message: error.message
             } as RESTClientError);
           }
         });
