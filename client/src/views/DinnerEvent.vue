@@ -26,6 +26,9 @@ export default {
     const registrerTilMiddag = () => {
       //TODO MELD BRUKER PÅ ARRANGEMENT
     };
+    return {
+      registrerTilMiddag
+    };
   }
 };
 </script>
