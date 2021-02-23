@@ -1,8 +1,12 @@
 <template>
-  <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <router-link class="navbar-item" to="/">
-        <img src="@/assets/Spiis_logo.png" title="Tilbake til forsiden" alt = "Spiis-logo">
+        <img
+          src="@/assets/Spiis_logo.png"
+          title="Tilbake til forsiden"
+          alt="Spiis-logo"
+        />
       </router-link>
 
       <a
@@ -37,12 +41,12 @@
         </router-link>
         <div class="navbar-item" v-if="loggedIn">
           <div class="buttons">
-            <a class="button is-primary" v-on:click="logOut">
+            <a class="button is-dark" v-on:click="logOut">
               <strong>Logg ut</strong>
             </a>
           </div>
         </div>
-        <div class="navbar-item" v-else>
+        <div class="navbar-item" v-if="loggedOut">
           <div class="buttons">
             <router-link to="/signup" class="button is-primary">
               <strong>Opprett bruker</strong>
@@ -68,6 +72,7 @@ export default {
 
   setup() {
     const loggedIn = computed(() => getLogInState().status === "loggedIn");
+    const loggedOut = computed(() => getLogInState().status === "loggedOut");
     const name = computed(
       () =>
         `${getLogInState().user?.firstName} ${getLogInState().user?.lastName}`
@@ -75,6 +80,7 @@ export default {
 
     return {
       loggedIn,
+      loggedOut,
       name,
       logOut: async () => {
         await router.replace("/");
@@ -85,21 +91,8 @@ export default {
 };
 </script>
 
-
-
 <style lang="scss" scoped>
-
-nav{
-  position: fixed;
-  width: 100%;
-}
-
-.navbar.is-spaced{
-  padding: 0;
-}
-
 .navbar-item img {
   max-height: 90px;
 }
-
 </style>

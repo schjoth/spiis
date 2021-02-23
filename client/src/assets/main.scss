@@ -1,126 +1,56 @@
 @charset "utf-8";
 
+@import "variables";
+
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
-// Set your brand colors
-$gjennomsiktig: rgba(130, 130, 130, 0);
-$orange: rgb(253, 164, 87);; //
-$brown: #757763;
-$beige-light: #D0D1CD;
-$beige-lighter: #EFF0EB;
-$white: #ffffff;
-$n: rgb(227, 153, 87, 0.43);
-
-// Update Bulma's global variables
-$family-sans-serif: "Nunito", sans-serif;
-$grey-dark: $white;
-$grey-light: $n;
-$primary: $gjennomsiktig;
-$link: $orange;
-$widescreen-enabled: false;
-$fullhd-enabled: false;
-
 @import "~bulma";
-
 
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-image: url("assets/middagsdeling_bakgrunnsbilde.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .navbar {
   background-color: $n;
 }
 
-
 main {
-  padding: 2%;
+  padding: 40px 40px 10px 10px;
   flex-grow: 1;
 }
 
-footer {
-  margin-top: 20px;
-  background-color: $n !important;
+.footer {
+  background-color: $n;
 }
 
 article {
   @extend .container;
 }
 
-h1 {
-  @extend .title;
-  font-size: 30pt;
-  font-family: "Avenir Next";
-  font-style: italic;
-}
-
-
-.field{
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background-color: transparent;
-}
-
-
 .max-600 {
   max-width: 600px;
+}
+
+.max-500 {
+  max-width: 500px;
 }
 
 .max-400 {
   max-width: 400px;
 }
 
-
-.select select, .textarea, .input{
-  background-color: transparent;
-  border-radius: 6px;
+h1 {
+  @extend .title;
+  font-size: 30pt;
+  font-family: "Avenir Next", sans-serif;
+  font-style: italic;
 }
 
-
-.input{
-  color: white;
-  border-color: rgb(255,255,255,0.55);
-}
-
-.input:hover {
-  border-color: white;
-}
-
-
-
-
-.max-500_trans{
-  max-width: 500px;
-  background-color: rgb(0,0,0,0.4);
-  padding: 30px;
-  box-shadow: black;
-  border-radius: 20px;
-
-  h1{
-    color: #ffffff;
-  }
-
-  .input{
-    color: white;
-  }
-
-  ::placeholder{
-    color: rgb(255,255,255,0.55);
-  }
-}
-
-
-
-
-
-
-@media only screen and (max-width: 980px) {
-
-  .input {
-    font-size: 13pt;
-  }
-
-}
+@import "dark-form";
 

@@ -1,0 +1,52 @@
+.trans {
+  background-color: rgb(0.2,0.2,0.2,0.75);
+  padding: 30px;
+  box-shadow: black;
+  border-radius: 20px;
+  color: white;
+
+  h1 {
+    color: white;
+  }
+
+  .field {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .textarea, .input {
+    background-color: transparent;
+  }
+
+  .input {
+    color: white;
+    border-color: rgb(255,255,255,0.55);
+  }
+
+  .input:hover {
+    border-color: white;
+  }
+
+  ::placeholder {
+    color: rgb(255,255,255,0.8);
+  }
+
+  .button {
+    font-size: 1.4em;
+  }
+}
+
+.is-superdark {
+  background-color: rgb(0.2, 0.2, 0.2, 0.5);
+  color: white;
+  border-color: rgb(0, 0, 0, 0.7);
+}
+
+.is-superdark:hover {
+  background-color: white;
+  color: #222;
+}
+
+.is-superdark:active {
+  background-color: #eee;
+}

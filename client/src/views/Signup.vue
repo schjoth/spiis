@@ -1,6 +1,5 @@
 <template>
-  <article class="max-500_trans">
-
+  <article class="max-500 trans">
     <h1>Ny bruker</h1>
 
     <div class="field">
@@ -28,10 +27,10 @@
     <div class="field">
       <div class="control">
         <input
-            class="input"
-            type="text"
-            placeholder="Alder"
-            v-model="input.age"
+          class="input"
+          type="text"
+          placeholder="Alder"
+          v-model="input.age"
         />
       </div>
     </div>
@@ -39,10 +38,10 @@
     <div class="field">
       <div class="control">
         <input
-            class="input"
-            type="text"
-            placeholder="By"
-            v-model="input.location"
+          class="input"
+          type="text"
+          placeholder="By"
+          v-model="input.location"
         />
       </div>
     </div>
@@ -50,10 +49,11 @@
     <div class="field">
       <div class="control">
         <input
-            class="input"
-            type="text"
-            placeholder="E-post"
-            v-model="input.email" />
+          class="input"
+          type="text"
+          placeholder="E-post"
+          v-model="input.email"
+        />
       </div>
     </div>
 
@@ -90,7 +90,6 @@
       </div>
     </div>
 
-
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
         {{ errorMessage }}
@@ -98,17 +97,16 @@
     </div>
 
     <div class="field is-grouped is-grouped-centered">
-      <div class="control" id="NyBrukerKnapp">
+      <p class="control">
         <button
-          class="button is-primary"
+          class="button is-superdark"
           v-on:click="signupClick"
           :disabled="waiting"
         >
           Registrer ny bruker
         </button>
-      </div>
+      </p>
     </div>
-
   </article>
 </template>
 
@@ -162,26 +160,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-
-  .max-500_trans{
-    padding-bottom: 5px;
-
-    .button{
-      font-size: 20pt;
-    }
-
-    .button:hover{
-      background-color: white;
-      border-radius: 40px;
-      color: #323232;
-    }
-
-    .button :active{
-      font-weight: bolder;
-    }
-
-  }
-
-</style>
