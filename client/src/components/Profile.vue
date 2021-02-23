@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id = "innlogging">
     <p>Fornavn: {{ user.firstName }}</p>
     <p>Etternavn: {{ user.lastName }}</p>
     <p v-if="isMyUser">Epost: {{ user.email }}</p>
@@ -21,3 +21,4 @@ export default {
   }
 };
 </script>
+

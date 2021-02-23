@@ -2,8 +2,7 @@
   <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <router-link class="navbar-item" to="/">
-        <h1>Spiis</h1>
-        <!--<img src="" width="112" height="28">-->
+        <img src="@/assets/Spiis_logo.png" title="Tilbake til forsiden" alt = "Spiis-logo">
       </router-link>
 
       <a
@@ -86,4 +85,21 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+
+
+<style lang="scss" scoped>
+
+nav{
+  position: fixed;
+  width: 100%;
+}
+
+.navbar.is-spaced{
+  padding: 0;
+}
+
+.navbar-item img {
+  max-height: 90px;
+}
+
+</style>

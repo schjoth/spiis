@@ -1,89 +1,114 @@
 <template>
-  <article class="max-600">
+  <article class="max-500_trans">
+
     <h1>Ny Bruker</h1>
+
     <div class="field">
-      <label class="label">Fornavn</label>
       <div class="control">
-        <input
+        <input>
           class="input"
           type="text"
-          placeholder=""
+          placeholder="Fornavn"
           v-model="input.firstName"
         />
       </div>
     </div>
+
     <div class="field">
-      <label class="label">Etternavn</label>
       <div class="control">
         <input
           class="input"
           type="text"
-          placeholder=""
+          placeholder="Etternavn"
           v-model="input.lastName"
         />
       </div>
     </div>
+
     <div class="field">
-      <label class="label">E-post</label>
       <div class="control">
-        <input class="input" type="text" placeholder="" v-model="input.email" />
+        <input
+            class="input"
+            type="text"
+            placeholder="Alder"
+            v-model="input.age"
+        />
       </div>
     </div>
+
     <div class="field">
-      <label class="label">Passord</label>
+      <div class="control">
+        <input
+            class="input"
+            type="text"
+            placeholder="By"
+            v-model="input.location"
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <input
+            class="input"
+            type="text"
+            placeholder="E-post"
+            v-model="input.email" />
+      </div>
+    </div>
+
+    <div class="field">
       <div class="control">
         <input
           class="input"
           type="password"
-          placeholder=""
+          placeholder="Passord"
           v-model="input.password"
         />
       </div>
     </div>
+
     <div class="field">
-      <label class="label">Gjenta passord</label>
       <div class="control">
         <input
           class="input"
           type="password"
-          placeholder=""
+          placeholder="Gjenta passord"
           v-model="input.password2"
         />
       </div>
     </div>
+
     <div class="field">
-      <label class="label">By</label>
       <div class="control">
         <input
           class="input"
           type="text"
-          placeholder=""
+          placeholder="By"
           v-model="input.location"
         />
       </div>
     </div>
-    <div class="field">
-      <label class="label">Alder</label>
-      <div class="control">
-        <input class="input" type="number" placeholder="" v-model="input.age" />
-      </div>
-    </div>
+
+
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
         {{ errorMessage }}
       </p>
     </div>
+
     <div class="field is-grouped is-grouped-centered">
-      <div class="control">
+      <div class="control" id="NyBrukerKnapp">
         <button
           class="button is-primary"
           v-on:click="signupClick"
           :disabled="waiting"
         >
-          Ny bruker
+          Registrer ny bruker
         </button>
       </div>
     </div>
+
   </article>
 </template>
 
@@ -103,7 +128,7 @@ export default {
       password: "",
       password2: "",
       location: "",
-      age: 0
+      age: ""
     });
     const errorMessage = ref("");
 
@@ -138,4 +163,23 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+  .max-500_trans{
+    padding-bottom: 5px;
+
+    .button{
+      font-size: 20pt;
+    }
+
+    .button:hover{
+      font-weight: bolder;
+    }
+
+    .button :active{
+      font-weight: bolder;  
+    }
+
+  }
+
+</style>

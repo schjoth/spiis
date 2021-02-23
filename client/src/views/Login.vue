@@ -1,12 +1,12 @@
 <template>
-  <article class="max-600 box">
-    <h1>Login</h1>
+  <article class="max-500_trans">
+    <h1>Logg inn med inn e-post og passord: </h1>
     <div class="field">
       <p class="control has-icons-left has-icons-right">
         <input
           class="input"
           type="email"
-          placeholder="Email"
+          placeholder="E-post"
           v-model="input.email"
         />
         <span class="icon is-small is-left">
@@ -22,7 +22,7 @@
         <input
           class="input"
           type="password"
-          placeholder="Password"
+          placeholder="Passord"
           v-model="input.password"
         />
         <span class="icon is-small is-left">
@@ -38,7 +38,7 @@
     <div class="field is-grouped is-grouped-centered">
       <p class="control">
         <button class="button is-success" v-on:click="loginClicked">
-          Login
+          LOGG INN
         </button>
       </p>
     </div>
@@ -80,4 +80,32 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+
+
+.max-500_trans {
+  padding-bottom: 5px;
+  margin-bottom: 75px;
+
+  h1{
+    font-size: 12pt;
+    font-style: italic;
+  }
+
+  button{
+    background-color: transparent;
+    color: white;
+    font-size: 20pt;
+  }
+
+  .button.is-success:hover, .button.is-success.is-hovered {
+    background-color: white;
+    border-radius: 40px;
+    color: #323232;
+  }
+
+}
+
+
+</style>
