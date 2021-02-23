@@ -23,7 +23,7 @@ export interface SignUpRequest {
   password: string;
   firstName: string;
   lastName: string;
-  location: string;
+  city: string;
   age: number;
   allergies: string[];
 }

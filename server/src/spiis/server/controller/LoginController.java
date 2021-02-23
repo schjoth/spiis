@@ -1,9 +1,7 @@
 package spiis.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import spiis.server.api.LogInRequest;
 import spiis.server.api.LogInResponse;
 import spiis.server.api.SignUpRequest;
@@ -30,7 +28,8 @@ public class LoginController {
      */
     @PostMapping("/signup")
     public LogInResponse signup(@RequestBody SignUpRequest request) {
-        UserResponse user = userService.createUser(request);
+        String encodedPassword = authService.encodePassword(request.getPassword());
+        UserResponse user = userService.createUser(request, encodedPassword);
         String token = authService.makeTokenForUser(user.getId());
         return new LogInResponse(user, token);
     }
@@ -42,7 +41,16 @@ public class LoginController {
      */
     @PostMapping("/login")
     public LogInResponse login(@RequestBody LogInRequest request) {
-        System.out.println(request.getEmail());
-        return userService.login(request.getEmail(), request.getPassword());
+        return authService.login(request.getEmail(), request.getPassword());
+    }
+
+    /**
+     * Gets a UserResponse for the user who asks, based on the token
+     * @param token the token
+     * @return A UserResponse for the user
+     */
+    @GetMapping("/tokens/user")
+    public UserResponse getUserFromToken(@RequestHeader("Authorization") String token) {
+        return authService.getUserResponseForToken(token);
     }
 }

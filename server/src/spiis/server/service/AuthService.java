@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import spiis.server.api.LogInRequest;
+import spiis.server.api.LogInResponse;
+import spiis.server.api.UserResponse;
 import spiis.server.error.ForbiddenException;
 import spiis.server.error.InvalidTokenException;
 import spiis.server.error.NotFoundException;
@@ -22,11 +26,13 @@ public class AuthService {
     private static final int BCRYPT_STRENGTH = 10;
 
     private final UserRepository userRepository;
+    private final UserService userService;
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     @Autowired
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
         this.bcryptPasswordEncoder = new BCryptPasswordEncoder(BCRYPT_STRENGTH, new SecureRandom());
     }
 
@@ -73,17 +79,56 @@ public class AuthService {
     }
 
     /**
-     * Gets the id of the User that owns the token
-     * @param token the token in question
+     * Gets the User that owns the token
+     * @param token the token
      * @return userId of the User
-     * @throws InvalidTokenException if the token is unrecognized
+     * @throws InvalidTokenException if the token is null/unrecognized
      */
-    @Transactional
-    public Long getUserIdForToken(@Nullable String token) {
+    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
+    public User getUserForToken(@Nullable String token) {
         if (token == null)
             throw new InvalidTokenException();
-        User user = userRepository.findUserByToken(token).orElseThrow(InvalidTokenException::new);
-        return Objects.requireNonNull(user.getId());
+        return userRepository.findUserByToken(token).orElseThrow(InvalidTokenException::new);
+    }
+
+    /**
+     * Gets the id of the user that owns the token
+     * @param token the token
+     * @return InvalidTokenException if the token is null/unrecognized
+     */
+    @Transactional(readOnly = true)
+    public Long getUserIdForToken(@Nullable String token) {
+        return Objects.requireNonNull(getUserForToken(token).getId());
+    }
+
+    /**
+     * Gets a UserResponse for the user that owns the given token
+     * @param token the token
+     * @return UserResponse for the user
+     * @throws InvalidTokenException if the token is null/unrecognized
+     */
+    @Transactional(readOnly = true)
+    public UserResponse getUserResponseForToken(@Nullable String token) {
+        return userService.makeUserResponse(getUserForToken(token));
+    }
+
+    /**
+     * Logs in a user with email and password.
+     * @param email the user's email
+     * @param password the password used to log in
+     * @throws InvalidTokenException if email or password is incorrect
+     */
+    @Transactional
+    public LogInResponse login(String email, String password) {
+        User user = userRepository.findUserByEmail(email).orElseThrow(InvalidTokenException::new);
+        Objects.requireNonNull(user.getId());
+
+        if (!passwordMatches(password, user.getPassword()))
+            throw new InvalidTokenException();
+
+        String token = makeTokenForUser(user.getId());
+        UserResponse userResponse = userService.makeUserResponse(user);
+        return new LogInResponse(userResponse, token);
     }
 
     /**
@@ -91,16 +136,19 @@ public class AuthService {
      * If the token can't be used, an exception is thrown.
      * @param token the token
      * @param userId the id of the user in question
-     * @throws InvalidTokenException if the token is unrecognized
+     * @throws InvalidTokenException if the token is null/unrecognized
      * @throws ForbiddenException if the token isn't authorized for the given user
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public void throwIfForbidden(@Nullable String token, Long userId) {
-        if (token == null)
-            throw new InvalidTokenException();
-        User user = userRepository.findUserByToken(token).orElseThrow(InvalidTokenException::new);
+        User user = getUserForToken(token);
 
         if (!userId.equals(user.getId()))
             throw new ForbiddenException();
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
+    public void throwIfForbidden(@Nullable String token, User user) {
+        throwIfForbidden(token, Objects.requireNonNull(user.getId()));
     }
 }

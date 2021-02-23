@@ -1,15 +1,21 @@
 package spiis.server.model;
 
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
+import spiis.server.error.ModelError;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Data
 public class Dinner {
+
+    private static final int MAX_DESCRIPTION_LENGTH = 40000;
 
     @Id
     @GeneratedValue
@@ -19,24 +25,32 @@ public class Dinner {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private OffsetDateTime time;
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = MAX_DESCRIPTION_LENGTH)
     private String description;
 
-    @Column(nullable = false)
-    private String place;
+    @Column(nullable = false, length = MAX_DESCRIPTION_LENGTH)
+    private String expenses;
 
     @Column(nullable = false)
-    private int maxPeople;
+    private OffsetDateTime startTime;
 
-    /**
-     * The host can invite people outside of the app.
-     * These people take up seats without being part of the guest list.
-     */
     @Column(nullable = false)
-    private int extraGuests;
+    private OffsetDateTime endTime;
+
+    @Column(nullable = false)
+    private String addressLine;
+
+    @Column(nullable = false)
+    private String postCode;
+
+    @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
+    private int maxGuests;
+
+    @Column(nullable = false)
+    private boolean cancelled;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Nullable
@@ -49,72 +63,34 @@ public class Dinner {
     @Nullable
     private OffsetDateTime createdTime;
 
-    protected Dinner() {}
+    public Dinner() {}
 
-    public Dinner(String title, OffsetDateTime time, String description, String place, int maxPeople, int extraGuests) {
-        this.title = title;
-        this.time = time;
-        this.description = description;
-        this.place = place;
-        this.maxPeople = maxPeople;
-        this.extraGuests = extraGuests;
-    }
+    @PrePersist
+    @PreUpdate
+    public void verifyModel() {
+        Objects.requireNonNull(title);
+        Objects.requireNonNull(description);
+        Objects.requireNonNull(expenses);
+        Objects.requireNonNull(startTime);
+        Objects.requireNonNull(endTime);
+        Objects.requireNonNull(addressLine);
+        Objects.requireNonNull(postCode);
+        Objects.requireNonNull(city);
+        Objects.requireNonNull(host);
+        Objects.requireNonNull(guests);
 
-    @Nullable
-    public Long getId() {
-        return id;
-    }
+        ModelUtil.ensureTextTrimAndLength(title, 4, 200, "title");
+        ModelUtil.ensureTextMaxLength(description, MAX_DESCRIPTION_LENGTH, "title");
+        ModelUtil.ensureTextMaxLength(expenses, MAX_DESCRIPTION_LENGTH, "expenses");
+        ModelUtil.ensureTextTrimAndLength(addressLine, 1, 200, "address line");
+        ModelUtil.ensureTextTrimAndLength(postCode, 1, 8, "post code");
+        ModelUtil.ensureTextTrimAndLength(city, 1, 100, "city");
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+        if (maxGuests < 1)
+            throw new ModelError("A dinner must have at least one guest space");
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public OffsetDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(OffsetDateTime time) {
-        this.time = time;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public int getMaxPeople() {
-        return maxPeople;
-    }
-
-    public void setMaxPeople(int maxPeople) {
-        this.maxPeople = maxPeople;
-    }
-
-    public int getExtraGuests() {
-        return extraGuests;
-    }
-
-    public void setExtraGuests(int extraGuests) {
-        this.extraGuests = extraGuests;
+        if (getGuests().size() > getMaxGuests())
+            throw new ModelError("There are more guests than allowed");
     }
 
     public void setHost(@Nullable User user) {
@@ -125,11 +101,6 @@ public class Dinner {
             this.host.getHosting().add(this);
     }
 
-    @Nullable
-    public User getHost() {
-        return host;
-    }
-
     public void addGuest(User guest) {
         guests.add(guest);
         guest.getGuesting().add(this);
@@ -138,14 +109,5 @@ public class Dinner {
     public void removeGuest(User guest) {
         guests.remove(guest);
         guest.getGuesting().remove(this);
-    }
-
-    public Set<User> getGuests() {
-        return guests;
-    }
-
-    @Nullable
-    public OffsetDateTime getCreatedTime() {
-        return createdTime;
     }
 }

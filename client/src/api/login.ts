@@ -43,7 +43,7 @@ export async function logInWithToken(token: string) {
 
   try {
     const config = { headers: { Authorization: token } };
-    const user: UserResponse = await client.get("/token/user", config);
+    const user: UserResponse = await client.get("/tokens/user", config);
     setLoggedIn(user, token);
   } catch (error) {
     await logOut();
