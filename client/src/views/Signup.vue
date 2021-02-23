@@ -5,7 +5,7 @@
 
     <div class="field">
       <div class="control">
-        <input>
+        <input
           class="input"
           type="text"
           placeholder="Fornavn"
