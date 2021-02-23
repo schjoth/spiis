@@ -48,6 +48,7 @@ public class DinnerService {
                 .endTime(dinner.getEndTime())
                 .postCode(dinner.getPostCode())
                 .city(dinner.getCity())
+                .maxGuests(dinner.getMaxGuests())
                 .cancelled(dinner.isCancelled());
 
         User host = Objects.requireNonNull(dinner.getHost());
