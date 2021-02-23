@@ -15,7 +15,6 @@ import spiis.server.model.User;
 import spiis.server.repository.DinnerRepository;
 
 import java.time.OffsetDateTime;
-import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.util.ArrayList;
 import java.util.List;
