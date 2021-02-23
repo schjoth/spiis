@@ -54,4 +54,9 @@ main{
  }
 
 
+footer{
+  margin-top: 5%;
+}
+
+
 </style>
