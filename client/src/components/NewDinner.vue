@@ -13,6 +13,7 @@
         <textarea class="textarea" placeholder="" v-model="input.description" />
       </div>
     </div>
+    <!--
     <div class="field">
       <label class="label">Sted</label>
       <div class="control">
@@ -23,6 +24,34 @@
           v-model="input.location"
         />
       </div>
+    </div>-->
+    <div class="field">
+      <label class="label">Gateadresse</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder=""
+          v-model="input.addressLine"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Postnummer</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder=""
+          v-model="input.postCode"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">By</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="" v-model="input.city" />
+      </div>
     </div>
     <div class="field">
       <label class="label">Maks deltagere</label>
@@ -31,8 +60,14 @@
           class="input"
           type="number"
           placeholder=""
-          v-model="input.maxGuests"
+          v-model="input.maxPeople"
         />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Tid</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="" v-model="input.time" />
       </div>
     </div>
     <div class="content has-text-centered" v-if="errorMessage">
@@ -52,6 +87,9 @@
 
 <script lang="ts">
 import { ref, reactive, defineComponent } from "vue";
+import { DinnerRequest, DinnerResponse } from "@/api/types";
+import { createDinner, updateDinner } from "@/api/dinner";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
   name: "NewDinner",
@@ -61,20 +99,38 @@ export default defineComponent({
   },
 
   setup(props) {
-    const input = reactive({
-      title: props.dinner?.title,
-      description: props.dinner?.description,
-      location: props.dinner?.location,
-      maxGuests: props.dinner?.maxGuests
-    });
+    const startingValues: DinnerRequest = {
+      title: props.dinner?.title ?? "",
+      description: props.dinner?.description ?? "",
+      expenses: "",
+      addressLine: props.dinner?.addressLine ?? "",
+      postCode: props.dinner?.postCode ?? "",
+      city: props.dinner?.city ?? "",
+      maxGuests: props.dinner?.maxPeople ?? 4,
+      endTime: "",
+      startTime: ""
+    };
+    const router = useRouter();
+    const id = useRoute().params.dinnerId;
+
+    const input = reactive(startingValues);
 
     const errorMessage = ref("");
 
-    const createClicked = () => {
-      if (props.edit == true) {
-        //TODO updateDinner
+    const createClicked = async () => {
+      errorMessage.value = "";
+      try {
+        if (props.edit == true) {
+          //TODO updateDinner
+          await updateDinner(id, input);
+          await router.push(`/event/${id}`);
+        } else {
+          const response: DinnerResponse = await createDinner(input);
+          await router.push(`/event/${response.id}`);
+        }
+      } catch (error) {
+        errorMessage.value = error.message;
       }
-      //TODO
     };
 
     return {

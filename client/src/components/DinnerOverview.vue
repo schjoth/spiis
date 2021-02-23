@@ -18,7 +18,7 @@ export default {
   components: {
     Dinner
   },
-  props: ["dinners", "invite"]
+  props: { dinners: Array, invite: Boolean }
 };
 </script>
 

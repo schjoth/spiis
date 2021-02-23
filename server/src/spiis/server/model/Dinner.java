@@ -80,7 +80,7 @@ public class Dinner {
         ModelUtil.requireNonNull(guests);
 
         ModelUtil.ensureTextTrimAndLength(title, 4, 200, "title");
-        ModelUtil.ensureTextMaxLength(description, MAX_DESCRIPTION_LENGTH, "title");
+        ModelUtil.ensureTextMaxLength(description, MAX_DESCRIPTION_LENGTH, "description");
         ModelUtil.ensureTextMaxLength(expenses, MAX_DESCRIPTION_LENGTH, "expenses");
         ModelUtil.ensureTextTrimAndLength(addressLine, 1, 200, "address line");
         ModelUtil.ensureTextTrimAndLength(postCode, 1, 8, "post code");
@@ -109,5 +109,18 @@ public class Dinner {
     public void removeGuest(User guest) {
         guests.remove(guest);
         guest.getGuesting().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dinner dinner = (Dinner) o;
+        return Objects.equals(id, dinner.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -1,6 +1,6 @@
 export interface UserResponse {
   id: number;
-  email: string;
+  email: string | null;
   firstName: string;
   lastName: string;
   age: number;
@@ -26,4 +26,29 @@ export interface SignUpRequest {
   city: string;
   age: number;
   allergies: string[];
+}
+
+export interface DinnerRequest {
+  title: string;
+  description: string;
+  expenses: string;
+  addressLine: string;
+  postCode: string;
+  city: string;
+  maxGuests: number;
+  startTime: string;
+  endTime: string;
+}
+
+export interface DinnerResponse {
+  id: number;
+  title: string;
+  description: string;
+  addressLine: string | null;
+  postCode: string;
+  city: string;
+  time: string;
+  maxPeople: number;
+  host: UserResponse;
+  guests: UserResponse[] | null;
 }
