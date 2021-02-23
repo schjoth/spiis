@@ -1,5 +1,6 @@
 package spiis.server.model;
 
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.lang.Nullable;
@@ -12,6 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Data
 public class User {
 
     @Id
@@ -84,86 +86,12 @@ public class User {
             throw new ModelError("Age is illegal");
     }
 
-    @Nullable
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String location) {
-        this.city = city;
-    }
-
-    public Set<Dinner> getHosting() {
-        return hosting;
-    }
-
-    public Set<Dinner> getGuesting() {
-        return guesting;
-    }
-
-    public Set<Allergy> getAllergies() {
-        return allergies;
-    }
-
     public void addAllergy(Allergy allergy) {
         allergy.setUser(this);
     }
 
     public void removeAllergy(Allergy allergy) {
         allergy.setUser(null);
-    }
-
-    @Nullable
-    public AuthToken getToken() {
-        return token;
     }
 
     public void setToken(@Nullable AuthToken token) {
@@ -179,16 +107,6 @@ public class User {
         this.token = token;
         if (token != null)
             token.setUser(this);
-    }
-
-    @Nullable
-    public OffsetDateTime getCreatedTime() {
-        return createdTime;
-    }
-
-    @Nullable
-    public OffsetDateTime getLastModifiedTime() {
-        return lastModifiedTime;
     }
 
     @PreRemove

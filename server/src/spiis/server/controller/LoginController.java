@@ -28,7 +28,8 @@ public class LoginController {
      */
     @PostMapping("/signup")
     public LogInResponse signup(@RequestBody SignUpRequest request) {
-        UserResponse user = userService.createUser(request);
+        String encodedPassword = authService.encodePassword(request.getPassword());
+        UserResponse user = userService.createUser(request, encodedPassword);
         String token = authService.makeTokenForUser(user.getId());
         return new LogInResponse(user, token);
     }
@@ -40,7 +41,7 @@ public class LoginController {
      */
     @PostMapping("/login")
     public LogInResponse login(@RequestBody LogInRequest request) {
-        return userService.login(request.getEmail(), request.getPassword());
+        return authService.login(request.getEmail(), request.getPassword());
     }
 
     /**
@@ -50,6 +51,6 @@ public class LoginController {
      */
     @GetMapping("/tokens/user")
     public UserResponse getUserFromToken(@RequestHeader("Authorization") String token) {
-        return userService.makeUserResponseFromToken(token);
+        return authService.getUserResponseForToken(token);
     }
 }
