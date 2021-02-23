@@ -102,12 +102,16 @@ export default defineComponent({
     const startingValues: DinnerRequest = {
       title: props.dinner?.title ?? "",
       description: props.dinner?.description ?? "",
+      expenses: "",
       addressLine: props.dinner?.addressLine ?? "",
       postCode: props.dinner?.postCode ?? "",
       city: props.dinner?.city ?? "",
-      maxPeople: props.dinner?.maxPeople ?? 4,
-      time: props.dinner?.time ?? ""
+      maxGuests: props.dinner?.maxPeople ?? 4,
+      endTime: "",
+      startTime: ""
     };
+    const router = useRouter();
+    const id = useRoute().params.dinnerId;
 
     const input = reactive(startingValues);
 
@@ -118,14 +122,11 @@ export default defineComponent({
       try {
         if (props.edit == true) {
           //TODO updateDinner
-          const response: DinnerResponse = await updateDinner(
-            useRoute().params.dinnerId,
-            input
-          );
-          await useRouter().push(`/dinner/${response.id}`);
+          await updateDinner(id, input);
+          await router.push(`/event/${id}`);
         } else {
           const response: DinnerResponse = await createDinner(input);
-          await useRouter().push(`/dinner/${response.id}`);
+          await router.push(`/event/${response.id}`);
         }
       } catch (error) {
         errorMessage.value = error.message;

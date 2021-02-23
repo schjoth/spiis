@@ -31,11 +31,13 @@ export interface SignUpRequest {
 export interface DinnerRequest {
   title: string;
   description: string;
+  expenses: string;
   addressLine: string;
   postCode: string;
   city: string;
-  maxPeople: number;
-  time: string;
+  maxGuests: number;
+  startTime: string;
+  endTime: string;
 }
 
 export interface DinnerResponse {

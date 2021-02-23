@@ -1,12 +1,15 @@
 <template>
   <article>
-    <DinnerOverview v-bind:dinners="dinners" />
+    <DinnerOverview v-bind:dinners="dinners" v-if="dinners" />
   </article>
 </template>
 
 <script lang="ts">
 import DinnerOverview from "@/components/DinnerOverview.vue";
-import { getAllDinners } from "@/api/dinner";
+import { getAllDinners, getDinner } from "@/api/dinner";
+import { useRoute } from "vue-router";
+import { onMounted, ref } from "vue";
+import { DinnerResponse } from "@/api/types";
 
 export default {
   name: "Home",
@@ -14,9 +17,12 @@ export default {
     DinnerOverview
   },
   setup() {
-    return {
-      dinners: await getAllDinners()
-    };
+    const dinners = ref<DinnerResponse[] | null>(null);
+    async function fetchData() {
+      dinners.value = await getAllDinners();
+    }
+    onMounted(fetchData);
+    return { dinners };
   }
 };
 </script>
