@@ -14,11 +14,12 @@ public class DinnerResponse {
     private String title;
     private String description;
     private String expenses;
-    private OffsetDateTime startTime;
-    private OffsetDateTime endTime;
+    private String startTime;
+    private String endTime;
     @Nullable private String addressLine;
     private String postCode;
     private String city;
+    private int maxGuests;
     private boolean cancelled;
     private UserResponse host;
     @Nullable private List<UserResponse> guests;

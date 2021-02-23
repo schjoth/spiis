@@ -1,6 +1,11 @@
 package spiis.server.model;
 
+import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
+
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class ModelUtil {
 
@@ -32,5 +37,18 @@ public class ModelUtil {
     public static void ensureTextMaxLength(String text, int max, String name) {
         if (text.length() > max)
             throw new ModelError(String.format("%s is too long (max %d)", name, max));
+    }
+
+    public static void requireNonNull(@Nullable Object object) {
+        if (object == null)
+            throw new ModelError("required field is null");
+    }
+
+    public static OffsetDateTime parseOffsetDateTime(String text) {
+        try {
+            return OffsetDateTime.parse(text, DateTimeFormatter.ISO_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            throw new ModelError("Datetime is not formatted correctly (ISO_DATE_TIME)");
+        }
     }
 }

@@ -10,9 +10,11 @@ import spiis.server.api.UserResponse;
 import spiis.server.error.ModelError;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.Dinner;
+import spiis.server.model.ModelUtil;
 import spiis.server.model.User;
 import spiis.server.repository.DinnerRepository;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,10 +46,11 @@ public class DinnerService {
                 .title(dinner.getTitle())
                 .description(dinner.getDescription())
                 .expenses(dinner.getExpenses())
-                .startTime(dinner.getStartTime())
-                .endTime(dinner.getEndTime())
+                .startTime(dinner.getStartTime().toString())
+                .endTime(dinner.getEndTime().toString())
                 .postCode(dinner.getPostCode())
                 .city(dinner.getCity())
+                .maxGuests(dinner.getMaxGuests())
                 .cancelled(dinner.isCancelled());
 
         User host = Objects.requireNonNull(dinner.getHost());
@@ -94,8 +97,8 @@ public class DinnerService {
         dinner.setTitle(request.getTitle().trim());
         dinner.setDescription(request.getDescription());
         dinner.setExpenses(request.getExpenses());
-        dinner.setStartTime(request.getStartTime());
-        dinner.setEndTime(request.getEndTime());
+        dinner.setStartTime(ModelUtil.parseOffsetDateTime(request.getStartTime()));
+        dinner.setEndTime(ModelUtil.parseOffsetDateTime(request.getEndTime()));
         dinner.setAddressLine(request.getAddressLine().trim());
         dinner.setPostCode(request.getPostCode().trim());
         dinner.setCity(request.getCity().trim());

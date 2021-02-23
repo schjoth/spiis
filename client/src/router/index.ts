@@ -69,7 +69,7 @@ const status = computed(() => getLogInState().status);
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && status.value === "loggedOut") next("/login");
   else if (to.meta.requiresAnon && status.value === "loggingIn") next("/");
-  next();
+  else next();
 });
 
 watch(status, async (status) => {
