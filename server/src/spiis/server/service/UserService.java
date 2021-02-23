@@ -35,7 +35,7 @@ public class UserService {
         return user.getAllergies().stream().map(Allergy::getAllergy).collect(Collectors.toList());
     }
 
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
     public UserResponse makeUserResponse(User user) {
         Objects.requireNonNull(user.getId());
         return new UserResponse(user.getId(), user.getEmail(), user.getFirstName(),
@@ -45,6 +45,11 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse makeUserResponse(Long userId) {
         return makeUserResponse(userRepository.findById(userId).orElseThrow(NotFoundException::new));
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse makeUserResponseFromToken(String token) {
+        return makeUserResponse(authService.getUserForToken(token));
     }
 
     /**

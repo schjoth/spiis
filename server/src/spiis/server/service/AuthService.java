@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import spiis.server.error.ForbiddenException;
 import spiis.server.error.InvalidTokenException;
@@ -73,17 +74,16 @@ public class AuthService {
     }
 
     /**
-     * Gets the id of the User that owns the token
+     * Gets the User that owns the token
      * @param token the token in question
      * @return userId of the User
      * @throws InvalidTokenException if the token is unrecognized
      */
-    @Transactional
-    public Long getUserIdForToken(@Nullable String token) {
+    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
+    public User getUserForToken(@Nullable String token) {
         if (token == null)
             throw new InvalidTokenException();
-        User user = userRepository.findUserByToken(token).orElseThrow(InvalidTokenException::new);
-        return Objects.requireNonNull(user.getId());
+        return userRepository.findUserByToken(token).orElseThrow(InvalidTokenException::new);
     }
 
     /**
