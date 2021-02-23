@@ -43,7 +43,7 @@
     <div class="field is-grouped is-grouped-centered">
       <div class="control">
         <button class="button is-primary" v-on:click="createClicked">
-          {{ !edit ? "Opprett Arrangemet!" : "Oppdater" }}
+          {{ !edit ? "Opprett Arrangement" : "Oppdater" }}
         </button>
       </div>
     </div>

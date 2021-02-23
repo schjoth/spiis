@@ -1,7 +1,7 @@
 <template>
   <article class="max-500_trans">
 
-    <h1>Ny Bruker</h1>
+    <h1>Ny bruker</h1>
 
     <div class="field">
       <div class="control">
@@ -173,11 +173,13 @@ export default {
     }
 
     .button:hover{
-      font-weight: bolder;
+      background-color: white;
+      border-radius: 40px;
+      color: #323232;
     }
 
     .button :active{
-      font-weight: bolder;  
+      font-weight: bolder;
     }
 
   }
