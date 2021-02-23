@@ -35,7 +35,7 @@ public class User {
     private int age;
 
     @Column(nullable = false)
-    private String location;
+    private String city;
 
     @OneToMany(mappedBy = "host")
     private final Set<Dinner> hosting = new HashSet<>();
@@ -58,62 +58,30 @@ public class User {
     @Nullable
     private OffsetDateTime lastModifiedTime;
 
-    public static class UserBuilder {
-        private final User user = new User();
+    public User() {}
 
-        public User build() {
-            user.verifyModel();
-            return user;
-        }
-
-        public UserBuilder email(String email) {
-            user.setEmail(email);
-            return this;
-        }
-
-        public UserBuilder password(String password) {
-            user.setPassword(password);
-            return this;
-        }
-
-        public UserBuilder firstName(String firstName) {
-            user.setFirstName(firstName);
-            return this;
-        }
-
-        public UserBuilder lastName(String lastName) {
-            user.setLastName(lastName);
-            return this;
-        }
-
-        public UserBuilder age(int age) {
-            user.setAge(age);
-            return this;
-        }
-
-        public UserBuilder location(String location) {
-            user.setLocation(location);
-            return this;
-        }
-    }
-
-    protected User() {}
-
+    @PrePersist
+    @PreUpdate
     public void verifyModel() {
         Objects.requireNonNull(email);
         Objects.requireNonNull(password);
         Objects.requireNonNull(firstName);
         Objects.requireNonNull(lastName);
-        Objects.requireNonNull(location);
+        Objects.requireNonNull(city);
         Objects.requireNonNull(hosting);
         Objects.requireNonNull(guesting);
         Objects.requireNonNull(allergies);
 
-        //TODO: Check email is valid
-        if (email.length() < 4 || email.trim().length() != email.length())
-            throw new ModelError("email is too short");
+        if (!email.contains("@"))
+            throw new ModelError("Invalid email");
 
-        //TODO: More checks
+        ModelUtil.ensureTextTrimAndLength(email, 4, 100, "email");
+        ModelUtil.ensureTextTrimAndLength(firstName, 2, 40, "first name");
+        ModelUtil.ensureTextTrimAndLength(lastName, 2, 40, "last name");
+        ModelUtil.ensureTextTrimAndLength(city, 1, 40, "city");
+
+        if (age < 0 || age > 200)
+            throw new ModelError("Age is illegal");
     }
 
     @Nullable
@@ -165,12 +133,12 @@ public class User {
         this.age = age;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCity() {
+        return city;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCity(String location) {
+        this.city = city;
     }
 
     public Set<Dinner> getHosting() {

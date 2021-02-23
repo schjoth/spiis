@@ -39,7 +39,7 @@ public class UserService {
     public UserResponse makeUserResponse(User user) {
         Objects.requireNonNull(user.getId());
         return new UserResponse(user.getId(), user.getEmail(), user.getFirstName(),
-                user.getLastName(), user.getAge(), user.getLocation(), makeAllergyList(user));
+                user.getLastName(), user.getAge(), user.getCity(), makeAllergyList(user));
     }
 
     @Transactional(readOnly = true)
@@ -65,18 +65,18 @@ public class UserService {
 
         final String encodedPassword = authService.encodePassword(request.getPassword());
 
-        User.UserBuilder builder = new User.UserBuilder();
-        builder.email(email)
-                .password(encodedPassword)
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .age(request.getAge())
-                .location(request.getLocation());
+        User user = new User();
+        user.setEmail(request.getEmail().trim());
+        user.setPassword(encodedPassword);
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setCity(request.getCity());
+        user.setAge(request.getAge());
 
-        User user = builder.build();
         for (String allergy : request.getAllergies())
             user.addAllergy(new Allergy(allergy));
 
+        user.verifyModel();
         userRepository.save(user);
         return makeUserResponse(user);
     }

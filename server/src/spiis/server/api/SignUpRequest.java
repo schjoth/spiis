@@ -8,17 +8,17 @@ public class SignUpRequest {
     private String firstName;
     private String lastName;
     private Integer age;
-    private String location;
+    private String city;
     private List<String> allergies;
 
     public SignUpRequest(String email, String password, String firstName, String lastName,
-                         Integer age, String location, List<String> allergies) {
+                         Integer age, String city, List<String> allergies) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.location = location;
+        this.city = city;
         this.allergies = allergies;
     }
 
@@ -62,12 +62,12 @@ public class SignUpRequest {
         this.age = age;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCity() {
+        return city;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCity(String location) {
+        this.city = location;
     }
 
     public List<String> getAllergies() {
