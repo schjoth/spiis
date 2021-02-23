@@ -54,12 +54,7 @@
     <div class="field">
       <label class="label">By</label>
       <div class="control">
-        <input
-          class="input"
-          type="text"
-          placeholder=""
-          v-model="input.location"
-        />
+        <input class="input" type="text" placeholder="" v-model="input.city" />
       </div>
     </div>
     <div class="field">
@@ -102,7 +97,7 @@ export default {
       email: "",
       password: "",
       password2: "",
-      location: "",
+      city: "",
       age: 0
     });
     const errorMessage = ref("");
@@ -119,7 +114,7 @@ export default {
         lastName: input.lastName,
         email: input.email,
         password: input.password,
-        location: input.location,
+        city: input.city,
         age: +input.age,
         allergies: []
       };
