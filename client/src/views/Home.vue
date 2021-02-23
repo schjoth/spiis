@@ -6,8 +6,7 @@
 
 <script lang="ts">
 import DinnerOverview from "@/components/DinnerOverview.vue";
-import { getAllDinners, getDinner } from "@/api/dinner";
-import { useRoute } from "vue-router";
+import { getAllDinners } from "@/api/dinner";
 import { onMounted, ref } from "vue";
 import { DinnerResponse } from "@/api/types";
 

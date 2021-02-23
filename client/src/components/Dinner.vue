@@ -10,10 +10,6 @@
 </template>
 
 <script lang="ts">
-import { getDinner } from "@/api/dinner";
-import { useRoute } from "vue-router";
-import { DinnerResponse } from "@/api/types";
-
 export default {
   name: "Dinner",
   props: {
