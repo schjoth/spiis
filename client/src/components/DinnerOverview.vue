@@ -13,12 +13,17 @@
 
 <script lang="ts">
 import Dinner from "./Dinner.vue";
+import { getAllDinners } from "@/api/dinner";
 export default {
   name: "DinnerOverview",
   components: {
     Dinner
   },
-  props: ["dinners", "invite"]
+  props: ["dinners", "invite"],
+
+  async setup() {
+    await getAllDinners();
+  }
 };
 </script>
 
