@@ -65,14 +65,14 @@ public class User {
     @PrePersist
     @PreUpdate
     public void verifyModel() {
-        Objects.requireNonNull(email);
-        Objects.requireNonNull(password);
-        Objects.requireNonNull(firstName);
-        Objects.requireNonNull(lastName);
-        Objects.requireNonNull(city);
-        Objects.requireNonNull(hosting);
-        Objects.requireNonNull(guesting);
-        Objects.requireNonNull(allergies);
+        ModelUtil.requireNonNull(email);
+        ModelUtil.requireNonNull(password);
+        ModelUtil.requireNonNull(firstName);
+        ModelUtil.requireNonNull(lastName);
+        ModelUtil.requireNonNull(city);
+        ModelUtil.requireNonNull(hosting);
+        ModelUtil.requireNonNull(guesting);
+        ModelUtil.requireNonNull(allergies);
 
         if (!email.contains("@"))
             throw new ModelError("Invalid email");

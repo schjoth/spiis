@@ -68,16 +68,16 @@ public class Dinner {
     @PrePersist
     @PreUpdate
     public void verifyModel() {
-        Objects.requireNonNull(title);
-        Objects.requireNonNull(description);
-        Objects.requireNonNull(expenses);
-        Objects.requireNonNull(startTime);
-        Objects.requireNonNull(endTime);
-        Objects.requireNonNull(addressLine);
-        Objects.requireNonNull(postCode);
-        Objects.requireNonNull(city);
-        Objects.requireNonNull(host);
-        Objects.requireNonNull(guests);
+        ModelUtil.requireNonNull(title);
+        ModelUtil.requireNonNull(description);
+        ModelUtil.requireNonNull(expenses);
+        ModelUtil.requireNonNull(startTime);
+        ModelUtil.requireNonNull(endTime);
+        ModelUtil.requireNonNull(addressLine);
+        ModelUtil.requireNonNull(postCode);
+        ModelUtil.requireNonNull(city);
+        ModelUtil.requireNonNull(host);
+        ModelUtil.requireNonNull(guests);
 
         ModelUtil.ensureTextTrimAndLength(title, 4, 200, "title");
         ModelUtil.ensureTextMaxLength(description, MAX_DESCRIPTION_LENGTH, "title");
