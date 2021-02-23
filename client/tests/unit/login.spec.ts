@@ -50,7 +50,7 @@ describe("login.ts", () => {
   it("can log in with an existing token", async () => {
     scope
       .matchHeader("Authorization", dummyToken)
-      .get("/token/user")
+      .get("/tokens/user")
       .reply(200, dummyUser);
 
     await logInWithToken(dummyToken);
