@@ -6,33 +6,16 @@
 
 <script lang="ts">
 import DinnerOverview from "@/components/DinnerOverview.vue";
+import { getAllDinners } from "@/api/dinner";
 
 export default {
   name: "Home",
   components: {
     DinnerOverview
   },
-  data() {
+  setup() {
     return {
-      dinners: [
-        //Replace with call from server
-        {
-          id: "1",
-          title: "Taco",
-          guests: "1",
-          maxGuests: "4",
-          date: "23/02/2021",
-          location: "Gløshaugen"
-        },
-        {
-          id: "2",
-          title: "Pizza",
-          guests: "0",
-          maxGuests: "7",
-          date: "15/03/2021",
-          location: "Italia"
-        }
-      ]
+      dinners: await getAllDinners()
     };
   }
 };

@@ -12,21 +12,12 @@
 <script lang="ts">
 import { getDinner } from "@/api/dinner";
 import { useRoute } from "vue-router";
+import { DinnerResponse } from "@/api/types";
 
 export default {
   name: "Dinner",
   props: {
-    title: String,
-    description: String,
-    addressLine: String,
-    postCode: String,
-    city: String,
-    time: String,
-    maxPeople: Number
-  },
-
-  async setup() {
-    await getDinner(useRoute().params.dinnerId);
+    dinner: Object
   }
 };
 </script>
