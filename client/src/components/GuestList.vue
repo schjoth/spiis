@@ -5,9 +5,7 @@
       <router-link :to="'/user/' + guest.id"
         >{{ guest.firstName }} {{ guest.lastName }}</router-link
       >
-      <a class="remove" v-if="isHost"
-        v-on:click="$emit('remove', guest.id)"
-      >
+      <a class="remove" v-if="isHost" v-on:click="$emit('remove', guest.id)">
         X
       </a>
     </li>
