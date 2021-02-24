@@ -124,7 +124,8 @@ export default defineComponent({
       endTime: props.dinner?.endTime ?? ""
     };
     const router = useRouter();
-    const id = useRoute().params.dinnerId;
+    const id = +useRoute().params.dinnerId;
+    if (!Number.isInteger(id)) useRouter().replace("/404");
 
     const input = reactive(startingValues);
 

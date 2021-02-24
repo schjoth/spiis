@@ -41,7 +41,7 @@ public class DinnerController {
 
     @GetMapping
     public List<DinnerResponse> getAllDinners() {
-        return dinnerService.makeDinnerResponses();
+        return dinnerService.makeDinnerResponses(false);
     }
 
     @GetMapping("/{id}")

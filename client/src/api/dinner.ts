@@ -1,6 +1,5 @@
 import client from "./client";
 import { DinnerRequest, DinnerResponse } from "@/api/types";
-import { RouteParamValue } from "vue-router";
 
 export async function createDinner(
   request: DinnerRequest
@@ -8,16 +7,11 @@ export async function createDinner(
   return client.post("/dinners", request);
 }
 
-export async function updateDinner(
-  id: string | RouteParamValue[],
-  request: DinnerRequest
-) {
+export async function updateDinner(id: number, request: DinnerRequest) {
   await client.put(`/dinners/${id}`, request);
 }
 
-export async function getDinner(
-  id: string | RouteParamValue[]
-): Promise<DinnerResponse> {
+export async function getDinner(id: number): Promise<DinnerResponse> {
   return client.get(`/dinners/${id}`);
 }
 
@@ -25,28 +19,26 @@ export async function getAllDinners(): Promise<DinnerResponse[]> {
   return client.get(`/dinners`);
 }
 
-export async function addGuest(
-  dinnerId: string | RouteParamValue[],
-  userId: string | RouteParamValue[]
-) {
+export async function addGuest(dinnerId: number, userId: number) {
   await client.put(`/dinners/${dinnerId}/guests/${userId}`);
 }
 
-export async function removeGuest(
-  dinnerId: string | RouteParamValue[],
-  userId: string | RouteParamValue[]
-) {
+export async function removeGuest(dinnerId: number, userId: number) {
   await client.delete(`/dinners/${dinnerId}/guests/${userId}`);
 }
 
 export async function getHostDinners(
-  userId: string | RouteParamValue[]
+  userId: number
 ): Promise<DinnerResponse[]> {
   return client.get(`/users/${userId}/hosting`);
 }
 
 export async function getGuestDinners(
-  userId: string | RouteParamValue[]
+  userId: number
 ): Promise<DinnerResponse[]> {
   return client.get(`/users/${userId}/guesting`);
+}
+
+export async function setDinnerCancelled(dinnerId: number, cancelled: boolean) {
+  await client.put(`/dinners/${dinnerId}/cancelled`, { value: cancelled });
 }
