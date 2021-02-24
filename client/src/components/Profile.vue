@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="max-500" id="profilside">
     <p><b>Fornavn: </b>{{ user.firstName }}</p>
     <p><b>Etternavn: </b>{{ user.lastName }}</p>
     <p><b>Alder: </b>{{ user.age }}</p>
@@ -24,3 +24,14 @@ export default {
   }
 };
 </script>
+
+
+
+<style lang="scss" scoped>
+
+  article{
+    display: flex;
+    justify-content: center;
+  }
+
+</style>
