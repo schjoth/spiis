@@ -38,3 +38,15 @@ export async function removeGuest(
 ) {
   await client.delete(`/dinners/${dinnerId}/guests/${userId}`);
 }
+
+export async function getHostDinners(
+  userId: string | RouteParamValue[]
+): Promise<DinnerResponse[]> {
+  return client.get(`/users/${userId}/hosting`);
+}
+
+export async function getGuestDinners(
+  userId: string | RouteParamValue[]
+): Promise<DinnerResponse[]> {
+  return client.get(`/users/${userId}/guesting`);
+}
