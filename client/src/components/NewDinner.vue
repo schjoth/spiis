@@ -65,9 +65,25 @@
       </div>
     </div>
     <div class="field">
-      <label class="label">Tid</label>
+      <label class="label">Start-tidspunkt</label>
       <div class="control">
-        <input class="input" type="text" placeholder="" v-model="input.time" />
+        <input
+          class="input"
+          type="text"
+          placeholder="yyyy-mm-ddThh:mm:ss"
+          v-model="input.startTime"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Slutt-tidspunkt</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="yyyy-mm-ddThh:mm:ss"
+          v-model="input.endTime"
+        />
       </div>
     </div>
     <div class="content has-text-centered" v-if="errorMessage">
@@ -107,8 +123,8 @@ export default defineComponent({
       postCode: props.dinner?.postCode ?? "",
       city: props.dinner?.city ?? "",
       maxGuests: props.dinner?.maxPeople ?? 4,
-      endTime: "",
-      startTime: ""
+      startTime: props.dinner?.startTime ?? "",
+      endTime: props.dinner?.endTime ?? ""
     };
     const router = useRouter();
     const id = useRoute().params.dinnerId;
@@ -120,6 +136,8 @@ export default defineComponent({
     const createClicked = async () => {
       errorMessage.value = "";
       try {
+        input.startTime += "+01:00";
+        input.endTime += "+01:00";
         if (props.edit == true) {
           //TODO updateDinner
           await updateDinner(id, input);

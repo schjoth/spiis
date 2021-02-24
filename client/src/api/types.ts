@@ -47,7 +47,8 @@ export interface DinnerResponse {
   addressLine: string | null;
   postCode: string;
   city: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   maxPeople: number;
   host: UserResponse;
   guests: UserResponse[] | null;

@@ -85,6 +85,18 @@
       </div>
     </div>
 
+    <div class="field">
+      <label class="label">Allergener</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="Gluten, skalldyr, ++"
+          v-model="input.allergies"
+        />
+      </div>
+    </div>
+
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
         {{ errorMessage }}
@@ -120,8 +132,10 @@ export default {
       email: "",
       password: "",
       password2: "",
+      postCode: "",
       city: "",
-      age: 0
+      age: 0,
+      allergies: ""
     });
     const errorMessage = ref("");
 
@@ -139,7 +153,7 @@ export default {
         password: input.password,
         city: input.city,
         age: +input.age,
-        allergies: []
+        allergies: input.allergies.split(",").map(it => it.trim())
       };
 
       try {
