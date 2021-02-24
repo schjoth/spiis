@@ -125,7 +125,6 @@ export default defineComponent({
     };
     const router = useRouter();
     const id = +useRoute().params.dinnerId;
-    if (!Number.isInteger(id)) useRouter().replace("/404");
 
     const input = reactive(startingValues);
 
