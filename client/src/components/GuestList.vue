@@ -5,13 +5,11 @@
       <router-link :to="'/user/' + guest.id"
         >{{ guest.firstName }} {{ guest.lastName }}</router-link
       >
-      <span
-        style="color: red"
-        v-if="isHost"
+      <a class="remove" v-if="isHost"
         v-on:click="$emit('remove', guest.id)"
       >
-        <b> X</b>
-      </span>
+        X
+      </a>
     </li>
   </ul>
 </template>
@@ -28,3 +26,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.remove {
+  color: red;
+  font-weight: bolder;
+}
+</style>

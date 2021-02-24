@@ -38,11 +38,7 @@
       Rediger
     </router-link>
     <a v-on:click="cancelDinner" v-if="isHost && !dinner.cancelled">Avlys</a>
-    <button
-      type="button"
-      v-on:click="addToDinner"
-      v-if="!isGuest && !isHost"
-    >
+    <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
     </button>
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
@@ -122,7 +118,7 @@ export default {
       removeFromDinner,
       removeGuestFromDinner,
       cancelDinner,
-      unCancelDinner,
+      unCancelDinner
     };
   }
 };
