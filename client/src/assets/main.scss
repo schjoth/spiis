@@ -1,9 +1,23 @@
 @charset "utf-8";
 
-@import "variables";
-
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Set your brand colors
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $purple;
+$link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
 
 @import "~bulma";
 
@@ -11,56 +25,26 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("assets/middagsdeling_bakgrunnsbilde.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
-.navbar {
-  background-color: $n;
 }
 
 main {
-  padding: 40px 10px 40px 10px;
   flex-grow: 1;
 }
 
-.footer {
-  background-color: $n;
+footer {
+  margin-top: 20px;
 }
 
 article {
+  padding: 10px 10px;
   @extend .container;
+}
+
+h1 {
+  @extend .title;
 }
 
 .max-600 {
   max-width: 600px;
 }
-
-.max-500 {
-  max-width: 500px;
-}
-
-.max-400 {
-  max-width: 400px;
-}
-
-h1 {
-  @extend .title;
-  font-size: 30pt;
-  font-family: "Avenir Next", sans-serif;
-  font-style: italic;
-}
-
-.text-on-image {
-  color: white;
-  text-shadow: #222222 1px 1px 3px;
-}
-
-.box {
-  color: #222222;
-}
-
-@import "dark-form";
 
