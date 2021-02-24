@@ -16,6 +16,12 @@
       {{ dinner.city }}
     </p>
     <p><b>Beskrivelse: </b> {{ dinner.description }}</p>
+    <GuestList
+      :guests="dinner.guests"
+      :isHost="isHost"
+      v-if="isGuest || isHost"
+      @remove="removeGuestFromDinner"
+    ></GuestList>
     <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
       rediger
     </router-link>
@@ -26,11 +32,7 @@
     >
       Meld deg på
     </button>
-    <button
-      type="button"
-      v-on:click="removeGuestFromDinner"
-      v-else-if="!isHost"
-    >
+    <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
   </article>
@@ -42,9 +44,13 @@ import { getDinner, addGuest, removeGuest } from "@/api/dinner";
 import { useRoute } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
+import GuestList from "@/components/GuestList.vue";
 
 export default {
   name: "DinnerEvent",
+  components: {
+    GuestList
+  },
   setup() {
     const dinnerId = useRoute().params.dinnerId;
     const dinner = ref<DinnerResponse | null>(null);
@@ -65,8 +71,13 @@ export default {
       fetchData();
     }
 
-    async function removeGuestFromDinner() {
+    async function removeFromDinner() {
       await removeGuest(dinnerId, userId?.toString()!);
+      fetchData();
+    }
+
+    async function removeGuestFromDinner(guestId: string) {
+      await removeGuest(dinnerId, guestId);
       fetchData();
     }
 
@@ -77,6 +88,7 @@ export default {
       isHost,
       isGuest,
       addGuestToDinner,
+      removeFromDinner,
       removeGuestFromDinner
     };
   }
