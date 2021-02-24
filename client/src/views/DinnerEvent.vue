@@ -2,6 +2,12 @@
   <article v-if="dinner">
     <h1>{{ dinner.title }}</h1>
     <p>
+      <b>Arrangør: </b>
+      <router-link :to="'/user/' + dinner.host.id">
+        {{ dinner.host.firstName }} {{ dinner.host.lastName }}
+      </router-link>
+    </p>
+    <p>
       <b>Antall gjester:</b> {{ dinner.guests.length }} /
       {{ dinner.maxGuests }}
     </p>

@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/Signup.vue")
   },
   {
-    path: "/user/:userid",
+    path: "/user/:userId",
     name: "User",
     meta: { requiresAuth: true },
     component: () => import("@/views/User.vue")

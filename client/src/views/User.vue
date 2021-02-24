@@ -1,38 +1,32 @@
 <template>
   <article>
-    <Profile :user="user" :is-my-user="isMyProfile"></Profile>
+    <Profile :user="user" :is-my-user="isMyProfile" v-if="user"></Profile>
   </article>
 </template>
 
 <script lang="ts">
 import Profile from "../components/Profile.vue";
 import { useRoute } from "vue-router";
-import { computed, reactive, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { UserResponse } from "@/api/types";
+import { getUser } from "@/api/user";
 export default {
   name: "profile",
   components: {
     Profile
   },
   setup() {
-    const user = reactive({
-      id: 2,
-      firstName: "Ola",
-      lastName: "Nordmann",
-      email: "ola_nordmann@gmail.com",
-      location: "Trondheim",
-      allergies: ["Gluten"]
-    } as UserResponse);
-    const isMyProfile = computed(() => user.id === getLogInState().user?.id);
-
-    watch(
-      () => useRoute().params,
-      (newParams) => {
-        const userId = +newParams.userId;
-        console.log(`Route changed, new used id: ${userId}`);
-      }
+    const id = useRoute().params.userId;
+    const user = ref<UserResponse | null>(null);
+    const isMyProfile = computed(
+      () => user.value?.id === getLogInState().user?.id
     );
+
+    async function fetchData() {
+      user.value = await getUser(id);
+    }
+    onMounted(fetchData);
 
     return { user, isMyProfile };
   }
