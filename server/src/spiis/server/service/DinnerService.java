@@ -71,7 +71,7 @@ public class DinnerService {
     @Transactional(readOnly = true)
     public DinnerResponse makeDinnerResponse(Long id) {
         Dinner dinner = dinnerRepository.findById(id).orElseThrow(NotFoundException::new);
-        return makeDinnerResponse(dinner, true);
+        return makeDinnerResponse(dinner, true); //TODO: Not all true
     }
 
     @Transactional(readOnly = true)
@@ -79,7 +79,7 @@ public class DinnerService {
         Iterable<Dinner> dinnerIterable = dinnerRepository.findAll();
         List<DinnerResponse> responses = new ArrayList<>();
         for (Dinner dinner : dinnerIterable)
-            responses.add(makeDinnerResponse(dinner, true));
+            responses.add(makeDinnerResponse(dinner, true)); //TODO: Not all true
         return responses;
     }
 
