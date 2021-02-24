@@ -137,7 +137,6 @@ export default defineComponent({
       errorMessage.value = "";
       try {
         if (props.edit == true) {
-          //TODO updateDinner
           await updateDinner(id, input);
           await router.push(`/event/${id}`);
         } else {

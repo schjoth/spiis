@@ -19,15 +19,26 @@
     <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
       rediger
     </router-link>
-    <button type="button" v-on:click="registrerTilMiddag">
-      Meld deg på middagen.
+    <button
+      type="button"
+      v-on:click="addGuestToDinner"
+      v-if="!isGuest && !isHost"
+    >
+      Meld deg på
+    </button>
+    <button
+      type="button"
+      v-on:click="removeGuestFromDinner"
+      v-else-if="!isHost"
+    >
+      Meld meg av
     </button>
   </article>
 </template>
 
 <script lang="ts">
 import { DinnerResponse } from "@/api/types";
-import { getDinner } from "@/api/dinner";
+import { getDinner, addGuest, removeGuest } from "@/api/dinner";
 import { useRoute } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
@@ -37,17 +48,37 @@ export default {
   setup() {
     const dinnerId = useRoute().params.dinnerId;
     const dinner = ref<DinnerResponse | null>(null);
+    const userId = getLogInState().user?.id;
+
     async function fetchData() {
       dinner.value = await getDinner(dinnerId);
     }
 
-    const isHost = computed(
-      () => dinner.value?.host.id === getLogInState().user?.id
+    const isHost = computed(() => dinner.value?.host.id === userId);
+
+    const isGuest = computed(() =>
+      dinner.value?.guests?.some((a) => a.id == userId)
     );
+
+    async function addGuestToDinner() {
+      await addGuest(dinnerId, userId?.toString()!);
+      fetchData();
+    }
+
+    async function removeGuestFromDinner() {
+      await removeGuest(dinnerId, userId?.toString()!);
+      fetchData();
+    }
 
     onMounted(fetchData);
 
-    return { dinner, dinnerId, isHost };
+    return {
+      dinner,
+      isHost,
+      isGuest,
+      addGuestToDinner,
+      removeGuestFromDinner
+    };
   }
 };
 </script>
