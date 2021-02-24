@@ -20,7 +20,7 @@ describe("login.ts", () => {
     email: "test@example.com",
     firstName: "Per",
     lastName: "Fredrik",
-    location: "Trondheim",
+    city: "Trondheim",
     age: 20,
     allergies: []
   };

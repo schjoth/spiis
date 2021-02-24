@@ -3,6 +3,8 @@ package spiis.server.model;
 import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -44,11 +46,19 @@ public class ModelUtil {
             throw new ModelError("required field is null");
     }
 
-    public static OffsetDateTime parseOffsetDateTime(String text) {
+    public static LocalDate parseLocalDate(String text) {
         try {
-            return OffsetDateTime.parse(text, DateTimeFormatter.ISO_DATE_TIME);
+            return LocalDate.parse(text, DateTimeFormatter.ISO_LOCAL_DATE);
         } catch (DateTimeParseException e) {
-            throw new ModelError("Datetime is not formatted correctly (ISO_DATE_TIME)");
+            throw new ModelError("Date is not formatted correctly (ISO_LOCAL_DATE)");
+        }
+    }
+
+    public static LocalTime parseLocalTime(String text) {
+        try {
+            return LocalTime.parse(text, DateTimeFormatter.ISO_LOCAL_TIME);
+        } catch (DateTimeParseException e) {
+            throw new ModelError("Time is not formatted correctly (ISO_LOCAL_TIME)");
         }
     }
 }

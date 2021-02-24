@@ -4,7 +4,7 @@ export interface UserResponse {
   firstName: string;
   lastName: string;
   age: number;
-  location: string;
+  city: string;
   allergies: string[];
 }
 
@@ -36,6 +36,7 @@ export interface DinnerRequest {
   postCode: string;
   city: string;
   maxGuests: number;
+  date: string;
   startTime: string;
   endTime: string;
 }
@@ -47,6 +48,7 @@ export interface DinnerResponse {
   addressLine: string | null;
   postCode: string;
   city: string;
+  date: string;
   startTime: string;
   endTime: string;
   maxPeople: number;

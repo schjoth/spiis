@@ -64,7 +64,7 @@
       </div>
     </div>
     <div class="field">
-      <label class="label">Allergener</label>
+      <label class="label">Allergier</label>
       <div class="control">
         <input
           class="input"

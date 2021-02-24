@@ -26,7 +26,7 @@ class RESTClient {
   constructor() {
     this.httpInstance = axios.create({
       baseURL: DEFAULT_BASEURL,
-      timeout: 1000,
+      timeout: 3600,
       responseType: "json",
       validateStatus: function (status) {
         return status >= 200 && status < 300;

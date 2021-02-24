@@ -13,18 +13,6 @@
         <textarea class="textarea" placeholder="" v-model="input.description" />
       </div>
     </div>
-    <!--
-    <div class="field">
-      <label class="label">Sted</label>
-      <div class="control">
-        <input
-          class="input"
-          type="text"
-          placeholder=""
-          v-model="input.location"
-        />
-      </div>
-    </div>-->
     <div class="field">
       <label class="label">Gateadresse</label>
       <div class="control">
@@ -54,14 +42,20 @@
       </div>
     </div>
     <div class="field">
-      <label class="label">Maks deltagere</label>
+      <label class="label">Maks antall gjester</label>
       <div class="control">
         <input
           class="input"
           type="number"
           placeholder=""
-          v-model="input.maxPeople"
+          v-model="input.maxGuests"
         />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Dato</label>
+      <div class="control">
+        <input class="input" type="date" v-model="input.date" />
       </div>
     </div>
     <div class="field">
@@ -70,7 +64,7 @@
         <input
           class="input"
           type="text"
-          placeholder="yyyy-mm-ddThh:mm:ss"
+          placeholder="16:00"
           v-model="input.startTime"
         />
       </div>
@@ -81,7 +75,7 @@
         <input
           class="input"
           type="text"
-          placeholder="yyyy-mm-ddThh:mm:ss"
+          placeholder="20:00"
           v-model="input.endTime"
         />
       </div>
@@ -106,6 +100,8 @@ import { ref, reactive, defineComponent } from "vue";
 import { DinnerRequest, DinnerResponse } from "@/api/types";
 import { createDinner, updateDinner } from "@/api/dinner";
 import { useRoute, useRouter } from "vue-router";
+import { isValidInteger, todayAsIsoDate } from "@/api/parserUtil";
+import { getLogInState } from "@/store/loginState";
 
 export default defineComponent({
   name: "NewDinner",
@@ -121,8 +117,9 @@ export default defineComponent({
       expenses: "",
       addressLine: props.dinner?.addressLine ?? "",
       postCode: props.dinner?.postCode ?? "",
-      city: props.dinner?.city ?? "",
-      maxGuests: props.dinner?.maxPeople ?? 4,
+      city: props.dinner?.city ?? getLogInState().user?.city ?? "",
+      maxGuests: props.dinner?.maxGuests ?? 4,
+      date: props.dinner?.date ?? todayAsIsoDate(),
       startTime: props.dinner?.startTime ?? "",
       endTime: props.dinner?.endTime ?? ""
     };
@@ -135,14 +132,17 @@ export default defineComponent({
 
     const createClicked = async () => {
       errorMessage.value = "";
+
+      if (!isValidInteger(input.maxGuests)) {
+        errorMessage.value = "Maks gjester må være et heltall";
+        return;
+      }
+
       try {
         if (props.edit == true) {
           await updateDinner(id, input);
           await router.push(`/event/${id}`);
         } else {
-          //Midlertidig kode for å legge til tidssone
-          input.startTime += "+01:00";
-          input.endTime += "+01:00";
           const response: DinnerResponse = await createDinner(input);
           await router.push(`/event/${response.id}`);
         }
