@@ -1,5 +1,5 @@
 <template>
-  <article class="box max-600">
+  <article class="max-600">
     <h1>{{ !edit ? "Inviter til middag!" : "Rediger arrangment" }}</h1>
     <div class="field">
       <label class="label">Tittel</label>
@@ -94,7 +94,7 @@
     <div class="field is-grouped is-grouped-centered">
       <div class="control">
         <button class="button is-primary" v-on:click="createClicked">
-          {{ !edit ? "Opprett Arrangement" : "Oppdater" }}
+          {{ !edit ? "Opprett Arrangemet!" : "Oppdater" }}
         </button>
       </div>
     </div>
@@ -159,3 +159,5 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss" scoped></style>
