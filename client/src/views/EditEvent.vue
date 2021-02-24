@@ -1,5 +1,6 @@
 <template>
   <NewDinner :dinner="dinner" :edit="true" v-if="dinner" />
+  <p v-else>Henter informasjon fra server...</p>
 </template>
 
 <script lang="ts">

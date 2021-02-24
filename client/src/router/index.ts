@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/MyDinners.vue")
   },
   {
-    path: "/event/:eventId/edit",
+    path: "/event/:dinnerId/edit",
     name: "EditEvent",
     meta: { requiresAuth: true },
     component: () => import("@/views/EditEvent.vue")
