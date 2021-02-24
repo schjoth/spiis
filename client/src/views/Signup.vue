@@ -176,6 +176,8 @@ export default {
       font-size: 14pt;
     }
 
+
+
     .button:hover{
       background-color: white;
       border-radius: 40px;

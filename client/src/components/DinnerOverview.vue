@@ -28,8 +28,16 @@ export default {
   flex-wrap: wrap;
 }
 #invite {
-  line-height: 150px;
+  line-height: 300px;
+  padding-left: 10%;
+  padding-right: 1%;
   height: 150px;
-  font-size: 50px;
+  font-size: 50pt;
+  text-shadow: 0px 0px 20px #000000;
 }
+
+#invite:hover{
+  color: #ffffff;
+}
+
 </style>

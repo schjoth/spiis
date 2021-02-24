@@ -28,7 +28,7 @@ $fullhd-enabled: false;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-image: url("middagsdeling_bakgrunnsbilde.jpg");
+  background-image: url("assets/middagsdeling_bakgrunnsbilde.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -60,7 +60,32 @@ h1 {
   font-size: 30pt;
   font-family: "Avenir Next";
   font-style: italic;
+  color: white;
+  text-shadow: 0 0 50px white;
 }
+
+#container{
+  h1 {
+    padding: 0;
+    border-radius: 0;
+    background-image: none;
+    box-shadow: none;
+  }
+
+  padding: 10px 50px 10px 50px;
+  border-radius: 20px;
+  //background-image: linear-gradient(to bottom right, rgba(10, 10, 10, 0.1), transparent);
+  background-color: rgba(10, 10, 10, 0.2);
+  //box-shadow: 0 0 20px rgba(10, 10, 10, 0.3);
+}
+
+h2{
+  font-size: 18pt;
+  margin-top: 40px;
+  font-weight: bolder;
+  text-shadow: 0 0 20px #000000;
+}
+
 
 
 .field{
@@ -81,22 +106,6 @@ h1 {
 .max-400 {
   max-width: 400px;
 }
-
-/*
-.select select, .textarea, .input{
-  background-color: transparent;
-  border-radius: 6px;
-}
-
-.input{
-  color: white;
-  border-color: rgb(255,255,255,0.55);
-}
-
-.input:hover {
-  border-color: white;
-}
-*/
 
 
 .box {

@@ -20,7 +20,21 @@ export default {
 
 <style lang="scss" scoped>
 div {
-  width: 300px;
+  width: 40%;
   height: 300px;
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+
+  padding: 30px;
+  margin: 2%;
+
+  h1{
+    color: inherit;
+  }
 }
+
+
+
+
 </style>
