@@ -80,12 +80,7 @@
       </div>
     </div>
 
-    <div class="field">
-      <div class="control">
-        <input class="input" type="text" placeholder="" v-model="input.city" />
-      </div>
-    </div>
-
+    <!--
     <div class="field">
       <label class="label">Matprederanser/allergener</label>
       <div class="control">
@@ -97,7 +92,7 @@
         />
       </div>
     </div>
-
+-->
 
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">

@@ -38,7 +38,7 @@
     <div class="field is-grouped is-grouped-centered">
       <p class="control">
         <button
-          class="button is-superdark"
+          class="button"
           :disabled="waiting"
           v-on:click="loginClicked"
         >
@@ -86,29 +86,25 @@ export default {
 
 <style lang="scss" scoped>
 
-
-
 .trans {
-  padding-bottom: 5px;
-  margin-bottom: 75px;
 
   h1{
     font-size: 12pt;
     font-style: italic;
   }
 
-  button{
-    background-color: transparent;
-    color: white;
-    font-size: 20pt;
-  }
+}
 
-  .button.is-success:hover, .button.is-success.is-hovered {
-    background-color: white;
-    border-radius: 40px;
-    color: #323232;
-  }
+.button{
+  background-color: transparent;
+  color: white;
+  font-size: 20pt;
+}
 
+.button.is-success:hover, .button.is-success.is-hovered {
+  background-color: white;
+  border-radius: 40px;
+  color: #323232;
 }
 
 

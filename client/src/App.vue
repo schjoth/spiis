@@ -1,5 +1,4 @@
 <template>
-  <img id="bakgrunn" src="@/assets/middagsdeling_bakgrunnsbilde.jpg" alt="bakgrunn"/>
   <navbar />
   <main>
     <router-view />
@@ -52,7 +51,7 @@ main{
  }
 
 footer{
-  //margin-top: 5%;
+  margin-top: 5%;
 }
 
 

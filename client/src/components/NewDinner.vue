@@ -151,7 +151,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-  .article{
+$orange: rgb(253, 164, 87);
+
+.article{
     background-color: white;
 
     .input{

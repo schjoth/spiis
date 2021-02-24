@@ -1,0 +1,83 @@
+/*
+
+  h1{
+    font-size: 12pt;
+    font-style: italic;
+  }
+
+  button{
+    background-color: transparent;
+    color: white;
+    font-size: 20pt;
+  }
+
+  .button.is-success:hover, .button.is-success.is-hovered {
+    background-color: white;
+    border-radius: 40px;
+    color: #323232;
+  }
+
+}
+
+*/
+
+
+
+
+
+.trans {
+  background-color: rgb(0,0,0,0.5);
+  color: white;
+  padding: 30px;
+  box-shadow: black;
+  border-radius: 20px;
+
+  padding-bottom: 5px;
+  margin-bottom: 75px;
+
+  h1 {
+    color: white;
+  }
+
+  .field {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .textarea, .input {
+    background-color: transparent;
+  }
+
+  .input {
+    color: white;
+    border-color: rgb(255,255,255,0.55);
+  }
+
+  .input:hover {
+    border-color: white;
+  }
+
+  ::placeholder {
+    color: rgb(255,255,255,0.6);
+  }
+
+  .button {
+    font-size: 1.4em;
+  }
+}
+
+
+.is-superdark {
+  background-color: transparent;
+  color: white;
+}
+
+.is-superdark:hover {
+  background-color: white;
+  border-radius: 20px;
+  color: white;
+}
+
+.is-superdark:active {
+  background-color: #eee;
+}
