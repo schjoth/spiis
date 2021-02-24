@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>{{ dinner.title }}</h1>
+    <h1 v-if="dinner.cancelled">
+      {{ dinner.title }} <span class="avlyst">(AVLYST!)</span>
+    </h1>
+    <h1 v-else>{{ dinner.title }}</h1>
     <p>
       <b>Antall gjester:</b> {{ dinner.guests.length }}/{{ dinner.maxGuests }}
     </p>
@@ -30,5 +33,9 @@ export default {
 div {
   width: 300px;
   height: 300px;
+}
+
+.avlyst {
+  color: red;
 }
 </style>
