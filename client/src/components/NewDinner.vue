@@ -150,29 +150,27 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.article {
+  background-color: white;
 
-  .article{
-    background-color: white;
-
-    .input{
-      color: black;
-      border-color: #323232;
-    }
-
-    .button{
-      font-size: 14pt;
-      font-weight: bolder;
-      color: #323232;
-      outline-width: 3px;
-      outline-color: #323232;
-      border-radius: 20px;
-    }
-
-    .button:hover{
-      background-color: $orange;
-      border-radius: 40px;
-      color: #ffffff;
-    }
+  .input {
+    color: black;
+    border-color: #323232;
   }
 
+  .button {
+    font-size: 14pt;
+    font-weight: bolder;
+    color: #323232;
+    outline-width: 3px;
+    outline-color: #323232;
+    border-radius: 20px;
+  }
+
+  .button:hover {
+    background-color: rgb(253, 164, 87);
+    border-radius: 40px;
+    color: #ffffff;
+  }
+}
 </style>
