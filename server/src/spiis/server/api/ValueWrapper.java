@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class LogInResponse {
-    private UserResponse user;
-    private String token;
+public class ValueWrapper<T> {
+    private T value;
 }

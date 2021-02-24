@@ -81,12 +81,7 @@
 
     <div class="field">
       <div class="control">
-        <input
-          class="input"
-          type="text"
-          placeholder="By"
-          v-model="input.location"
-        />
+        <input class="input" type="text" placeholder="" v-model="input.city" />
       </div>
     </div>
 
@@ -125,8 +120,8 @@ export default {
       email: "",
       password: "",
       password2: "",
-      location: "",
-      age: ""
+      city: "",
+      age: 0
     });
     const errorMessage = ref("");
 
@@ -142,7 +137,7 @@ export default {
         lastName: input.lastName,
         email: input.email,
         password: input.password,
-        location: input.location,
+        city: input.city,
         age: +input.age,
         allergies: []
       };

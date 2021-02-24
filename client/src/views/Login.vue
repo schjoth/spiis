@@ -37,7 +37,11 @@
     </div>
     <div class="field is-grouped is-grouped-centered">
       <p class="control">
-        <button class="button is-superdark" :disabled="waiting" v-on:click="loginClicked">
+        <button
+          class="button is-superdark"
+          :disabled="waiting"
+          v-on:click="loginClicked"
+        >
           Logg Inn
         </button>
       </p>
@@ -79,4 +83,3 @@ export default {
   }
 };
 </script>
-

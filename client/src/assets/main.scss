@@ -11,9 +11,10 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-image: url("assets/middagsdeling_bakgrunnsbilde.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("assets/middagsdeling_bakgrunnsbilde.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
 }
 
 .navbar {
@@ -21,7 +22,7 @@
 }
 
 main {
-  padding: 40px 40px 10px 10px;
+  padding: 40px 10px 40px 10px;
   flex-grow: 1;
 }
 
@@ -50,6 +51,15 @@ h1 {
   font-size: 30pt;
   font-family: "Avenir Next", sans-serif;
   font-style: italic;
+}
+
+.text-on-image {
+  color: white;
+  text-shadow: #222222 1px 1px 3px;
+}
+
+.box {
+  color: #222222;
 }
 
 @import "dark-form";

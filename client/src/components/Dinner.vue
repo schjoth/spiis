@@ -3,15 +3,18 @@
     <h1>{{ dinner.title }}</h1>
     <p><b>Antall gjester:</b> {{ dinner.guests }}/{{ dinner.maxGuests }}</p>
     <p><b>Sted:</b> {{ dinner.location }}</p>
-    <p><b>Beskrivelse:</b> {{ dinner.description }}</p>
-    <router-link :to="'/event/' + dinner.id"> Gå til påmelding </router-link>
+    <router-link :to="'/event/' + $route.params.dinnerId">
+      Gå til påmelding
+    </router-link>
   </section>
 </template>
 
 <script lang="ts">
 export default {
   name: "Dinner",
-  props: ["dinner"]
+  props: {
+    dinner: Object
+  }
 };
 </script>
 
@@ -21,6 +24,5 @@ section {
   margin-top: 20px;
   margin-bottom: 20px;
   min-height: 200px;
-  color: black;
 }
 </style>

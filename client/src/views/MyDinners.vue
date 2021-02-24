@@ -1,6 +1,6 @@
 <template>
   <article>
-    <h1>Mine Middager</h1>
+    <h1 class="text-on-image">Mine Middager</h1>
 
     <h2>Arrangerer</h2>
     <DinnerOverview v-bind:dinners="hosts" v-bind:invite="true" />

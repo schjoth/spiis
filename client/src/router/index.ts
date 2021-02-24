@@ -64,18 +64,18 @@ const router = createRouter({
   routes
 });
 
-const loggedIn = computed(() => getLogInState().status === "loggedIn");
+const status = computed(() => getLogInState().status);
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !loggedIn.value) next("/login");
-  else if (to.meta.requiresAnon && loggedIn.value) next("/");
-  next();
+  if (to.meta.requiresAuth && status.value === "loggedOut") next("/login");
+  else if (to.meta.requiresAnon && status.value === "loggingIn") next("/");
+  else next();
 });
 
-watch(loggedIn, async () => {
-  if (router.currentRoute.value.meta.requiresAuth && !loggedIn.value)
+watch(status, async (status) => {
+  if (router.currentRoute.value.meta.requiresAuth && status === "loggedOut")
     await router.replace("/login?invalidated=true");
-  else if (router.currentRoute.value.meta.requiresAnon && loggedIn.value)
+  else if (router.currentRoute.value.meta.requiresAnon && status === "loggedIn")
     await router.replace("/");
 });
 
