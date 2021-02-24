@@ -1,66 +1,139 @@
 @charset "utf-8";
 
-@import "variables";
-
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
+// Set your brand colors
+$gjennomsiktig: rgba(130, 130, 130, 0);
+$orange: rgb(253, 164, 87);; //
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+$white: #ffffff;
+$n: rgb(227, 153, 87, 0.55);
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $white;
+$grey-light: $n;
+$primary: $gjennomsiktig;
+$link: $orange;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
 @import "~bulma";
+
 
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("assets/middagsdeling_bakgrunnsbilde.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
 }
 
 .navbar {
   background-color: $n;
 }
 
+
 main {
-  padding: 40px 10px 40px 10px;
+  padding: 2%;
   flex-grow: 1;
 }
 
-.footer {
-  background-color: $n;
+footer {
+  margin-top: 5%;
+  background-color: $n !important;
 }
 
 article {
   @extend .container;
+  max-width: 860px;
 }
+
+h1 {
+  @extend .title;
+  font-size: 30pt;
+  font-family: "Avenir Next";
+  font-style: italic;
+}
+
+
+.field{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: transparent;
+}
+
 
 .max-600 {
   max-width: 600px;
-}
-
-.max-500 {
-  max-width: 500px;
 }
 
 .max-400 {
   max-width: 400px;
 }
 
-h1 {
-  @extend .title;
-  font-size: 30pt;
-  font-family: "Avenir Next", sans-serif;
-  font-style: italic;
+
+.select select, .textarea, .input{
+  background-color: transparent;
+  border-radius: 6px;
 }
 
-.text-on-image {
+.input{
   color: white;
-  text-shadow: #222222 1px 1px 3px;
+  border-color: rgb(255,255,255,0.55);
 }
 
-.box {
-  color: #222222;
+.input:hover {
+  border-color: white;
 }
 
-@import "dark-form";
+
+
+
+.max-500_trans{
+  max-width: 500px;
+  background-color: rgb(0,0,0,0.4);
+  padding: 30px;
+  box-shadow: black;
+  border-radius: 20px;
+
+  h1{
+    color: #ffffff;
+  }
+
+  .input{
+    color: white;
+  }
+
+  ::placeholder{
+    color: rgb(255,255,255,0.55);
+  }
+}
+
+
+
+
+
+
+@media only screen and (max-width: 980px) {
+
+  .input {
+    font-size: 10pt;
+  }
+
+  button{
+    font-size: 14pt;
+  }
+
+}
+
+
+
+@media only screen and (max-width: 550px){
+  .max-500_trans {
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+}
 

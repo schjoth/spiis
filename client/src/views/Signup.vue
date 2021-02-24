@@ -1,5 +1,6 @@
 <template>
-  <article class="max-500 trans">
+  <article class="max-500_trans">
+
     <h1>Ny bruker</h1>
 
     <div class="field">
@@ -27,10 +28,10 @@
     <div class="field">
       <div class="control">
         <input
-          class="input"
-          type="text"
-          placeholder="Alder"
-          v-model="input.age"
+            class="input"
+            type="text"
+            placeholder="Alder"
+            v-model="input.age"
         />
       </div>
     </div>
@@ -38,10 +39,10 @@
     <div class="field">
       <div class="control">
         <input
-          class="input"
-          type="text"
-          placeholder="By"
-          v-model="input.location"
+            class="input"
+            type="text"
+            placeholder="By"
+            v-model="input.location"
         />
       </div>
     </div>
@@ -49,11 +50,10 @@
     <div class="field">
       <div class="control">
         <input
-          class="input"
-          type="text"
-          placeholder="E-post"
-          v-model="input.email"
-        />
+            class="input"
+            type="text"
+            placeholder="E-post"
+            v-model="input.email" />
       </div>
     </div>
 
@@ -81,21 +81,15 @@
 
     <div class="field">
       <div class="control">
-        <input class="input" type="text" placeholder="" v-model="input.city" />
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="label">Allergener</label>
-      <div class="control">
         <input
           class="input"
           type="text"
-          placeholder="Gluten, skalldyr, ++"
-          v-model="input.allergies"
+          placeholder="By"
+          v-model="input.location"
         />
       </div>
     </div>
+
 
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
@@ -104,16 +98,17 @@
     </div>
 
     <div class="field is-grouped is-grouped-centered">
-      <p class="control">
+      <div class="control" id="NyBrukerKnapp">
         <button
-          class="button is-superdark"
+          class="button is-primary"
           v-on:click="signupClick"
           :disabled="waiting"
         >
           Registrer ny bruker
         </button>
-      </p>
+      </div>
     </div>
+
   </article>
 </template>
 
@@ -132,10 +127,8 @@ export default {
       email: "",
       password: "",
       password2: "",
-      postCode: "",
-      city: "",
-      age: 0,
-      allergies: ""
+      location: "",
+      age: ""
     });
     const errorMessage = ref("");
 
@@ -151,9 +144,9 @@ export default {
         lastName: input.lastName,
         email: input.email,
         password: input.password,
-        city: input.city,
+        location: input.location,
         age: +input.age,
-        allergies: input.allergies.split(",").map((it) => it.trim())
+        allergies: []
       };
 
       try {
@@ -169,3 +162,26 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+
+  .max-500_trans{
+    padding-bottom: 5px;
+
+    .button{
+      font-size: 14pt;
+    }
+
+    .button:hover{
+      background-color: white;
+      border-radius: 40px;
+      color: #323232;
+    }
+
+    .button :active{
+      font-weight: bolder;
+    }
+
+  }
+
+</style>
