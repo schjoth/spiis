@@ -1,13 +1,15 @@
 <template>
   <div>
-    <p>Fornavn: {{ user.firstName }}</p>
-    <p>Etternavn: {{ user.lastName }}</p>
-    <p v-if="isMyUser">Epost: {{ user.email }}</p>
-    <p>By: {{ user.location }}</p>
+    <p><b>Fornavn: </b>{{ user.firstName }}</p>
+    <p><b>Etternavn: </b>{{ user.lastName }}</p>
+    <p><b>Alder: </b>{{ user.age }}</p>
+    <p v-if="isMyUser"><b>Epost: </b>{{ user.email }}</p>
+    <p><b>By: </b>{{ user.city }}</p>
     <p>
-      Allergier:
+      <b>Allergier: </b>
       <span v-for="(allergy, index) in user.allergies" :key="index">
-        {{ allergy }}
+        {{ allergy
+        }}<span v-if="index != Object.keys(user.allergies).length - 1">, </span>
       </span>
     </p>
   </div>
@@ -17,7 +19,8 @@
 export default {
   name: "Profile",
   props: {
-    user: Object
+    user: Object,
+    isMyUser: Boolean
   }
 };
 </script>
