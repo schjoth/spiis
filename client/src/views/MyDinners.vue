@@ -12,9 +12,10 @@
 
 <script lang="ts">
 import DinnerOverview from "@/components/DinnerOverview.vue";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { getGuestDinners, getHostDinners } from "@/api/dinner";
+import { authorized } from "@/api/client";
 import { DinnerResponse } from "@/api/types";
 export default {
   name: "MyDinners",
@@ -22,14 +23,14 @@ export default {
   setup() {
     const hosting = ref<DinnerResponse[] | null>(null);
     const guesting = ref<DinnerResponse[] | null>(null);
-    const userId = getLogInState().user?.id.toString()!;
+    const userId = computed(() => getLogInState().user?.id);
 
     async function fetchData() {
-      hosting.value = await getHostDinners(userId);
-      guesting.value = await getGuestDinners(userId);
+      hosting.value = await getHostDinners(userId.value!);
+      guesting.value = await getGuestDinners(userId.value!);
     }
 
-    onMounted(fetchData);
+    onMounted(() => authorized(fetchData));
 
     return { hosting, guesting };
   }

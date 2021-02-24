@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <p><b>Fornavn: </b>{{ user.firstName }}</p>
-    <p><b>Etternavn: </b>{{ user.lastName }}</p>
+  <div class="box has-text-centered">
+    <h1>{{ user.firstName }} {{ user.lastName }}</h1>
     <p><b>Alder: </b>{{ user.age }}</p>
     <p v-if="isMyUser"><b>Epost: </b>{{ user.email }}</p>
     <p><b>By: </b>{{ user.city }}</p>

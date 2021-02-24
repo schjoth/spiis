@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, Method } from "axios";
 import { logOut } from "./login";
 import { getLogInState } from "@/store/loginState";
-import { watchEffect } from "vue";
+import { watchEffect, Ref, ref } from "vue";
 
 export const DEFAULT_BASEURL =
   process.env.NODE_ENV == "production"
@@ -22,6 +22,7 @@ export interface RESTClientError {
 
 class RESTClient {
   httpInstance: AxiosInstance;
+  setToken: Ref<string | null>;
 
   constructor() {
     this.httpInstance = axios.create({
@@ -32,12 +33,14 @@ class RESTClient {
         return status >= 200 && status < 300;
       }
     });
+    this.setToken = ref(null);
 
     watchEffect(() => {
       const token = getLogInState().token;
       if (token)
         this.httpInstance.defaults.headers.common["Authorization"] = token;
       else delete this.httpInstance.defaults.headers.common["Authorization"];
+      this.setToken.value = token;
     });
   }
 
@@ -88,6 +91,14 @@ class RESTClient {
   delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.request(url, "DELETE", undefined, config);
   }
+
+  authorized(callback: () => void) {
+    watchEffect(() => {
+      if (this.setToken.value !== null) callback();
+    });
+  }
 }
 
-export default new RESTClient();
+const client = new RESTClient();
+export default client;
+export const authorized = client.authorized.bind(client);

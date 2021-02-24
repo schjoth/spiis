@@ -73,8 +73,12 @@ public class DinnerService {
     }
 
     @Transactional(readOnly = true)
-    public List<DinnerResponse> makeDinnerResponses() {
-        Iterable<Dinner> dinnerIterable = dinnerRepository.findAll();
+    public List<DinnerResponse> makeDinnerResponses(boolean includeCancelled) {
+
+        Iterable<Dinner> dinnerIterable = includeCancelled
+                ? dinnerRepository.findAll()
+                : dinnerRepository.findAllByCancelledFalse();
+
         List<DinnerResponse> responses = new ArrayList<>();
         for (Dinner dinner : dinnerIterable)
             responses.add(makeDinnerResponse(dinner, true)); //TODO: Not all true
