@@ -1,5 +1,5 @@
 <template>
-  <article class="max-500_trans">
+  <article class="max-500 trans">
 
     <h1>Ny bruker</h1>
 
@@ -28,10 +28,10 @@
     <div class="field">
       <div class="control">
         <input
-            class="input"
-            type="text"
-            placeholder="Alder"
-            v-model="input.age"
+          class="input"
+          type="text"
+          placeholder="Alder"
+          v-model="input.age"
         />
       </div>
     </div>
@@ -39,10 +39,10 @@
     <div class="field">
       <div class="control">
         <input
-            class="input"
-            type="text"
-            placeholder="By"
-            v-model="input.location"
+          class="input"
+          type="text"
+          placeholder="By"
+          v-model="input.city"
         />
       </div>
     </div>
@@ -50,10 +50,11 @@
     <div class="field">
       <div class="control">
         <input
-            class="input"
-            type="text"
-            placeholder="E-post"
-            v-model="input.email" />
+          class="input"
+          type="text"
+          placeholder="E-post"
+          v-model="input.email"
+        />
       </div>
     </div>
 
@@ -81,11 +82,18 @@
 
     <div class="field">
       <div class="control">
+        <input class="input" type="text" placeholder="" v-model="input.city" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Matprederanser/allergener</label>
+      <div class="control">
         <input
           class="input"
           type="text"
-          placeholder="By"
-          v-model="input.location"
+          placeholder="Gluten, skalldyr, ++"
+          v-model="input.allergies"
         />
       </div>
     </div>
@@ -127,8 +135,9 @@ export default {
       email: "",
       password: "",
       password2: "",
-      location: "",
-      age: ""
+      city: "",
+      age: "",
+      allergies: ""
     });
     const errorMessage = ref("");
 
@@ -144,9 +153,9 @@ export default {
         lastName: input.lastName,
         email: input.email,
         password: input.password,
-        location: input.location,
+        city: input.city,
         age: +input.age,
-        allergies: []
+        allergies: input.allergies.split(",").map((it) => it.trim())
       };
 
       try {
@@ -165,7 +174,7 @@ export default {
 
 <style lang="scss" scoped>
 
-  .max-500_trans{
+  .trans{
     padding-bottom: 5px;
 
     .button{
