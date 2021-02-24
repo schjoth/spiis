@@ -53,6 +53,17 @@
       </div>
     </div>
     <div class="field">
+      <label class="label">Utgifter</label>
+      <div class="control">
+        <input
+          class="input"
+          type="number"
+          placeholder=""
+          v-model="input.expenses"
+        />
+      </div>
+    </div>
+    <div class="field">
       <label class="label">Dato</label>
       <div class="control">
         <input class="input" type="date" v-model="input.date" />
@@ -114,7 +125,7 @@ export default defineComponent({
     const startingValues: DinnerRequest = {
       title: props.dinner?.title ?? "",
       description: props.dinner?.description ?? "",
-      expenses: "",
+      expenses: props.dinner?.expenses ?? "",
       addressLine: props.dinner?.addressLine ?? "",
       postCode: props.dinner?.postCode ?? "",
       city: props.dinner?.city ?? getLogInState().user?.city ?? "",
