@@ -28,22 +28,24 @@
       {{ dinner.city }}
     </p>
     <p><b>Beskrivelse: </b> {{ dinner.description }}</p>
-    <router-link :to="'/event/' + dinner?.id + '/edit'" v-if="isHost">
+    <GuestList
+      :guests="dinner.guests"
+      :isHost="isHost"
+      v-if="isGuest || isHost"
+      @remove="removeGuestFromDinner"
+    ></GuestList>
+    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
       Rediger
     </router-link>
     <a v-on:click="cancelDinner" v-if="isHost && !dinner.cancelled">Avlys</a>
     <button
       type="button"
-      v-on:click="addGuestToDinner"
+      v-on:click="addToDinner"
       v-if="!isGuest && !isHost"
     >
       Meld deg på
     </button>
-    <button
-      type="button"
-      v-on:click="removeGuestFromDinner"
-      v-else-if="!isHost"
-    >
+    <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
   </article>
@@ -62,9 +64,13 @@ import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { authorized } from "@/api/client";
+import GuestList from "@/components/GuestList.vue";
 
 export default {
   name: "DinnerEvent",
+  components: {
+    GuestList
+  },
   setup() {
     const dinnerId = +useRoute().params.dinnerId;
     if (!Number.isInteger(dinnerId)) useRouter().replace("/404");
@@ -81,13 +87,18 @@ export default {
       dinner.value?.guests?.some((a) => a.id == userId.value)
     );
 
-    async function addGuestToDinner() {
+    async function addToDinner() {
       await addGuest(dinnerId, userId.value!);
       await fetchData();
     }
 
-    async function removeGuestFromDinner() {
+    async function removeFromDinner() {
       await removeGuest(dinnerId, userId.value!);
+      await fetchData();
+    }
+
+    async function removeGuestFromDinner(guestId: number) {
+      await removeGuest(dinnerId, guestId);
       await fetchData();
     }
 
@@ -107,10 +118,11 @@ export default {
       dinner,
       isHost,
       isGuest,
-      addGuestToDinner,
+      addToDinner,
+      removeFromDinner,
       removeGuestFromDinner,
       cancelDinner,
-      unCancelDinner
+      unCancelDinner,
     };
   }
 };
@@ -126,8 +138,5 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: baseline;
-
-  .button {
-  }
 }
 </style>
