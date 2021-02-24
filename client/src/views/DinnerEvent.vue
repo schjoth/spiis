@@ -28,6 +28,11 @@
       {{ dinner.city }}
     </p>
     <p><b>Beskrivelse: </b> {{ dinner.description }}</p>
+    <p><b>Utgifter: </b> {{ dinner.expenses }}</p>
+    <p>
+      <b>Utgifter pr pers: </b>
+      {{ dinner.expenses / (dinner.guests.length + 1) }}
+    </p>
     <GuestList
       :guests="dinner.guests"
       :isHost="isHost"

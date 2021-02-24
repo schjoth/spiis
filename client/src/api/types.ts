@@ -45,6 +45,7 @@ export interface DinnerResponse {
   id: number;
   title: string;
   description: string;
+  expenses: string;
   addressLine: string | null;
   postCode: string;
   city: string;
