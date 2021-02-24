@@ -153,7 +153,7 @@ export default {
         password: input.password,
         city: input.city,
         age: +input.age,
-        allergies: input.allergies.split(",").map(it => it.trim())
+        allergies: input.allergies.split(",").map((it) => it.trim())
       };
 
       try {
