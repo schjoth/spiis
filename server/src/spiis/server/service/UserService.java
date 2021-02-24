@@ -15,6 +15,7 @@ import spiis.server.model.Allergy;
 import spiis.server.model.User;
 import spiis.server.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -34,22 +35,33 @@ public class UserService {
     }
 
     @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
-    public UserResponse makeUserResponse(User user) {
+    public UserResponse makeUserResponse(User user, boolean yourself) {
         Objects.requireNonNull(user.getId());
-        return UserResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
+        UserResponse.UserResponseBuilder builder = UserResponse.builder();
+        builder.id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .age(user.getAge())
                 .city(user.getCity())
-                .allergies(makeAllergyList(user))
-                .build();
+                .allergies(makeAllergyList(user));
+
+        if (yourself)
+            builder.email(user.getEmail());
+
+        return builder.build();
     }
 
     @Transactional(readOnly = true)
-    public UserResponse makeUserResponse(Long userId) {
-        return makeUserResponse(userRepository.findById(userId).orElseThrow(NotFoundException::new));
+    public UserResponse makeUserResponse(Long userId, boolean yourself) {
+        return makeUserResponse(userRepository.findById(userId).orElseThrow(NotFoundException::new), yourself);
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponse> makeUserResponses() {
+        List<UserResponse> responses = new ArrayList<>();
+        for (User user : userRepository.findAll())
+            responses.add(makeUserResponse(user, false));
+        return responses;
     }
 
     /**
@@ -77,6 +89,6 @@ public class UserService {
 
         user.verifyModel();
         userRepository.save(user);
-        return makeUserResponse(user);
+        return makeUserResponse(user, true);
     }
 }
