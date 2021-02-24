@@ -1,6 +1,7 @@
 package spiis.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import spiis.server.api.LogInRequest;
 import spiis.server.api.LogInResponse;
@@ -50,7 +51,8 @@ public class LoginController {
      * @return A UserResponse for the user
      */
     @GetMapping("/tokens/user")
+    @Transactional
     public UserResponse getUserFromToken(@RequestHeader("Authorization") String token) {
-        return authService.getUserResponseForToken(token);
+        return userService.makeUserResponse(authService.getUserForToken(token), true);
     }
 }

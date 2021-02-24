@@ -55,13 +55,13 @@ public class DinnerService {
                 .cancelled(dinner.isCancelled());
 
         User host = Objects.requireNonNull(dinner.getHost());
-        builder.host(userService.makeUserResponse(host));
+        builder.host(userService.makeUserResponse(host, false));
 
         if (member) {
             builder.addressLine(dinner.getAddressLine());
             List<UserResponse> guests = new ArrayList<>();
             for (User guest : dinner.getGuests())
-                guests.add(userService.makeUserResponse(guest));
+                guests.add(userService.makeUserResponse(guest, false));
             builder.guests(guests);
         }
 
@@ -69,13 +69,13 @@ public class DinnerService {
     }
 
     @Transactional(readOnly = true)
-    public DinnerResponse getDinnerById(long id) {
+    public DinnerResponse makeDinnerResponse(Long id) {
         Dinner dinner = dinnerRepository.findById(id).orElseThrow(NotFoundException::new);
         return makeDinnerResponse(dinner, true);
     }
 
     @Transactional(readOnly = true)
-    public List<DinnerResponse> getDinners() {
+    public List<DinnerResponse> makeDinnerResponses() {
         Iterable<Dinner> dinnerIterable = dinnerRepository.findAll();
         List<DinnerResponse> responses = new ArrayList<>();
         for (Dinner dinner : dinnerIterable)
