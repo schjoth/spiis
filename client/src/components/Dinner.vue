@@ -5,7 +5,15 @@
       <b>Antall gjester:</b> {{ dinner.guests.length }}/{{ dinner.maxGuests }}
     </p>
     <p><b>Sted:</b> {{ dinner.postCode }}, {{ dinner.city }}</p>
-    <router-link :to="'/event/' + dinner.id"> Gå til påmelding </router-link>
+    <p>
+      <b>Arrangør: </b>
+      <router-link :to="'/user/' + dinner.host.id">
+        {{ dinner.host.firstName }} {{ dinner.host.lastName }}
+      </router-link>
+    </p>
+    <p>
+      <router-link :to="'/event/' + dinner.id"> Gå til påmelding </router-link>
+    </p>
   </div>
 </template>
 

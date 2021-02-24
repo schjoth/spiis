@@ -25,7 +25,8 @@ export default {
           guests: "1",
           maxGuests: "4",
           date: "23/02/2021",
-          location: "Gløshaugen"
+          location: "Gløshaugen",
+          host: { id: "69" }
         },
         {
           id: "2",
@@ -33,7 +34,8 @@ export default {
           guests: "0",
           maxGuests: "7",
           date: "15/03/2021",
-          location: "Italia"
+          location: "Italia",
+          host: { id: "69" }
         }
       ],
       participant: [
@@ -44,7 +46,8 @@ export default {
           guests: "3",
           maxGuests: "3",
           date: "7/03/2021",
-          location: "Moholt"
+          location: "Moholt",
+          host: { id: "69" }
         }
       ]
     };

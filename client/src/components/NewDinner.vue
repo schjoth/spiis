@@ -136,13 +136,14 @@ export default defineComponent({
     const createClicked = async () => {
       errorMessage.value = "";
       try {
-        input.startTime += "+01:00";
-        input.endTime += "+01:00";
         if (props.edit == true) {
           //TODO updateDinner
           await updateDinner(id, input);
           await router.push(`/event/${id}`);
         } else {
+          //Midlertidig kode for å legge til tidssone
+          input.startTime += "+01:00";
+          input.endTime += "+01:00";
           const response: DinnerResponse = await createDinner(input);
           await router.push(`/event/${response.id}`);
         }
