@@ -16,7 +16,7 @@
       {{ dinner.city }}
     </p>
     <p><b>Beskrivelse: </b> {{ dinner.description }}</p>
-    <router-link :to="'/event/' + id + '/edit'" v-if="isHost">
+    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
       rediger
     </router-link>
     <button type="button" v-on:click="registrerTilMiddag">
