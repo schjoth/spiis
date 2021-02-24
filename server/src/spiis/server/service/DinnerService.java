@@ -7,15 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import spiis.server.api.DinnerRequest;
 import spiis.server.api.DinnerResponse;
 import spiis.server.api.UserResponse;
-import spiis.server.error.ModelError;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.Dinner;
 import spiis.server.model.ModelUtil;
 import spiis.server.model.User;
 import spiis.server.repository.DinnerRepository;
 
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,6 +44,7 @@ public class DinnerService {
                 .title(dinner.getTitle())
                 .description(dinner.getDescription())
                 .expenses(dinner.getExpenses())
+                .date(dinner.getDate().toString())
                 .startTime(dinner.getStartTime().toString())
                 .endTime(dinner.getEndTime().toString())
                 .postCode(dinner.getPostCode())
@@ -98,8 +96,9 @@ public class DinnerService {
         dinner.setTitle(request.getTitle().trim());
         dinner.setDescription(request.getDescription());
         dinner.setExpenses(request.getExpenses());
-        dinner.setStartTime(ModelUtil.parseOffsetDateTime(request.getStartTime()));
-        dinner.setEndTime(ModelUtil.parseOffsetDateTime(request.getEndTime()));
+        dinner.setDate(ModelUtil.parseLocalDate(request.getDate()));
+        dinner.setStartTime(ModelUtil.parseLocalTime(request.getStartTime()));
+        dinner.setEndTime(ModelUtil.parseLocalTime(request.getEndTime()));
         dinner.setAddressLine(request.getAddressLine().trim());
         dinner.setPostCode(request.getPostCode().trim());
         dinner.setCity(request.getCity().trim());

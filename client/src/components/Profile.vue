@@ -7,10 +7,7 @@
     <p><b>By: </b>{{ user.city }}</p>
     <p>
       <b>Allergier: </b>
-      <span v-for="(allergy, index) in user.allergies" :key="index">
-        {{ allergy
-        }}<span v-if="index != Object.keys(user.allergies).length - 1">, </span>
-      </span>
+      {{ user.allergies.join(", ") }}
     </p>
   </div>
 </template>

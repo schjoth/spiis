@@ -1,6 +1,8 @@
 <template>
   <NewDinner :dinner="dinner" :edit="true" v-if="dinner" />
-  <p v-else>Henter informasjon fra server...</p>
+  <article class="has-text-centered" v-else>
+    Henter informasjon fra server...
+  </article>
 </template>
 
 <script lang="ts">

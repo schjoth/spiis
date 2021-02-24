@@ -6,6 +6,8 @@ import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Objects;
@@ -32,10 +34,13 @@ public class Dinner {
     private String expenses;
 
     @Column(nullable = false)
-    private OffsetDateTime startTime;
+    private LocalDate date;
 
     @Column(nullable = false)
-    private OffsetDateTime endTime;
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private LocalTime endTime;
 
     @Column(nullable = false)
     private String addressLine;
@@ -71,6 +76,7 @@ public class Dinner {
         ModelUtil.requireNonNull(title);
         ModelUtil.requireNonNull(description);
         ModelUtil.requireNonNull(expenses);
+        ModelUtil.requireNonNull(date);
         ModelUtil.requireNonNull(startTime);
         ModelUtil.requireNonNull(endTime);
         ModelUtil.requireNonNull(addressLine);
