@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section class="box">
     <p><b>Fornavn: </b>{{ user.firstName }}</p>
     <p><b>Etternavn: </b>{{ user.lastName }}</p>
     <p><b>Alder: </b>{{ user.age }}</p>
@@ -8,11 +8,11 @@
     <p>
       <b>Allergier: </b>
       <span v-for="(allergy, index) in user.allergies" :key="index">
-        {{ allergy
-        }}<span v-if="index != Object.keys(user.allergies).length - 1">, </span>
+        <span v-if="index !== 0">, </span>
+        {{ allergy }}
       </span>
     </p>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
