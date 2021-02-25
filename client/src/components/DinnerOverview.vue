@@ -1,12 +1,12 @@
 <template>
-  <div id="container">
+  <div class="dinners">
     <Dinner
       v-for="dinner in dinners"
       v-bind:dinner="dinner"
       v-bind:key="dinner.id"
     />
     <div v-if="invite">
-      <router-link to="/event/new" id="invite"> + </router-link>
+      <router-link to="/event/new" class="invite"> + </router-link>
     </div>
   </div>
 </template>
@@ -23,11 +23,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#container {
+.dinners {
   display: flex;
   flex-wrap: wrap;
 }
-#invite {
+
+.invite {
   line-height: 300px;
   padding-left: 10%;
   padding-right: 1%;
@@ -36,7 +37,7 @@ export default {
   text-shadow: 0px 0px 20px #000000;
 }
 
-#invite:hover{
+.invite:hover{
   color: #ffffff;
 }
 

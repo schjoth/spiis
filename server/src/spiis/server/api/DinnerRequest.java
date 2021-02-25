@@ -7,6 +7,7 @@ public class DinnerRequest {
     private String title;
     private String description;
     private String expenses;
+    private String date;
     private String startTime;
     private String endTime;
     private String addressLine;

@@ -4,6 +4,7 @@
     <h1>Ny bruker</h1>
 
     <div class="field">
+      <label class="label" aria-hidden="true">Fornavn</label>
       <div class="control">
         <input
           class="input"
@@ -15,6 +16,7 @@
     </div>
 
     <div class="field">
+      <label class="label" aria-hidden="true">Etternavn</label>
       <div class="control">
         <input
           class="input"
@@ -26,6 +28,7 @@
     </div>
 
     <div class="field">
+      <label class="label" aria-hidden="true">Alder</label>
       <div class="control">
         <input
           class="input"
@@ -35,8 +38,8 @@
         />
       </div>
     </div>
-
     <div class="field">
+      <label class="label" aria-hidden="true">By</label>
       <div class="control">
         <input
           class="input"
@@ -48,6 +51,7 @@
     </div>
 
     <div class="field">
+      <label class="label" aria-hidden="true">E-post</label>
       <div class="control">
         <input
           class="input"
@@ -59,6 +63,7 @@
     </div>
 
     <div class="field">
+      <label class="label" aria-hidden="true">Passord</label>
       <div class="control">
         <input
           class="input"
@@ -70,6 +75,7 @@
     </div>
 
     <div class="field">
+      <label class="label" aria-hidden="true">Gjenta passord</label>
       <div class="control">
         <input
           class="input"
@@ -80,9 +86,8 @@
       </div>
     </div>
 
-    <!--
     <div class="field">
-      <label class="label">Matprederanser/allergener</label>
+      <label class="label" aria-hidden="true">Allergier</label>
       <div class="control">
         <input
           class="input"
@@ -92,7 +97,6 @@
         />
       </div>
     </div>
--->
 
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
@@ -111,7 +115,6 @@
         </button>
       </div>
     </div>
-
   </article>
 </template>
 
@@ -131,7 +134,7 @@ export default {
       password: "",
       password2: "",
       city: "",
-      age: "",
+      age: 0,
       allergies: ""
     });
     const errorMessage = ref("");

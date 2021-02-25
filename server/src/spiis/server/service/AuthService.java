@@ -17,8 +17,10 @@ import spiis.server.model.User;
 import spiis.server.repository.UserRepository;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -92,27 +94,6 @@ public class AuthService {
     }
 
     /**
-     * Gets the id of the user that owns the token
-     * @param token the token
-     * @return InvalidTokenException if the token is null/unrecognized
-     */
-    @Transactional(readOnly = true)
-    public Long getUserIdForToken(@Nullable String token) {
-        return Objects.requireNonNull(getUserForToken(token).getId());
-    }
-
-    /**
-     * Gets a UserResponse for the user that owns the given token
-     * @param token the token
-     * @return UserResponse for the user
-     * @throws InvalidTokenException if the token is null/unrecognized
-     */
-    @Transactional(readOnly = true)
-    public UserResponse getUserResponseForToken(@Nullable String token) {
-        return userService.makeUserResponse(getUserForToken(token));
-    }
-
-    /**
      * Logs in a user with email and password.
      * @param email the user's email
      * @param password the password used to log in
@@ -127,28 +108,48 @@ public class AuthService {
             throw new InvalidTokenException();
 
         String token = makeTokenForUser(user.getId());
-        UserResponse userResponse = userService.makeUserResponse(user);
+        UserResponse userResponse = userService.makeUserResponse(user, true);
         return new LogInResponse(userResponse, token);
     }
 
     /**
-     * Checks if a request with the given token has access to the given user.
-     * If the token can't be used, an exception is thrown.
+     * Checks if the given token has access on behalf of the user
      * @param token the token
-     * @param userId the id of the user in question
-     * @throws InvalidTokenException if the token is null/unrecognized
-     * @throws ForbiddenException if the token isn't authorized for the given user
+     * @param userId the id of the user
+     * @return false if the token is null or doesn't give access
+     * @throws InvalidTokenException if the token is not null, but still invalid
+     */
+    @Transactional(readOnly = true)
+    public boolean doesTokenGiveAccess(@Nullable String token, Long userId) {
+        if (token == null)
+            return false;
+
+        User tokenUser = getUserForToken(token);
+        return userId.equals(tokenUser.getId());
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
+    public boolean doesTokenGiveAccess(@Nullable String token, User user) {
+        return doesTokenGiveAccess(token, Objects.requireNonNull(user.getId()));
+    }
+
+    /**
+     * Throws if the token doesn't give access to the user
+     * @param token the token
+     * @param userId the userId
+     * @throws InvalidTokenException if the token null or unrecognized
+     * @throws ForbiddenException if the token is valid but doesn't have access
      */
     @Transactional(readOnly = true)
     public void throwIfForbidden(@Nullable String token, Long userId) {
-        User user = getUserForToken(token);
-
-        if (!userId.equals(user.getId()))
+        if (token == null)
+            throw new InvalidTokenException();
+        if (!doesTokenGiveAccess(token, userId))
             throw new ForbiddenException();
     }
 
     @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
-    public void throwIfForbidden(@Nullable String token, User user) {
-        throwIfForbidden(token, Objects.requireNonNull(user.getId()));
+    public void throwIfForbidden(@Nullable String token, User users) {
+        throwIfForbidden(token, Objects.requireNonNull(users.getId()));
     }
 }
