@@ -3,7 +3,7 @@
     <h1>Ny bruker</h1>
 
     <div class="field">
-      <label class="label" aria-hidden="true">Fornavn</label>
+      <label class="label">Fornavn</label>
       <div class="control">
         <input
           class="input"
@@ -15,7 +15,7 @@
     </div>
 
     <div class="field">
-      <label class="label" aria-hidden="true">Etternavn</label>
+      <label class="label">Etternavn</label>
       <div class="control">
         <input
           class="input"
@@ -27,7 +27,7 @@
     </div>
 
     <div class="field">
-      <label class="label" aria-hidden="true">Alder</label>
+      <label class="label">Alder</label>
       <div class="control">
         <input
           class="input"
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="field">
-      <label class="label" aria-hidden="true">By</label>
+      <label class="label">By</label>
       <div class="control">
         <input
           class="input"
@@ -50,7 +50,7 @@
     </div>
 
     <div class="field">
-      <label class="label" aria-hidden="true">E-post</label>
+      <label class="label">E-post</label>
       <div class="control">
         <input
           class="input"
@@ -62,7 +62,7 @@
     </div>
 
     <div class="field">
-      <label class="label" aria-hidden="true">Passord</label>
+      <label class="label">Passord</label>
       <div class="control">
         <input
           class="input"
@@ -74,7 +74,7 @@
     </div>
 
     <div class="field">
-      <label class="label" aria-hidden="true">Gjenta passord</label>
+      <label class="label">Gjenta passord</label>
       <div class="control">
         <input
           class="input"
@@ -86,7 +86,7 @@
     </div>
 
     <div class="field">
-      <label class="label" aria-hidden="true">Allergier</label>
+      <label class="label">Allergier</label>
       <div class="control">
         <input
           class="input"
@@ -133,7 +133,7 @@ export default {
       password: "",
       password2: "",
       city: "",
-      age: 0,
+      age: "",
       allergies: ""
     });
     const errorMessage = ref("");
@@ -172,6 +172,10 @@ export default {
 <style lang="scss" scoped>
 .trans {
   padding-bottom: 5px;
+
+  label {
+    display: none;
+  }
 
   .button {
     font-size: 14pt;
