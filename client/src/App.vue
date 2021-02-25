@@ -30,7 +30,7 @@ export default {
 <style lang="scss">
 @import "src/assets/main.scss";
 
-main{
+main {
   margin-top: 140px;
   padding: 0;
 }
@@ -48,11 +48,9 @@ main{
   #bakgrunn {
     min-width: 980px;
   }
- }
-
-footer{
-  margin-top: 5%;
 }
 
-
+footer {
+  margin-top: 5%;
+}
 </style>

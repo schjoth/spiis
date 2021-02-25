@@ -26,6 +26,13 @@ export default {
 .dinners {
   display: flex;
   flex-wrap: wrap;
+  margin-left: -20px;
+  margin-right: -20px;
+
+  > * {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 
 .invite {
@@ -37,8 +44,7 @@ export default {
   text-shadow: 0px 0px 20px #000000;
 }
 
-.invite:hover{
+.invite:hover {
   color: #ffffff;
 }
-
 </style>

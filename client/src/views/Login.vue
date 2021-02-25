@@ -85,15 +85,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .trans {
-  h1{
+  h1 {
     font-size: 12pt;
     font-style: italic;
   }
 }
-
-
-
 </style>

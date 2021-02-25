@@ -172,14 +172,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 $orange: rgb(253, 164, 87);
 
-h1{
+h1 {
   color: #222222;
 }
 
-.button{
+.button {
   font-size: 14pt;
   font-weight: bolder;
   color: #323232;
@@ -188,19 +187,19 @@ h1{
   border-radius: 20px;
 }
 
-.button:hover{
+.button:hover {
   background-color: $orange;
   border-radius: 40px;
   color: #ffffff;
 }
 
-article{
+article {
   background-color: white;
 
-    .input, .textarea{
-      color: black;
-      border-color: #323232;
-    }
+  .input,
+  .textarea {
+    color: black;
+    border-color: #323232;
+  }
 }
-
 </style>

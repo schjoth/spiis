@@ -34,36 +34,7 @@ $fullhd-enabled: false;
   background-attachment: fixed;
 }
 
-.navbar {
-  background-color: $n;
-}
-
-
-main {
-  padding: 40px 10px 40px 10px;
-  flex-grow: 1;
-}
-
-.footer {
-  background-color: $n;
-}
-
-article {
-  @extend .container;
-  max-width: 860px;
-}
-
-
-
-h1 {
-  @extend .title;
-  font-size: 30pt;
-  font-family: "Avenir Next";
-  font-style: italic;
-  color: white;
-  text-shadow: 0 0 50px white;
-}
-
+// UBRUKT?
 #container{
   h1 {
     padding: 0;
@@ -79,20 +50,45 @@ h1 {
   //box-shadow: 0 0 20px rgba(10, 10, 10, 0.3);
 }
 
-h2{
+.navbar {
+  background-color: $n;
+}
+
+main {
+  padding: 40px 10px 40px 10px;
+  flex-grow: 1;
+}
+
+.footer {
+  background-color: $n;
+}
+
+article {
+  @extend .container;
+  max-width: 860px;
+}
+
+h1 {
+  @extend .title;
+  font-size: 30pt;
+  font-family: "Avenir Next", serif;
+  font-style: italic;
+  color: white;
+  text-shadow: 0 0 50px white;
+}
+
+h2 {
   font-size: 18pt;
   margin-top: 40px;
   font-weight: bolder;
   text-shadow: 0 0 20px #000000;
 }
 
-
 .field{
   margin-top: 20px;
   margin-bottom: 20px;
   background-color: transparent;
 }
-
 
 .max-600 {
   max-width: 600px;
@@ -106,22 +102,12 @@ h2{
   max-width: 400px;
 }
 
-
 .box {
   color: #222222;
+  h1{
+    color: inherit;
+  }
 }
-
-
-
-#profilside{
-  color: #323232;
-  border-radius: 20px;
-  padding: 30px;
-  background-color: white;
-}
-
-
-
 
 @import "dark-form";
 

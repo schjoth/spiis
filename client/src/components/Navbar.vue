@@ -95,11 +95,8 @@ export default {
 };
 </script>
 
-
-
 <style lang="scss" scoped>
-
-nav{
+nav {
   position: fixed;
   width: 100%;
 }
@@ -108,17 +105,17 @@ nav{
   max-height: 90px;
 }
 
-
-
-
-a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover,
-a.navbar-item.is-active, .navbar-link:focus, .navbar-link:focus-within,
-.navbar-link:hover, .navbar-link.is-active{
+a.navbar-item:focus,
+a.navbar-item:focus-within,
+a.navbar-item:hover,
+a.navbar-item.is-active,
+.navbar-link:focus,
+.navbar-link:focus-within,
+.navbar-link:hover,
+.navbar-link.is-active {
   color: white;
   font-weight: bolder;
   font-size: larger;
   background-color: transparent;
 }
-
-
 </style>

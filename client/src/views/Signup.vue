@@ -1,6 +1,5 @@
 <template>
   <article class="max-500 trans">
-
     <h1>Ny bruker</h1>
 
     <div class="field">
@@ -171,26 +170,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.trans {
+  padding-bottom: 5px;
 
-  .trans{
-    padding-bottom: 5px;
-
-    .button{
-      font-size: 14pt;
-    }
-
-
-
-    .button:hover{
-      background-color: white;
-      border-radius: 40px;
-      color: #323232;
-    }
-
-    .button :active{
-      font-weight: bolder;
-    }
-
+  .button {
+    font-size: 14pt;
   }
 
+  .button:hover {
+    background-color: white;
+    border-radius: 40px;
+    color: #323232;
+  }
+
+  .button :active {
+    font-weight: bolder;
+  }
+}
 </style>
