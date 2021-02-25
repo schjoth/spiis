@@ -1,0 +1,73 @@
+.trans {
+  background-color: rgb(0,0,0,0.5);
+  color: white;
+  padding: 30px;
+  box-shadow: black;
+  border-radius: 20px;
+
+  padding-bottom: 5px;
+  margin-bottom: 75px;
+
+  h1 {
+    color: white;
+  }
+
+  .field {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .textarea, .input {
+    background-color: transparent;
+  }
+
+  .input {
+    color: white;
+    border-color: rgb(255,255,255,0.55);
+  }
+
+  .input:hover {
+    border-color: white;
+  }
+
+  .input:focus{
+    border-color: rgb(255, 135, 70);
+  }
+
+  ::placeholder {
+    color: rgb(255,255,255,0.6);
+  }
+
+  .button {
+    font-size: 20pt;
+  }
+}
+
+
+.is-superdark{
+  background-color: transparent;
+  color: white;
+  border-color: transparent;
+}
+
+.is-superdark:hover, .is-superdark:active, .button.is-primary:active, .button.is-primary.is-active {
+  background-color: white;
+  border-radius: 40px;
+  color: #323232;
+}
+
+.is-superdark:active, .button.is-primary:active, .button.is-primary.is-active {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+
+.button:focus:not(:active), .button.is-focused:not(:active), .button.is-primary:focus:not(:active), .button.is-primary.is-focused:not(:active){
+  color: white;
+  box-shadow: none;
+  border-color: transparent;
+  font-style: oblique;
+}
+
+
+

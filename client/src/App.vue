@@ -29,4 +29,28 @@ export default {
 
 <style lang="scss">
 @import "src/assets/main.scss";
+
+main {
+  margin-top: 140px;
+  padding: 0;
+}
+
+#bakgrunn {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
+
+@media only screen and (max-width: 980px) {
+  #bakgrunn {
+    min-width: 980px;
+  }
+}
+
+footer {
+  margin-top: 5%;
+}
 </style>

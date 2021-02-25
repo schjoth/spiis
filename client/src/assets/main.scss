@@ -4,47 +4,132 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
 // Set your brand colors
-$purple: #8A4D76;
-$pink: #FA7C91;
+$gjennomsiktig: rgba(130, 130, 130, 0);
+$orange: rgb(253, 164, 87);;
 $brown: #757763;
 $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
+$white: #ffffff;
+$n: rgb(227, 153, 87, 0.55);
 
 // Update Bulma's global variables
 $family-sans-serif: "Nunito", sans-serif;
-$grey-dark: $brown;
-$grey-light: $beige-light;
-$primary: $purple;
-$link: $pink;
+$grey-dark: $white;
+$grey-light: $n;
+$primary: $gjennomsiktig;
+$link: $orange;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
 
 @import "~bulma";
 
+
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-image: url("assets/middagsdeling_bakgrunnsbilde.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+// UBRUKT?
+#container{
+  h1 {
+    padding: 0;
+    border-radius: 0;
+    background-image: none;
+    box-shadow: none;
+  }
+
+  padding: 10px 50px 10px 50px;
+  border-radius: 20px;
+  //background-image: linear-gradient(to bottom right, rgba(10, 10, 10, 0.1), transparent);
+  background-color: rgba(10, 10, 10, 0.2);
+  //box-shadow: 0 0 20px rgba(10, 10, 10, 0.3);
+}
+
+.navbar {
+  background-color: $n;
 }
 
 main {
+  padding: 40px 10px 40px 10px;
   flex-grow: 1;
 }
 
-footer {
-  margin-top: 20px;
+.footer {
+  background-color: $n;
 }
 
 article {
-  padding: 10px 10px;
   @extend .container;
+  max-width: 860px;
 }
 
 h1 {
   @extend .title;
+  font-size: 30pt;
+  font-family: "Avenir Next", serif;
+  font-style: italic;
+  color: white;
+  text-shadow: 0 0 50px white;
+}
+
+h2 {
+  font-size: 18pt;
+  margin-top: 40px;
+  font-weight: bolder;
+  text-shadow: 0 0 20px #000000;
+}
+
+.field{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: transparent;
 }
 
 .max-600 {
   max-width: 600px;
 }
 
+.max-500 {
+  max-width: 500px;
+}
+
+.max-400 {
+  max-width: 400px;
+}
+
+.box {
+  color: #222222;
+  h1{
+    color: inherit;
+  }
+}
+
+@import "dark-form";
+
+
+
+@media only screen and (max-width: 980px) {
+  .input {
+    font-size: 10pt;
+  }
+
+  button{
+    font-size: 14pt;
+  }
+}
+
+
+
+@media only screen and (max-width: 550px) {
+  .trans {
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+
+
+}

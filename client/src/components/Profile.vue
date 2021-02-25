@@ -1,6 +1,6 @@
 <template>
-  <div class="box has-text-centered">
-    <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+  <div class="box max-500" v-if="user">
+    <h1 class="has-text-centered">{{ user.firstName }} {{ user.lastName }}</h1>
     <p><b>Alder: </b>{{ user.age }}</p>
     <p v-if="isMyUser"><b>Epost: </b>{{ user.email }}</p>
     <p><b>By: </b>{{ user.city }}</p>
@@ -20,3 +20,13 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.box {
+  margin: auto;
+  color: #323232;
+  border-radius: 20px;
+  padding: 30px;
+  background-color: white;
+}
+</style>
