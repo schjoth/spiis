@@ -1,68 +1,90 @@
 <template>
-  <article class="max-600">
-    <h1>Ny Bruker</h1>
+  <article class="max-500 trans">
+    <h1>Ny bruker</h1>
+
     <div class="field">
       <label class="label" aria-hidden="true">Fornavn</label>
       <div class="control">
         <input
           class="input"
           type="text"
-          placeholder=""
+          placeholder="Fornavn"
           v-model="input.firstName"
         />
       </div>
     </div>
+
     <div class="field">
       <label class="label" aria-hidden="true">Etternavn</label>
       <div class="control">
         <input
           class="input"
           type="text"
-          placeholder=""
+          placeholder="Etternavn"
           v-model="input.lastName"
         />
       </div>
     </div>
+
     <div class="field">
-      <label class="label" aria-hidden="true">E-post</label>
-      <div class="control">
-        <input class="input" type="text" placeholder="" v-model="input.email" />
-      </div>
-    </div>
-    <div class="field">
-      <label class="label" aria-hidden="true">Passord</label>
+      <label class="label" aria-hidden="true">Alder</label>
       <div class="control">
         <input
           class="input"
-          type="password"
-          placeholder=""
-          v-model="input.password"
-        />
-      </div>
-    </div>
-    <div class="field">
-      <label class="label" aria-hidden="true">Gjenta passord</label>
-      <div class="control">
-        <input
-          class="input"
-          type="password"
-          placeholder=""
-          v-model="input.password2"
+          type="text"
+          placeholder="Alder"
+          v-model="input.age"
         />
       </div>
     </div>
     <div class="field">
       <label class="label" aria-hidden="true">By</label>
       <div class="control">
-        <input class="input" type="text" placeholder="" v-model="input.city" />
+        <input
+          class="input"
+          type="text"
+          placeholder="By"
+          v-model="input.city"
+        />
       </div>
     </div>
+
     <div class="field">
-      <label class="label" aria-hidden="true">Alder</label>
+      <label class="label" aria-hidden="true">E-post</label>
       <div class="control">
-        <input class="input" type="number" placeholder="" v-model="input.age" />
+        <input
+          class="input"
+          type="text"
+          placeholder="E-post"
+          v-model="input.email"
+        />
       </div>
     </div>
+
+    <div class="field">
+      <label class="label" aria-hidden="true">Passord</label>
+      <div class="control">
+        <input
+          class="input"
+          type="password"
+          placeholder="Passord"
+          v-model="input.password"
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label" aria-hidden="true">Gjenta passord</label>
+      <div class="control">
+        <input
+          class="input"
+          type="password"
+          placeholder="Gjenta passord"
+          v-model="input.password2"
+        />
+      </div>
+    </div>
+
     <div class="field">
       <label class="label" aria-hidden="true">Allergier</label>
       <div class="control">
@@ -74,19 +96,21 @@
         />
       </div>
     </div>
+
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
         {{ errorMessage }}
       </p>
     </div>
+
     <div class="field is-grouped is-grouped-centered">
-      <div class="control">
+      <div class="control" id="NyBrukerKnapp">
         <button
           class="button is-primary"
           v-on:click="signupClick"
           :disabled="waiting"
         >
-          Ny bruker
+          Registrer ny bruker
         </button>
       </div>
     </div>
@@ -108,7 +132,6 @@ export default {
       email: "",
       password: "",
       password2: "",
-      postCode: "",
       city: "",
       age: "",
       allergies: ""
@@ -129,7 +152,7 @@ export default {
         password: input.password,
         city: input.city,
         age: +input.age,
-        allergies: input.allergies.split(", ").map((it) => it.trim())
+        allergies: input.allergies.split(",").map((it) => it.trim())
       };
 
       try {
@@ -146,4 +169,22 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.trans {
+  padding-bottom: 5px;
+
+  .button {
+    font-size: 14pt;
+  }
+
+  .button:hover {
+    background-color: white;
+    border-radius: 40px;
+    color: #323232;
+  }
+
+  .button :active {
+    font-weight: bolder;
+  }
+}
+</style>

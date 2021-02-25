@@ -1,5 +1,5 @@
 <template>
-  <article class="max-600">
+  <article class="box max-600">
     <h1>{{ !edit ? "Inviter til middag!" : "Rediger arrangment" }}</h1>
     <div class="field">
       <label class="label">Tittel</label>
@@ -99,7 +99,7 @@
     <div class="field is-grouped is-grouped-centered">
       <div class="control">
         <button class="button is-primary" v-on:click="createClicked">
-          {{ !edit ? "Opprett Arrangemet!" : "Oppdater" }}
+          {{ !edit ? "OPPRETT ARRANGEMENT" : "Oppdater" }}
         </button>
       </div>
     </div>
@@ -171,4 +171,35 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+$orange: rgb(253, 164, 87);
+
+h1 {
+  color: #222222;
+}
+
+.button {
+  font-size: 14pt;
+  font-weight: bolder;
+  color: #323232;
+  outline-width: 3px;
+  outline-color: #323232;
+  border-radius: 20px;
+}
+
+.button:hover {
+  background-color: $orange;
+  border-radius: 40px;
+  color: #ffffff;
+}
+
+article {
+  background-color: white;
+
+  .input,
+  .textarea {
+    color: black;
+    border-color: #323232;
+  }
+}
+</style>

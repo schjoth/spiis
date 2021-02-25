@@ -1,12 +1,12 @@
 <template>
-  <article class="max-600 box">
-    <h1>Login</h1>
+  <article class="max-500 trans">
+    <h1>Logg inn med e-post og passord:</h1>
     <div class="field">
       <p class="control has-icons-left has-icons-right">
         <input
           class="input"
           type="email"
-          placeholder="Email"
+          placeholder="E-post"
           v-model="input.email"
         />
         <span class="icon is-small is-left">
@@ -22,7 +22,7 @@
         <input
           class="input"
           type="password"
-          placeholder="Password"
+          placeholder="Passord"
           v-model="input.password"
         />
         <span class="icon is-small is-left">
@@ -37,8 +37,12 @@
     </div>
     <div class="field is-grouped is-grouped-centered">
       <p class="control">
-        <button class="button is-success" v-on:click="loginClicked">
-          Login
+        <button
+          class="button is-superdark"
+          :disabled="waiting"
+          v-on:click="loginClicked"
+        >
+          LOGG INN
         </button>
       </p>
     </div>
@@ -80,4 +84,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.trans {
+  h1 {
+    font-size: 12pt;
+    font-style: italic;
+  }
+}
+</style>

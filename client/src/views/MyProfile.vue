@@ -7,14 +7,14 @@
 <script lang="ts">
 import Profile from "../components/Profile.vue";
 import { getLogInState } from "@/store/loginState";
-import { ref } from "vue";
+import { computed } from "vue";
 export default {
   name: "MyProfile",
   components: {
     Profile
   },
   setup() {
-    const user = ref(getLogInState().user);
+    const user = computed(() => getLogInState().user);
     return { user };
   }
 };

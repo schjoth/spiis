@@ -40,6 +40,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/Signup.vue")
   },
   {
+    path: "/loggedOut",
+    name: "Logged Out",
+    meta: { requiresAnon: true },
+    component: () => import("@/views/LoggedOut.vue")
+  },
+  {
     path: "/user/:userId",
     name: "User",
     meta: { requiresAuth: true },
@@ -68,7 +74,7 @@ const status = computed(() => getLogInState().status);
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && status.value === "loggedOut") next("/login");
-  else if (to.meta.requiresAnon && status.value === "loggingIn") next("/");
+  else if (to.meta.requiresAnon && status.value === "loggedIn") next("/");
   else next();
 });
 
