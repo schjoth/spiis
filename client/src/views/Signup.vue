@@ -2,7 +2,7 @@
   <article class="max-600">
     <h1>Ny Bruker</h1>
     <div class="field">
-      <label class="label">Fornavn</label>
+      <label class="label" aria-hidden="true">Fornavn</label>
       <div class="control">
         <input
           class="input"
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="field">
-      <label class="label">Etternavn</label>
+      <label class="label" aria-hidden="true">Etternavn</label>
       <div class="control">
         <input
           class="input"
@@ -24,13 +24,13 @@
       </div>
     </div>
     <div class="field">
-      <label class="label">E-post</label>
+      <label class="label" aria-hidden="true">E-post</label>
       <div class="control">
         <input class="input" type="text" placeholder="" v-model="input.email" />
       </div>
     </div>
     <div class="field">
-      <label class="label">Passord</label>
+      <label class="label" aria-hidden="true">Passord</label>
       <div class="control">
         <input
           class="input"
@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="field">
-      <label class="label">Gjenta passord</label>
+      <label class="label" aria-hidden="true">Gjenta passord</label>
       <div class="control">
         <input
           class="input"
@@ -52,19 +52,19 @@
       </div>
     </div>
     <div class="field">
-      <label class="label">By</label>
+      <label class="label" aria-hidden="true">By</label>
       <div class="control">
         <input class="input" type="text" placeholder="" v-model="input.city" />
       </div>
     </div>
     <div class="field">
-      <label class="label">Alder</label>
+      <label class="label" aria-hidden="true">Alder</label>
       <div class="control">
         <input class="input" type="number" placeholder="" v-model="input.age" />
       </div>
     </div>
     <div class="field">
-      <label class="label">Allergier</label>
+      <label class="label" aria-hidden="true">Allergier</label>
       <div class="control">
         <input
           class="input"
@@ -110,7 +110,7 @@ export default {
       password2: "",
       postCode: "",
       city: "",
-      age: 0,
+      age: "",
       allergies: ""
     });
     const errorMessage = ref("");
