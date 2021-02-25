@@ -87,8 +87,8 @@ export default {
       loggedOut,
       name,
       logOut: async () => {
-        await router.replace("/");
         await logOut();
+        await router.replace("/loggedOut");
       }
     };
   }
