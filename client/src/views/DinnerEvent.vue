@@ -129,7 +129,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cancelled {
   padding: 20px;
   margin-bottom: 10px;
