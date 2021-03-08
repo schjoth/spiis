@@ -15,4 +15,5 @@ public class UserResponse {
     private int age;
     private String city;
     private List<String> allergies;
+    private boolean admin;
 }
