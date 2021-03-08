@@ -39,6 +39,9 @@ public class User {
     @Column(nullable = false)
     private String city;
 
+    @Column(nullable = false)
+    private boolean admin;
+
     @OneToMany(mappedBy = "host")
     private final Set<Dinner> hosting = new HashSet<>();
 

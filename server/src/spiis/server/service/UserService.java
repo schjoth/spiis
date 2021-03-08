@@ -43,7 +43,8 @@ public class UserService {
                 .lastName(user.getLastName())
                 .age(user.getAge())
                 .city(user.getCity())
-                .allergies(makeAllergyList(user));
+                .allergies(makeAllergyList(user))
+                .admin(user.isAdmin());
 
         if (yourself)
             builder.email(user.getEmail());
@@ -83,6 +84,7 @@ public class UserService {
         user.setLastName(request.getLastName().trim());
         user.setCity(request.getCity().trim());
         user.setAge(request.getAge());
+        user.setAdmin(false);
 
         for (String allergy : request.getAllergies())
             user.addAllergy(new Allergy(allergy));
