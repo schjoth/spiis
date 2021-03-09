@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "SpiisUser")
 @Data
 public class User {
 
