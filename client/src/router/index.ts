@@ -62,6 +62,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "EditEvent",
     meta: { requiresAuth: true },
     component: () => import("@/views/EditEvent.vue")
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("@/views/NotFound.vue")
   }
 ];
 
