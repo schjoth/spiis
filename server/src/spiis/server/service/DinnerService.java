@@ -110,4 +110,19 @@ public class DinnerService {
 
         dinner.verifyModel();
     }
+
+    /**
+     * Deletes a dinner, not to be confused with cancelling.
+     * Will remove any relationships it has.
+     * @param dinner the dinner
+     */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void deleteDinner(Dinner dinner) {
+        dinnerRepository.delete(dinner);
+    }
+
+    @Transactional
+    public void deleteDinner(Long dinnerId) {
+        deleteDinner(dinnerRepository.findById(dinnerId).orElseThrow(NotFoundException::new));
+    }
 }

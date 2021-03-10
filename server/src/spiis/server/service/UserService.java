@@ -34,6 +34,13 @@ public class UserService {
         return user.getAllergies().stream().map(Allergy::getAllergy).collect(Collectors.toList());
     }
 
+    /**
+     * Makes a serializable object containing info about the User.
+     * If the response is intended for the user itself, extra info can be included
+     * @param user the user we want info about
+     * @param yourself if the response is for the user itself
+     * @return UserResponse the info
+     */
     @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
     public UserResponse makeUserResponse(User user, boolean yourself) {
         Objects.requireNonNull(user.getId());
@@ -57,6 +64,10 @@ public class UserService {
         return makeUserResponse(userRepository.findById(userId).orElseThrow(NotFoundException::new), yourself);
     }
 
+    /**
+     * Make UserResponse objects for every user.
+     * @return the list of response objects
+     */
     @Transactional(readOnly = true)
     public List<UserResponse> makeUserResponses() {
         List<UserResponse> responses = new ArrayList<>();
@@ -92,5 +103,20 @@ public class UserService {
         user.verifyModel();
         userRepository.save(user);
         return makeUserResponse(user, true);
+    }
+
+    /**
+     * Removes a user from the database.
+     * Will in turn remove any relationships the user has, possibly deleting other things
+     * @param user the user to be deleted
+     */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        deleteUser(userRepository.findById(userId).orElseThrow(NotFoundException::new));
     }
 }

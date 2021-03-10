@@ -65,19 +65,22 @@ public class AuthService {
      * Creates a new authorization token for the given user.
      * Can invalidate previous tokens.
      *
-     * @param userId the id of the user
+     * @param user the user
      * @return the new token for the user
      * @throws NotFoundException if no user exists with the given id
      */
-    @Transactional
-    public String makeTokenForUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-
+    @Transactional(propagation = Propagation.MANDATORY)
+    public String makeTokenForUser(User user) {
         String tokenText = generateToken();
         AuthToken token = new AuthToken(tokenText);
 
         user.setToken(token);
         return tokenText;
+    }
+
+    @Transactional
+    public String makeTokenForUser(Long userId) {
+        return makeTokenForUser(userRepository.findById(userId).orElseThrow(NotFoundException::new));
     }
 
     /**
@@ -149,7 +152,7 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
-    public void throwIfForbidden(@Nullable String token, User users) {
-        throwIfForbidden(token, Objects.requireNonNull(users.getId()));
+    public void throwIfForbidden(@Nullable String token, User user) {
+        throwIfForbidden(token, Objects.requireNonNull(user.getId()));
     }
 }
