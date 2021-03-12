@@ -8,7 +8,8 @@
       <strong>Spiis</strong> er laget av gruppe 53 i TDT4140, våren 2021.
     </div>
     <div class="content has-text-centered">
-      <strong>Kontaktinfo:</strong> <a href="mailto:admin@admin.no" style="color:white"> Admin Adminson</a>
+      <strong>Kontaktinfo:</strong>
+      <a href="mailto:admin@admin.no" style="color: white"> Admin Adminson</a>
     </div>
   </footer>
 </template>
@@ -56,6 +57,4 @@ main {
 footer {
   margin-top: 5%;
 }
-
-
 </style>
