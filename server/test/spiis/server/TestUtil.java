@@ -92,7 +92,7 @@ public class TestUtil {
     public DinnerRequest randomDinnerRequest() {
         DinnerRequest request = new DinnerRequest();
         request.setTitle(randomName(10));
-        request.setDate("2022-15-03");
+        request.setDate("2022-12-03");
         request.setStartTime("18:00");
         request.setEndTime("20:00");
         request.setDescription(randomAZ09(30));
