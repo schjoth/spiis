@@ -47,20 +47,4 @@ export default {
 .invite:hover {
   color: #ffffff;
 }
-
-
-@media only screen and (max-width: 980px){
-  .invite {
-    padding-left: 0;
-    padding-right: 0;
-
-    box-sizing: unset;
-  }
-
-  .dinners{
-    justify-content: center;
-  }
-}
-
-
 </style>

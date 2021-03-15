@@ -6,7 +6,7 @@
         <span v-if="dinner.cancelled" class="cancelled">(AVLYST!)</span>
       </h1>
     </router-link>
-    <p class="dateLine">
+    <p>
       <span class="date">{{ dinner.date }}</span> {{ dinner.startTime }} -
       {{ dinner.endTime }}
     </p>
@@ -34,31 +34,14 @@ export default {
 
 <style lang="scss" scoped>
 div {
-  min-width: 40%;
+  width: 40%;
   height: 300px;
   border-radius: 20px;
 
   h1 {
     color: inherit;
   }
-
-  .date {
-    font-weight: bold;
-  }
-
-  .dateLine{
-    margin-bottom: 10px;
-  }
 }
-
-
-@media only screen and (max-width: 980px) {
-  div{
-    width: 100vw;
-  }
-
-}
-
 
 .cancelled {
   color: red;
@@ -67,4 +50,7 @@ div {
   font-family: sans-serif;
 }
 
+.date {
+  font-weight: bold;
+}
 </style>
