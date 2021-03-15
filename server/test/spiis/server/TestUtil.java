@@ -99,7 +99,7 @@ public class TestUtil {
         request.setAddressLine(randomName(10));
         request.setPostCode(randomNumString(4));
         request.setCity(randomName(10));
-        request.setMaxGuests(randomInt(2, 10));
+        request.setMaxGuests(randomInt(2,10));
         request.setExpenses("None!");
         return request;
     }
