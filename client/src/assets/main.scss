@@ -65,7 +65,8 @@ main {
 
 article {
   @extend .container;
-  max-width: 860px;
+  max-width: 90vw;
+  margin: auto;             
 }
 
 h1 {
@@ -121,6 +122,13 @@ h2 {
   button{
     font-size: 14pt;
   }
+
+   div .invite{
+    max-width: 85vw;
+    margin: auto;
+    height: 100px;
+  }
+
 }
 
 
@@ -130,6 +138,5 @@ h2 {
     margin-left: 2%;
     margin-right: 2%;
   }
-
 
 }
