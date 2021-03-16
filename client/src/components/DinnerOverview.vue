@@ -41,10 +41,23 @@ export default {
   padding-right: 1%;
   height: 150px;
   font-size: 50pt;
-  text-shadow: 0px 0px 20px #000000;
+  text-shadow: 0 0 20px #000000;
 }
 
 .invite:hover {
   color: #ffffff;
+}
+
+@media only screen and (max-width: 980px) {
+  .invite {
+    padding-left: 0;
+    padding-right: 0;
+
+    box-sizing: unset;
+  }
+
+  .dinners {
+    justify-content: center;
+  }
 }
 </style>

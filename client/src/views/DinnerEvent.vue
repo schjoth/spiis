@@ -140,4 +140,10 @@ export default {
   flex-direction: row;
   align-items: baseline;
 }
+
+.button:focus:not(:active),
+.button.is-primary:focus:not(:active) {
+  background-color: #fda45705;
+  font-style: normal;
+}
 </style>
