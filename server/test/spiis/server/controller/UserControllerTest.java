@@ -3,6 +3,7 @@ package spiis.server.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import spiis.server.AssertUtil;
 import spiis.server.api.*;
 import spiis.server.model.User;
 import spiis.server.service.AuthService;
@@ -30,9 +31,9 @@ public class UserControllerTest {
         LogInResponse user3 = testUtil.createdLoggedInUser();
 
         List<UserResponse> allUsers = userController.getAllUsers();
-        assertTrue(allUsers.stream().anyMatch(it -> it.getId() == user1.getUser().getId()));
-        assertTrue(allUsers.stream().anyMatch(it -> it.getId() == user2.getUser().getId()));
-        assertTrue(allUsers.stream().anyMatch(it -> it.getId() == user3.getUser().getId()));
+        assertTrue(allUsers.stream().anyMatch(it -> it.getId().equals(user1.getUser().getId())));
+        assertTrue(allUsers.stream().anyMatch(it -> it.getId().equals(user2.getUser().getId())));
+        assertTrue(allUsers.stream().anyMatch(it -> it.getId().equals(user3.getUser().getId())));
 
         testUtil.deleteUser(user1.getUser().getId());
         testUtil.deleteUser(user2.getUser().getId());
@@ -46,7 +47,7 @@ public class UserControllerTest {
         UserResponse user = userController.getUser(user1.getId(), response.getToken());
         assertEquals(user1.getAge(), user.getAge());
         assertEquals(user1.getId(), user.getId());
-        assertEquals(user1.getAllergies(), user.getAllergies());
+        assertTrue(AssertUtil.listsContainSame(user1.getAllergies(), user.getAllergies()));
         assertEquals(user1.getEmail(), user.getEmail());
         assertEquals(user1.getCity(), user.getCity());
         assertEquals(user1.getFirstName(), user.getFirstName());

@@ -38,7 +38,7 @@ public class AuthService {
         this.bcryptPasswordEncoder = new BCryptPasswordEncoder(BCRYPT_STRENGTH, new SecureRandom());
     }
 
-    private String generateToken() {
+    public String generateToken() {
         return UUID.randomUUID().toString();
     }
 
@@ -116,43 +116,58 @@ public class AuthService {
     }
 
     /**
-     * Checks if the given token has access on behalf of the user
+     * Checks if the given token has access on behalf of the user.
+     * If the token belongs to an admin access is always permitted.
      * @param token the token
-     * @param userId the id of the user
+     * @param user the user
      * @return false if the token is null or doesn't give access
      * @throws InvalidTokenException if the token is not null, but still invalid
      */
-    @Transactional(readOnly = true)
-    public boolean doesTokenGiveAccess(@Nullable String token, Long userId) {
+    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
+    public boolean doesTokenGiveAccess(@Nullable String token, User user) {
         if (token == null)
             return false;
 
         User tokenUser = getUserForToken(token);
-        return userId.equals(tokenUser.getId());
+        return tokenUser.isAdmin() || user.equals(tokenUser);
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
-    public boolean doesTokenGiveAccess(@Nullable String token, User user) {
-        return doesTokenGiveAccess(token, Objects.requireNonNull(user.getId()));
+    @Transactional(readOnly = true)
+    public boolean doesTokenGiveAccess(@Nullable String token, Long userId) {
+        return doesTokenGiveAccess(token, userRepository.findById(userId).orElseThrow(NotFoundException::new));
     }
 
     /**
      * Throws if the token doesn't give access to the user
      * @param token the token
-     * @param userId the userId
+     * @param user the user
      * @throws InvalidTokenException if the token null or unrecognized
      * @throws ForbiddenException if the token is valid but doesn't have access
      */
-    @Transactional(readOnly = true)
-    public void throwIfForbidden(@Nullable String token, Long userId) {
+    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
+    public void throwIfForbidden(@Nullable String token, User user) {
         if (token == null)
             throw new InvalidTokenException();
-        if (!doesTokenGiveAccess(token, userId))
+        if (!doesTokenGiveAccess(token, user))
             throw new ForbiddenException();
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
-    public void throwIfForbidden(@Nullable String token, User user) {
-        throwIfForbidden(token, Objects.requireNonNull(user.getId()));
+    @Transactional(readOnly = true)
+    public void throwIfForbidden(@Nullable String token, Long userId) {
+        throwIfForbidden(token, userRepository.findById(userId).orElseThrow(NotFoundException::new));
+    }
+
+    /**
+     * Checks if the user with this token is an admin user
+     * @param token the token for the user
+     * @return true if the token has admin rights
+     * @throws InvalidTokenException if the token isn't null but is invalid
+     */
+    @Transactional(readOnly = true)
+    public boolean isTokenForAdminUser(@Nullable String token) {
+        if (token == null)
+            return false;
+        User user = getUserForToken(token);
+        return user.isAdmin();
     }
 }

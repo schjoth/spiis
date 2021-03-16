@@ -52,6 +52,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/User.vue")
   },
   {
+    path: "/admin",
+    name: "Admin",
+    meta: { requiresAuth: true },
+    component: () => import("@/views/AdminPage.vue")
+  },
+  {
     path: "/MyDinners",
     name: "MyDinners",
     meta: { requiresAuth: true },
