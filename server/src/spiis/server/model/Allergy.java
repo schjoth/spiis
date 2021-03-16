@@ -1,5 +1,6 @@
 package spiis.server.model;
 
+import lombok.ToString;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ public class Allergy {
     @Nullable
     private Long id;
 
+    @ToString.Exclude
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @Nullable
     private User user;
@@ -58,9 +60,9 @@ public class Allergy {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+        if (o == null) return false;
         if (!(o instanceof Allergy)) return false;
-        Allergy allergy1 = (Allergy) o;
-        return Objects.equals(user, allergy1.user) && allergy.equals(allergy1.allergy);
+        return Objects.equals(id, ((Allergy) o).getId());
     }
 
     @Override

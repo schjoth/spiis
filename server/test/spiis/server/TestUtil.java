@@ -105,7 +105,7 @@ public class TestUtil {
     }
 
     @Transactional
-    public DinnerResponse createTestDinner(long userId) {
+    public DinnerResponse createTestDinner(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         return dinnerService.createDinner(randomDinnerRequest(), user);
     }

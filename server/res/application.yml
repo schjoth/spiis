@@ -26,6 +26,7 @@ spring:
 logging:
   # Set all log levels to WARN
   level.root: WARN
+  level.spiis.server.controller: TRACE
 
   # Write the logs to a tmp file
   file.name: "${java.io.tmpdir}/${spring.application.name}.log"

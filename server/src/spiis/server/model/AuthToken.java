@@ -1,11 +1,13 @@
 package spiis.server.model;
 
+import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 @Entity
 public class AuthToken {
@@ -19,6 +21,7 @@ public class AuthToken {
     @NaturalId
     private String token;
 
+    @ToString.Exclude
     @OneToOne(optional = false)
     @Nullable
     private User user;
@@ -73,5 +76,18 @@ public class AuthToken {
     @Nullable
     public OffsetDateTime getCreatedDate() {
         return createdDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof AuthToken)) return false;
+        return Objects.equals(id, ((AuthToken) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

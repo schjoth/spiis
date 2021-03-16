@@ -41,7 +41,6 @@ public class DinnerControllerTest {
         assertEquals(dinner.getMaxGuests(), requestedDinner.getMaxGuests());
         assertEquals(dinner.isCancelled(), requestedDinner.isCancelled());
         assertEquals(dinner.getHost(), requestedDinner.getHost());
-        assertEquals(dinner.getGuests(), requestedDinner.getGuests());
         assertTrue(AssertUtil.listsContainSame(dinner.getGuests(), requestedDinner.getGuests()));
         testUtil.deleteDinner(dinner.getId());
     }
@@ -59,13 +58,12 @@ public class DinnerControllerTest {
         assertTrue(allDinners.stream().anyMatch(i -> i.getId().equals(dinner1.getId())));
         assertTrue(allDinners.stream().anyMatch(i -> i.getId().equals(dinner2.getId())));
         assertTrue(allDinners.stream().anyMatch(i -> i.getId().equals(dinner3.getId())));
-        assertEquals(3, allDinners.size());
 
         testUtil.deleteDinner(dinner1.getId());
-        assertEquals(2, dinnerController.getAllDinners().size());
-
         testUtil.deleteDinner(dinner2.getId());
         testUtil.deleteDinner(dinner3.getId());
+
+        testUtil.deleteUser(user.getId());
     }
 
     @Test
@@ -74,9 +72,9 @@ public class DinnerControllerTest {
         DinnerRequest dinnerRequest = testUtil.randomDinnerRequest();
 
         DinnerResponse dinnerResponse = dinnerController.createDinner(dinnerRequest, logInResponse.getToken()).getBody();
+        assertNotNull(dinnerResponse);
         DinnerResponse dinner = dinnerController.getDinner(dinnerResponse.getId());
 
-        assertNotNull(dinner);
         assertEquals(dinnerResponse, dinner);
         testUtil.deleteDinner(dinnerResponse.getId());
     }
@@ -124,6 +122,7 @@ public class DinnerControllerTest {
         assertTrue(response2.isCancelled());
 
         testUtil.deleteDinner(dinner.getId());
+        testUtil.deleteUser(user.getId());
     }
 
     @Test
