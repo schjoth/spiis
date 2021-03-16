@@ -1,6 +1,7 @@
 package spiis.server.model;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
@@ -57,10 +58,12 @@ public class Dinner {
     @Column(nullable = false)
     private boolean cancelled;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @Nullable
     private User host;
 
+    @ToString.Exclude
     @ManyToMany
     private final Set<User> guests = new HashSet<>();
 
@@ -120,9 +123,9 @@ public class Dinner {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Dinner dinner = (Dinner) o;
-        return Objects.equals(id, dinner.id);
+        if (o == null) return false;
+        if (!(o instanceof Dinner)) return false;
+        return Objects.equals(id, ((Dinner) o).getId());
     }
 
     @Override

@@ -6,6 +6,7 @@ export interface UserResponse {
   age: number;
   city: string;
   allergies: string[];
+  admin: boolean;
 }
 
 export interface LogInRequest {
