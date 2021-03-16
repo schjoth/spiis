@@ -18,43 +18,57 @@ import java.util.Set;
 public class Dinner {
 
     private static final int MAX_DESCRIPTION_LENGTH = 40000;
-    @ManyToMany
-    private final Set<User> guests = new HashSet<>();
+
     @Id
     @GeneratedValue
     @Nullable
     private Long id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false, length = MAX_DESCRIPTION_LENGTH)
     private String description;
+
     @Column(nullable = false, length = MAX_DESCRIPTION_LENGTH)
     private String expenses;
+
     @Column(nullable = false)
     private LocalDate date;
+
     @Column(nullable = false)
     private LocalTime startTime;
+
     @Column(nullable = false)
     private LocalTime endTime;
+
     @Column(nullable = false)
     private String addressLine;
+
     @Column(nullable = false)
     private String postCode;
+
     @Column(nullable = false)
     private String city;
+
     @Column(nullable = false)
     private int maxGuests;
+
     @Column(nullable = false)
     private boolean cancelled;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @Nullable
     private User host;
+
+    @ManyToMany
+    private final Set<User> guests = new HashSet<>();
+
     @CreatedDate
     @Nullable
     private OffsetDateTime createdTime;
 
-    public Dinner() {
-    }
+    public Dinner() {}
 
     @PrePersist
     @PreUpdate
@@ -89,6 +103,7 @@ public class Dinner {
 
         if ((startTime.isAfter(endTime) || startTime.equals(endTime)))
             throw new ModelError("Start time can not be same as nor later than end time");
+
     }
 
     public void setHost(@Nullable User user) {
