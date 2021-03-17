@@ -27,6 +27,7 @@ export default {
       // If we have logged on previously, we already have a token in localStorage
       tryReusingToken();
     });
+    document.title = "Spiis";
   }
 };
 </script>
