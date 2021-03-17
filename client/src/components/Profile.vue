@@ -19,7 +19,7 @@
     </p>
     <button
       class="remove"
-      v-if="userIsAdmin"
+      v-if="loggedInAsAdmin"
       v-on:click="$emit('deleteProperty', user.id)"
     >
       Slett bruker
