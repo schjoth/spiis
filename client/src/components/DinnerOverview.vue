@@ -4,13 +4,13 @@
       v-for="(dinner, index) in dinners"
       :dinner="dinner"
       :key="index"
-      :order="(index + 1) * spacing"
+      :order="index * (adverts.length+1)"
     />
     <Advertisement
       v-for="(advert, index) in adverts"
       :ad="advert"
       :key="index"
-      :order="(index + 1) * spacing * advertFrequency"
+      :order="(index + 1) * dinners.length"
     />
     <div v-if="invite">
       <router-link to="/event/new" class="invite"> + </router-link>
@@ -28,14 +28,6 @@ export default {
     Advertisement
   },
   props: { dinners: Array, invite: Boolean, adverts: Array },
-  setup() {
-    const advertFrequency = 4; //Endre denne variabelen for å endre hvor ofte reklame kommer
-    const spacing = 2;
-    return {
-      advertFrequency,
-      spacing
-    };
-  }
 };
 </script>
 
