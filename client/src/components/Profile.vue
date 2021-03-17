@@ -17,6 +17,13 @@
       <b>Allergier: </b>
       {{ user.allergies.join(", ") }}
     </p>
+    <button
+      class="remove"
+      v-if="loggedInAsAdmin"
+      v-on:click="$emit('deleteProperty', user.id)"
+    >
+      Slett bruker
+    </button>
   </div>
 </template>
 
@@ -81,5 +88,12 @@ export default {
 
 .admin_error {
   color: darkred;
+}
+</style>
+
+<style lang="scss" scoped>
+.remove {
+  color: red;
+  font-weight: bolder;
 }
 </style>
