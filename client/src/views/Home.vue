@@ -27,16 +27,16 @@ export default {
     onMounted(fetchData);
 
     //TODO: replace with server call
-    const adverts = {
-      add1: {
+    const adverts = [
+      {
         link: "www.vg.no",
         owner: "VG"
       },
-      ad2: {
+      {
         link: "www.google.no",
         owner: "Google"
       }
-    };
+    ];
 
     return { dinners, adverts };
   }

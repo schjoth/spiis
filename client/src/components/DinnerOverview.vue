@@ -11,7 +11,7 @@
       :ad="advert"
       :key="index"
       :order="(index + 1) * spacing * advertFrequency"
-    ></Advertisement>
+    />
     <div v-if="invite">
       <router-link to="/event/new" class="invite"> + </router-link>
     </div>
@@ -27,7 +27,7 @@ export default {
     Dinner,
     Advertisement
   },
-  props: { dinners: Array, invite: Boolean, adverts: Object },
+  props: { dinners: Array, invite: Boolean, adverts: Array },
   setup() {
     const advertFrequency = 4; //Endre denne variabelen for å endre hvor ofte reklame kommer
     const spacing = 2;
