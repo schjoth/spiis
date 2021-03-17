@@ -1,10 +1,17 @@
 <template>
   <div class="dinners">
     <Dinner
-      v-for="dinner in dinners"
-      v-bind:dinner="dinner"
-      v-bind:key="dinner.id"
+      v-for="(dinner, index) in dinners"
+      :dinner="dinner"
+      :key="index"
+      :order="(index + 1) * spacing"
     />
+    <Advertisement
+      v-for="(advert, index) in adverts"
+      :ad="advert"
+      :key="index"
+      :order="(index + 1) * spacing * advertFrequency"
+    ></Advertisement>
     <div v-if="invite">
       <router-link to="/event/new" class="invite"> + </router-link>
     </div>
@@ -13,12 +20,22 @@
 
 <script lang="ts">
 import Dinner from "./Dinner.vue";
+import Advertisement from "@/components/Advertisement.vue";
 export default {
   name: "DinnerOverview",
   components: {
-    Dinner
+    Dinner,
+    Advertisement
   },
-  props: { dinners: Array, invite: Boolean }
+  props: { dinners: Array, invite: Boolean, adverts: Object },
+  setup() {
+    const advertFrequency = 4; //Endre denne variabelen for å endre hvor ofte reklame kommer
+    const spacing = 2;
+    return {
+      advertFrequency,
+      spacing
+    };
+  }
 };
 </script>
 
@@ -30,8 +47,8 @@ export default {
   margin-right: -20px;
 
   > * {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 2%;
+    margin-right: 2%;
   }
 }
 
