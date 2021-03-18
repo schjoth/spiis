@@ -48,7 +48,6 @@
 <script lang="ts">
 //import { AdvertRequest, AdvertResponse } from "../api/types";
 import { reactive, ref } from "vue";
-import { createDinner, updateDinner } from "@/api/dinner";
 
 export default {
   name: "NewAdvert",
@@ -70,7 +69,7 @@ export default {
       this.input.adImage = new FileReader().readAsDataURL(e.target.files[0]);
 
       try {
-        const response: AdvertResponse = await createDinner(input);
+        //await createAdvert(input);
       } catch (error) {
         errorMessage.value = error.message;
       }
