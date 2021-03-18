@@ -2,7 +2,7 @@
   <article>
     <DinnerOverview
         v-bind:dinners="
-    dinners.filter(dinner => Date.parse(dinner.date).after(Date.now()))" v-if="dinners" />
+    dinners.filter(dinner => Date.parse(dinner.date) >= Date.now())" v-if="dinners" />
   </article>
 </template>
 
