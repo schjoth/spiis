@@ -1,7 +1,7 @@
 <template>
   <article class="box">
     <div v-if="amIAdmin === true" class="admin-box">
-      <div class="view">
+      <div class="info">
         <router-view></router-view>
       </div>
       <div class="menu">
@@ -54,7 +54,6 @@ export default {
 .admin-box {
   display: flex;
   flex-direction: row;
-  flex-flow: row;
 }
 
 .menu {
@@ -66,7 +65,7 @@ export default {
   }
 }
 
-.view {
+.info {
   margin-right: auto;
 }
 </style>
