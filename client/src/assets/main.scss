@@ -34,6 +34,8 @@ $fullhd-enabled: false;
   background-attachment: fixed;
 }
 
+
+
 // UBRUKT?
 #container{
   h1 {
@@ -66,6 +68,7 @@ main {
 article {
   @extend .container;
   max-width: 860px;
+  padding-bottom: 5%;
 }
 
 h1 {
@@ -127,6 +130,12 @@ h2 {
     margin: auto;
     height: 100px;
   }
+
+  .container, article {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
 }
 
 
@@ -136,6 +145,12 @@ h2 {
     margin-left: 2%;
     margin-right: 2%;
   }
+
+
+}
+
+
+@media only screen and (max-width: 375px) {
 
 
 }

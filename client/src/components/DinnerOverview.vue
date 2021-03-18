@@ -37,27 +37,56 @@ export default {
 
 .invite {
   line-height: 300px;
-  padding-left: 10%;
-  padding-right: 1%;
-  height: 150px;
   font-size: 50pt;
-  text-shadow: 0 0 20px #000000;
+  width: 100%;
+  background-color: white;
+  padding-top: 260%;
+  padding-bottom: 267%;
+  padding-left: 50%;
+  padding-right: 50%;
+  border-radius: 20px;
 }
 
-.invite:hover {
-  color: #ffffff;
+.invite:hover, a.invite:hover {
+  color: #413d39;
 }
+
+
 
 @media only screen and (max-width: 980px) {
   .invite {
-    padding-left: 0;
-    padding-right: 0;
-
     box-sizing: unset;
   }
 
   .dinners {
     justify-content: center;
   }
+
+  div{
+    //padding: 5%;
+  }
+
+  .invite{
+    justify-content: center;
+    padding-left: 41.75vw;
+    padding-right: 41.75vw;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 150px;
+  }
 }
+
+@media only screen and (max-width: 375px){
+
+  .invite{
+    justify-content: center;
+    padding-left: 39vw;
+    padding-right: 39vw;
+    line-height: 150px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+}
+
 </style>
