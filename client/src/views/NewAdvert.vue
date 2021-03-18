@@ -1,5 +1,5 @@
 <template>
-  <acticle>
+  <article class="box max-600">
     <h1>Legg til ny annonse</h1>
     <div class="field">
       <label for="companyName" class="label">Bedriftsnavn: </label>
@@ -28,25 +28,25 @@
         <input id="adImage" accept="image/*" type="file" />
       </div>
     </div>
-  </acticle>
 
-  <div class="content has-text-centered" v-if="errorMessage">
-    <p class="has-text-danger">
-      {{ errorMessage }}
-    </p>
-  </div>
-
-  <div class="field is-grouped is-grouped-centered">
-    <div class="control">
-      <button class="button is-primary" v-on:click="createClicked">
-        Lag Annonse
-      </button>
+    <div class="content has-text-centered" v-if="errorMessage">
+      <p class="has-text-danger">
+        {{ errorMessage }}
+      </p>
     </div>
-  </div>
+
+    <div class="field is-grouped is-grouped-centered">
+      <div class="control">
+        <button class="button is-primary" v-on:click="createClicked">
+          Lag Annonse
+        </button>
+      </div>
+    </div>
+  </article>
 </template>
 
 <script lang="ts">
-import { AdvertRequest, AdvertResponse } from "../api/types";
+//import { AdvertRequest, AdvertResponse } from "../api/types";
 import { reactive, ref } from "vue";
 import { createDinner, updateDinner } from "@/api/dinner";
 
@@ -85,7 +85,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $orange: rgb(253, 164, 87);
 
 h1 {

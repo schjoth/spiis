@@ -72,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/admin/ad/new",
     name: "NewAdvert",
-    meta: { requiresAdmin: true },
+    meta: { requiresAdmin: true, requiresAuth: true },
     component: () => import("@/views/NewAdvert.vue")
   },
   {
@@ -93,8 +93,13 @@ const isAdmin = computed(() => getLogInState().user?.admin);
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && status.value === "loggedOut") next("/login");
   else if (to.meta.requiresAnon && status.value === "loggedIn") next("/");
-  else if (to.meta.requiresAdmin && !isAdmin.value) next("/admin");
   else next();
+});
+
+router.afterEach(() => {
+  if (router.currentRoute.value.meta.requiresAdmin && !isAdmin.value) {
+    router.replace("/");
+  }
 });
 
 watch(status, async (status) => {
