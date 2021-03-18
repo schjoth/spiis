@@ -3,7 +3,7 @@
     <h1>Mine Middager</h1>
 
     <h2>Arrangerer</h2>
-    <DinnerOverview v-bind:dinners="hosting" v-bind:invite="true" />
+    <DinnerOverview v-bind:dinners="hosting" />
 
     <h2>Deltar på</h2>
     <DinnerOverview v-bind:dinners="guesting" />
