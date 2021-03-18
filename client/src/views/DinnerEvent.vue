@@ -38,7 +38,7 @@
       :isHost="isHost"
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
-    ></GuestList>
+    />
     <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
       Rediger
     </router-link>
@@ -50,7 +50,7 @@
       Meld meg av
     </button>
   </article>
-  <article v-else>Laster inn middag</article>
+  <article v-else>Laster inn middag..</article>
 </template>
 
 <script lang="ts">

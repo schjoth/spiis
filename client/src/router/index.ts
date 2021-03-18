@@ -98,7 +98,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(() => {
   if (router.currentRoute.value.meta.requiresAdmin && !isAdmin.value) {
-    router.replace("/");
+    router.replace("/admin");
   }
 });
 

@@ -18,7 +18,6 @@ export default {
   props: { guests: Array, isHost: Boolean },
   emits: {
     remove: (payload: number) => {
-      console.log(payload.toString());
       return payload.toString();
     }
   }
