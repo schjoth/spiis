@@ -1,6 +1,14 @@
 <template>
-  <article class="max-500 box">
-    <div v-if="amIAdmin === true">Du er administrator!</div>
+  <article class="box">
+    <div v-if="amIAdmin === true" class="admin-box">
+      <div class="view">
+        <router-view></router-view>
+      </div>
+      <div class="menu">
+        <p><router-link to="/admin/info">Informasjon</router-link></p>
+        <p><router-link to="/admin/ads">Annonser</router-link></p>
+      </div>
+    </div>
     <AdminLogin v-else @tryToken="adminBootstrap" />
   </article>
 </template>
@@ -42,4 +50,23 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.admin-box {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row;
+}
+
+.menu {
+  border-left: 1px solid black;
+  margin-left: 20px;
+
+  p {
+    margin: 0 20px;
+  }
+}
+
+.view {
+  margin-right: auto;
+}
+</style>

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { getLogInState } from "@/store/loginState";
 import { watch, computed } from "vue";
 import Home from "@/views/Home.vue";
+import AdminInfo from "@/components/AdminInfo.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -55,7 +56,24 @@ const routes: Array<RouteRecordRaw> = [
     path: "/admin",
     name: "Admin",
     meta: { requiresAuth: true },
-    component: () => import("@/views/AdminPage.vue")
+    component: () => import("@/views/AdminPage.vue"),
+    children: [
+      {
+        path: "info",
+        name: "AdminInfo",
+        meta: { requiresAdmin: true },
+        component: () => import("@/components/AdminInfo.vue")
+      },
+      {
+        path: "",
+        redirect: AdminInfo
+      },
+      {
+        path: "ads",
+        meta: { requiresAdmin: true },
+        component: () => import("@/components/AdvertOverview.vue")
+      }
+    ]
   },
   {
     path: "/MyDinners",
@@ -70,7 +88,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/EditEvent.vue")
   },
   {
-    path: "/admin/ad/new",
+    path: "/admin/ads/new",
     name: "NewAdvert",
     meta: { requiresAdmin: true, requiresAuth: true },
     component: () => import("@/views/NewAdvert.vue")

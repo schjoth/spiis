@@ -28,6 +28,7 @@ export default {
   min-height: 100px;
   background-color: white;
   width: 84%;
+  min-width: 400px;
   height: auto;
   border-radius: 20px;
   margin-bottom: 20px;
