@@ -4,13 +4,16 @@
       v-for="(dinner, index) in dinners"
       :dinner="dinner"
       :key="index"
-      :order="index * (adverts.length+1)"
+      :order="(index + 1) * spacing"
     />
     <Advertisement
-      v-for="(advert, index) in adverts"
+      v-for="(advert, index) in adverts.slice(
+        0,
+        dinners.length / advertFrequency
+      )"
       :ad="advert"
       :key="index"
-      :order="(index + 1) * dinners.length"
+      :order="(index + 1) * advertFrequency * spacing"
     />
     <div v-if="invite">
       <router-link to="/event/new" class="invite"> + </router-link>
@@ -28,6 +31,11 @@ export default {
     Advertisement
   },
   props: { dinners: Array, invite: Boolean, adverts: Array },
+  setup() {
+    const advertFrequency = 4;
+    const spacing = 2;
+    return { advertFrequency, spacing };
+  }
 };
 </script>
 
