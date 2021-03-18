@@ -1,13 +1,14 @@
 <template>
   <article>
     <h1>Annonser</h1>
-    <router-link to="/admin/ads/new"> Legg til annonse </router-link>
-    <Advertisement
-      v-for="(advert, index) in adverts"
-      :ad="advert"
-      :key="index"
-      style="border: 1px solid black"
-    ></Advertisement>
+    <p class="new_advert">
+      <router-link to="/admin/ads/new"> Legg til annonse </router-link>
+    </p>
+    <div v-for="(advert, index) in adverts" :key="index" class="advert_box">
+      <p>{{ advert.owner }}; "{{ advert.title }}"</p>
+      <Advertisement :ad="advert" :key="index" class="advert"></Advertisement>
+      <a v-on:click="deleteAdvert(advert.id)">Slett denne annonsen</a>
+    </div>
   </article>
 </template>
 
@@ -25,18 +26,41 @@ export default {
       //adverts.value = await getAdverts()
       adverts.value = [
         {
+          id: 1,
           link: "www.vg.no",
-          owner: "VG"
+          owner: "VG",
+          title: "Dager er ikke det samme uten VG"
         },
         {
+          id: 2,
           link: "www.google.no",
-          owner: "Google"
+          owner: "Google",
+          title: "Med google kan du grave frem gamle bilder av vennene dine"
         }
       ];
     }
     onMounted(fetchData);
 
-    return { adverts };
+    async function deleteAdvert(advertId: number) {
+      //TODO: legg til backendfunksjonalitet
+    }
+
+    return { adverts, deleteAdvert };
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.new_advert {
+  margin-bottom: 20px;
+}
+
+.advert_box {
+  margin: 20px 0;
+
+  .advert {
+    margin-bottom: 0;
+    border: 1px solid black;
+  }
+}
+</style>
