@@ -67,8 +67,6 @@ public class User {
     @Nullable
     private OffsetDateTime lastModifiedTime;
 
-    public User() {}
-
     @PrePersist
     @PreUpdate
     public void verifyModel() {
