@@ -1,6 +1,8 @@
 <template>
   <article>
-    <DinnerOverview v-bind:dinners="dinners" v-if="dinners" />
+    <DinnerOverview
+        v-bind:dinners="
+    dinners.filter(dinner => Date.parse(dinner.date + ' ' + dinner.endTime) >= Date.now())" v-if="dinners" />
   </article>
 </template>
 
