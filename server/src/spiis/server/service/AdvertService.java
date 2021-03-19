@@ -6,10 +6,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import spiis.server.api.AdvertRequest;
 import spiis.server.api.AdvertResponse;
+import spiis.server.api.DinnerResponse;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.Advert;
 import spiis.server.repository.AdvertRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -40,6 +43,16 @@ public class AdvertService {
     public AdvertResponse makeAdvertResponse(Long id) {
         Advert advert = advertRepository.findById(id).orElseThrow(NotFoundException::new);
         return makeAdvertResponse(advert);
+    }
+
+    @Transactional(readOnly = true)
+    public List<AdvertResponse> makeAdvertResponses() {
+        Iterable<Advert> advertIterable = advertRepository.findAll();
+
+        List<AdvertResponse> responses = new ArrayList<>();
+        for (Advert advert:advertIterable)
+            responses.add(makeAdvertResponse(advert));
+        return responses;
     }
 
     @Transactional(propagation = Propagation.MANDATORY)

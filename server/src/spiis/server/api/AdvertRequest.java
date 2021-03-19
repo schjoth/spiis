@@ -7,5 +7,5 @@ public class AdvertRequest {
     private String title;
     private String companyName;
     private String link;
-    private byte[] picture;
+    private String picture;
 }

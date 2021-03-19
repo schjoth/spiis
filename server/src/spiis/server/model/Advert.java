@@ -25,10 +25,8 @@ public class Advert {
     @Column(nullable = false)
     private String link;
 
-    @Lob
     @Column(nullable = false)
-    @Type(type = "org.hibernate.type.BinaryType")
-    private byte[] picture;
+    private String picture;
 
     @PrePersist
     @PreUpdate
