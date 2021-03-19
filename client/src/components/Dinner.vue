@@ -1,24 +1,25 @@
 <template>
   <div class="box">
+    <p class="dateLine">
+      {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{ dinner.date }}</span>]
+    </p>
     <router-link :to="'/event/' + dinner.id">
       <h1>
         {{ dinner.title }}
-        <span v-if="dinner.cancelled" class="cancelled">(AVLYST!)</span>
+        <span v-if="dinner.cancelled" class="cancelled">(AVLYST)</span>
       </h1>
     </router-link>
-    <p class="dateLine">
-      <span class="date">{{ dinner.date }}</span> {{ dinner.startTime }} -
-      {{ dinner.endTime }}
-    </p>
-    <p>
-      <b>Antall gjester:</b> {{ dinner.guests.length }}/{{ dinner.maxGuests }}
-    </p>
-    <p><b>Sted:</b> {{ dinner.postCode }}, {{ dinner.city }}</p>
-    <p>
-      <b>Arrangør: </b>
+    <p class="host">
+      hos
       <router-link :to="'/user/' + dinner.host.id">
         {{ dinner.host.firstName }} {{ dinner.host.lastName }}
       </router-link>
+    </p>
+    <p class="guests">
+      {{ dinner.guests.length }}/{{ dinner.maxGuests }} gjester påmeldt
+    </p>
+    <p class="location">
+      <img src="assets/location-icon.png" alt="Sted" width="40" height="40"> {{ dinner.postCode }}, {{ dinner.city }}
     </p>
   </div>
 </template>
@@ -43,12 +44,24 @@ export default {
   }
 
   .date {
-    font-weight: bold;
+    font-size: small;
+    justify-content: right;
   }
 
   .dateLine {
     margin-bottom: 10px;
   }
+
+  .guests{}
+
+  .host{
+    margin-bottom: 15px;
+  }
+
+  .location{
+    position: absolute;
+  }
+
 }
 
 @media only screen and (max-width: 980px) {
