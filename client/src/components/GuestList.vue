@@ -1,5 +1,4 @@
 <template>
-  <p><b>Gjester:</b></p>
   <ul>
     <li v-for="guest in guests" v-bind:key="guest.id">
       <router-link :to="'/user/' + guest.id"

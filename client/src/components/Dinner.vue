@@ -2,11 +2,12 @@
   <div class="box">
     <p class="dateLine">
       {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{ dinner.date }}</span>]
+      <b><span v-if="dinner.cancelled" class="cancelled">AVLYST</span></b>
     </p>
+
     <router-link :to="'/event/' + dinner.id">
       <h1>
         {{ dinner.title }}
-        <span v-if="dinner.cancelled" class="cancelled">(AVLYST)</span>
       </h1>
     </router-link>
     <p class="host">
@@ -22,6 +23,7 @@
       <img src="assets/location-icon.png" alt="Sted" width="40" height="40"> {{ dinner.postCode }}, {{ dinner.city }}
     </p>
   </div>
+  
 </template>
 
 <script lang="ts">
@@ -62,6 +64,7 @@ export default {
     position: absolute;
   }
 
+
 }
 
 @media only screen and (max-width: 980px) {
@@ -77,4 +80,5 @@ export default {
   font-size: 1.4rem;
   font-family: sans-serif;
 }
+
 </style>
