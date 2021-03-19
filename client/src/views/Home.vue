@@ -1,6 +1,10 @@
 <template>
   <article>
-    <DinnerOverview v-bind:dinners="dinners" v-if="dinners" />
+    <DinnerOverview
+      :adverts="adverts"
+      v-bind:dinners="dinners"
+      v-if="dinners"
+    />
   </article>
 </template>
 
@@ -21,7 +25,20 @@ export default {
       dinners.value = await getAllDinners();
     }
     onMounted(fetchData);
-    return { dinners };
+
+    //TODO: replace with server call
+    const adverts = [
+      {
+        link: "www.vg.no",
+        owner: "VG"
+      },
+      {
+        link: "www.google.no",
+        owner: "Google"
+      }
+    ];
+
+    return { dinners, adverts };
   }
 };
 </script>

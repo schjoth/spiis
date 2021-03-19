@@ -1,12 +1,12 @@
 <template>
-  <div class="box">
+  <div class="box" :style="{ order }">
     <router-link :to="'/event/' + dinner.id">
       <h1>
         {{ dinner.title }}
         <span v-if="dinner.cancelled" class="cancelled">(AVLYST!)</span>
       </h1>
     </router-link>
-    <p>
+    <p class="dateLine">
       <span class="date">{{ dinner.date }}</span> {{ dinner.startTime }} -
       {{ dinner.endTime }}
     </p>
@@ -27,19 +27,35 @@
 export default {
   name: "Dinner",
   props: {
-    dinner: Object
+    dinner: Object,
+    order: Number
   }
 };
 </script>
 
 <style lang="scss" scoped>
-div {
+.box {
   width: 40%;
   height: 300px;
   border-radius: 20px;
 
   h1 {
     color: inherit;
+  }
+
+  .date {
+    font-weight: bold;
+  }
+
+  .dateLine {
+    margin-bottom: 10px;
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .box {
+    box-sizing: border-box;
+    width: 100%;
   }
 }
 
@@ -48,9 +64,5 @@ div {
   font-style: normal;
   font-size: 1.4rem;
   font-family: sans-serif;
-}
-
-.date {
-  font-weight: bold;
 }
 </style>
