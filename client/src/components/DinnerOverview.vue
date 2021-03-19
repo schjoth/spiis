@@ -7,7 +7,7 @@
       :order="(index + 1) * spacing"
     />
     <Advertisement
-      v-for="(advert, index) in adverts.slice(
+      v-for="(advert, index) in adverts?.slice(
         0,
         dinners?.length / advertFrequency
       )"

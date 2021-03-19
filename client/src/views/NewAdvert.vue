@@ -11,21 +11,26 @@
     <div class="field">
       <label for="adTitle" class="label">Annonsetittel: </label>
       <div class="control">
-        <input type="text" id="adTitle" v-model="input.adTitle" />
+        <input type="text" id="adTitle" v-model="input.title" />
       </div>
     </div>
 
     <div class="field">
       <label for="adLink" class="label">Lenke til nettsted</label>
       <div class="control">
-        <input type="text" id="adLInk" v-model="input.adLink" />
+        <input type="text" id="adLInk" v-model="input.link" />
       </div>
     </div>
 
     <div class="field">
       <label for="adImage" class="label">Bilde: </label>
       <div class="control">
-        <input id="adImage" accept="image/*" type="file" />
+        <input
+          id="adImage"
+          accept="image/*"
+          type="file"
+          v-on:change="getfile"
+        />
       </div>
     </div>
 
@@ -48,42 +53,54 @@
 <script lang="ts">
 //import { AdvertRequest, AdvertResponse } from "../api/types";
 import { reactive, ref } from "vue";
+import { createAdvert } from "@/api/adverts";
+import { AdvertRequest } from "@/api/types";
+import router from "@/router";
 
 export default {
   name: "NewAdvert",
   setup() {
-    const values = {
+    const values: AdvertRequest = {
       companyName: "",
-      adTitle: "",
-      adLink: "",
-      adImage: ""
+      title: "",
+      link: "",
+      picture: ""
     };
     const input = reactive(values);
 
     const errorMessage = ref("");
-    /*
-    const createClicked = async (e) => {
+
+    function getfile(e: { target: { files: Blob[] } }) {
+      console.log(e);
+      console.log(e.target.files[0]);
+
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(e.target.files[0]);
+      fileReader.onloadend = () => {
+        const noe: string | null =
+          fileReader.result instanceof ArrayBuffer ? "" : fileReader.result;
+        input.picture = noe === null ? "" : noe;
+        console.log(noe);
+      };
+    }
+
+    const createClicked = async (e: { target: { files: Blob[] } }) => {
       errorMessage.value = "";
 
-      //Har ingen peiling om linjen under funker
-      this.input.adImage = new FileReader().readAsDataURL(e.target.files[0]);
-
       try {
-        //await createAdvert(input);
+        await createAdvert(input);
       } catch (error) {
         errorMessage.value = error.message;
       }
-    };
-     */
-    //fjern den under
-    const createClicked = () => {
-      return;
+
+      router.push("/admin/ads");
     };
 
     return {
       input,
       errorMessage,
-      createClicked
+      createClicked,
+      getfile
     };
   }
 };

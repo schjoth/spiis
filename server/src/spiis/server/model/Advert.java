@@ -25,7 +25,7 @@ public class Advert {
     @Column(nullable = false)
     private String link;
 
-    @Column(nullable = false)
+    @Column(columnDefinition="TEXT", )
     private String picture;
 
     @PrePersist
@@ -39,6 +39,6 @@ public class Advert {
         ModelUtil.ensureTextTrimAndLength(title, 3, 200, "title");
         ModelUtil.ensureTextTrimAndLength(companyName, 2, 200, "companyName");
         ModelUtil.ensureTextTrimAndLength(link, 2, 200, "link");
-
+        ModelUtil.ensureTextTrimAndLength(picture, 2, 40000000, "picture");
     }
 }

@@ -12,7 +12,8 @@
 import DinnerOverview from "@/components/DinnerOverview.vue";
 import { getAllDinners } from "@/api/dinner";
 import { onMounted, ref } from "vue";
-import { DinnerResponse } from "@/api/types";
+import { AdvertResponse, DinnerResponse } from "@/api/types";
+import { getAllAdverts } from "@/api/adverts";
 
 export default {
   name: "Home",
@@ -21,22 +22,12 @@ export default {
   },
   setup() {
     const dinners = ref<DinnerResponse[] | null>(null);
+    const adverts = ref<AdvertResponse[] | null>(null);
     async function fetchData() {
       dinners.value = await getAllDinners();
+      adverts.value = await getAllAdverts();
     }
     onMounted(fetchData);
-
-    //TODO: replace with server call
-    const adverts = [
-      {
-        link: "www.vg.no",
-        owner: "VG"
-      },
-      {
-        link: "www.google.no",
-        owner: "Google"
-      }
-    ];
 
     return { dinners, adverts };
   }

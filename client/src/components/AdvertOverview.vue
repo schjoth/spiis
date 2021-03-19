@@ -4,14 +4,18 @@
     <p class="new_advert">
       <router-link to="/admin/ads/new"> Legg til annonse </router-link>
     </p>
-    <div v-for="(advert, index) in adverts" :key="index" class="advert_box">
-      <p>{{ advert.owner }}; "{{ advert.title }}"</p>
-      <Advertisement
-        :ad="advert"
-        :key="advert.id"
-        class="advert"
-      ></Advertisement>
-      <a v-on:click="deleteAdvert(advert.id)">Slett denne annonsen</a>
+    <div v-if="adverts">
+      <div v-for="(advert, index) in adverts" :key="index" class="advert_box">
+        <p>
+          {{ advert.companyName }}; <i>"{{ advert.title }}"</i>
+        </p>
+        <Advertisement
+          :ad="advert"
+          :key="advert.id"
+          class="advert"
+        ></Advertisement>
+        <a v-on:click="removeAdvert(advert.id)">Slett denne annonsen</a>
+      </div>
     </div>
   </article>
 </template>
@@ -19,38 +23,24 @@
 <script lang="ts">
 import Advertisement from "@/components/Advertisement.vue";
 import { onMounted, ref } from "vue";
+import { AdvertResponse } from "@/api/types";
+import { deleteAdvert, getAllAdverts } from "@/api/adverts";
 export default {
   name: "AdvertOverview",
   components: { Advertisement },
   setup() {
-    //Mildertidige verider
-    const basevalues = [
-      {
-        id: 1,
-        link: "www.vg.no",
-        owner: "VG",
-        title: "Dager er ikke det samme uten VG"
-      },
-      {
-        id: 2,
-        link: "www.google.no",
-        owner: "Google",
-        title: "Med google kan du grave frem gamle bilder av vennene dine"
-      }
-    ];
-    const adverts = ref(basevalues);
+    const adverts = ref<AdvertResponse[] | null>(null);
 
     async function fetchData() {
-      //TODO: koble til backend
-      //adverts.value = await getAdverts()
+      adverts.value = await getAllAdverts();
     }
     onMounted(fetchData);
 
-    async function deleteAdvert(advertId: number) {
-      //TODO: legg til backendfunksjonalitet
+    async function removeAdvert(advertId: number) {
+      await deleteAdvert(advertId);
+      await fetchData();
     }
-
-    return { adverts, deleteAdvert };
+    return { adverts, removeAdvert };
   }
 };
 </script>

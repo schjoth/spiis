@@ -2,7 +2,7 @@
   <div class="ad-box" :style="{ order }">
     <a :href="'//' + ad.link">
       <div class="inner-ad-box">
-        <img :src="ad.image" :alt="ad.owner" />
+        <img :src="ad.picture" :alt="ad.title" />
       </div>
     </a>
   </div>
@@ -13,11 +13,6 @@ export default {
   name: "Advertisement",
   props: {
     ad: Object,
-    /*
-    ad.link - link til annonsøren sin nettside
-    ad.owner - annonsøren
-    ad.image - bildet til annonsen
-     */
     order: Number
   }
 };
