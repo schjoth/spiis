@@ -52,7 +52,7 @@ import { reactive, ref } from "vue";
 export default {
   name: "NewAdvert",
   setup() {
-    const values: AdvertRequest = {
+    const values = {
       companyName: "",
       adTitle: "",
       adLink: "",
@@ -61,7 +61,7 @@ export default {
     const input = reactive(values);
 
     const errorMessage = ref("");
-
+    /*
     const createClicked = async (e) => {
       errorMessage.value = "";
 
@@ -73,6 +73,11 @@ export default {
       } catch (error) {
         errorMessage.value = error.message;
       }
+    };
+     */
+    //fjern den under
+    const createClicked = () => {
+      return;
     };
 
     return {

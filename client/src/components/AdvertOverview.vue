@@ -6,7 +6,11 @@
     </p>
     <div v-for="(advert, index) in adverts" :key="index" class="advert_box">
       <p>{{ advert.owner }}; "{{ advert.title }}"</p>
-      <Advertisement :ad="advert" :key="index" class="advert"></Advertisement>
+      <Advertisement
+        :ad="advert"
+        :key="advert.id"
+        class="advert"
+      ></Advertisement>
       <a v-on:click="deleteAdvert(advert.id)">Slett denne annonsen</a>
     </div>
   </article>
@@ -19,25 +23,26 @@ export default {
   name: "AdvertOverview",
   components: { Advertisement },
   setup() {
-    const adverts = ref([]);
+    //Mildertidige verider
+    const basevalues = [
+      {
+        id: 1,
+        link: "www.vg.no",
+        owner: "VG",
+        title: "Dager er ikke det samme uten VG"
+      },
+      {
+        id: 2,
+        link: "www.google.no",
+        owner: "Google",
+        title: "Med google kan du grave frem gamle bilder av vennene dine"
+      }
+    ];
+    const adverts = ref(basevalues);
 
     async function fetchData() {
       //TODO: koble til backend
       //adverts.value = await getAdverts()
-      adverts.value = [
-        {
-          id: 1,
-          link: "www.vg.no",
-          owner: "VG",
-          title: "Dager er ikke det samme uten VG"
-        },
-        {
-          id: 2,
-          link: "www.google.no",
-          owner: "Google",
-          title: "Med google kan du grave frem gamle bilder av vennene dine"
-        }
-      ];
     }
     onMounted(fetchData);
 
