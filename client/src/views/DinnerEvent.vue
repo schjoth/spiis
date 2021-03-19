@@ -39,10 +39,10 @@
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
     ></GuestList>
-    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
+    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost" class="rediger">
       Rediger
     </router-link>
-    <a v-on:click="cancelDinner" v-if="isHost && !dinner.cancelled">Avlys</a>
+    <a v-on:click="cancelDinner" v-if="isHost && !dinner.cancelled"  class="avlys">Avlys</a>
     <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
     </button>
@@ -146,4 +146,9 @@ export default {
   background-color: #fda45705;
   font-style: normal;
 }
+
+.rediger, .avlys{
+  display: block;
+}
+
 </style>

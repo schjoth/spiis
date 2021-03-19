@@ -47,6 +47,7 @@ export default {
   border-radius: 20px;
 }
 
+
 .invite:hover, a.invite:hover {
   color: #413d39;
 }
@@ -62,9 +63,7 @@ export default {
     justify-content: center;
   }
 
-  div{
-    //padding: 5%;
-  }
+  div{}
 
   .invite{
     justify-content: center;
@@ -75,6 +74,7 @@ export default {
     line-height: 150px;
   }
 }
+
 
 @media only screen and (max-width: 375px){
 

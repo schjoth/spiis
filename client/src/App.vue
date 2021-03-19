@@ -3,10 +3,6 @@
   <main>
     <router-view />
   </main>
-  <head><!--NYTT-->
-    <title>Spiis middagsldeling</title><!--NYTT-->
-    <link rel="icon" type="image/png" href="favicon.ico"> <!--NYTT-->
-  </head><!--NYTT-->
   <footer class="footer">
     <div class="content has-text-centered">
       <strong>Spiis</strong> er laget av gruppe 53 i TDT4140, våren 2021.

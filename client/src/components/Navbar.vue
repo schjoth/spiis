@@ -118,4 +118,5 @@ a.navbar-item.is-active,
   font-size: larger;
   background-color: transparent;
 }
+
 </style>
