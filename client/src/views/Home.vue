@@ -2,9 +2,15 @@
   <article>
     <DinnerOverview
       :adverts="adverts"
-      v-bind:dinners="dinners"
       v-if="dinners"
+      :dinners="
+        dinners.filter(
+          (dinner) =>
+            Date.parse(dinner.date + ' ' + dinner.endTime) >= Date.now()
+        )
+      "
     />
+    >>>>>>> master
   </article>
 </template>
 
