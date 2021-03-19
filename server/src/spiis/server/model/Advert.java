@@ -25,7 +25,7 @@ public class Advert {
     @Column(nullable = false)
     private String link;
 
-    @Column(columnDefinition="TEXT", )
+    @Column(columnDefinition="TEXT", nullable = false)
     private String picture;
 
     @PrePersist
