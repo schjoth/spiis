@@ -29,7 +29,7 @@
           id="adImage"
           accept="image/*"
           type="file"
-          v-on:change="getfile"
+          v-on:change="updateFile"
         />
       </div>
     </div>
@@ -70,17 +70,13 @@ export default {
 
     const errorMessage = ref("");
 
-    function getfile(e: { target: { files: Blob[] } }) {
-      console.log(e);
-      console.log(e.target.files[0]);
-
+    function updateFile(e: { target: { files: Blob[] } }) {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(e.target.files[0]);
       fileReader.onloadend = () => {
         const noe: string | null =
           fileReader.result instanceof ArrayBuffer ? "" : fileReader.result;
-        input.picture = noe === null ? "" : noe;
-        console.log(noe);
+        input.picture = noe || "";
       };
     }
 
@@ -100,7 +96,7 @@ export default {
       input,
       errorMessage,
       createClicked,
-      getfile
+      updateFile
     };
   }
 };
