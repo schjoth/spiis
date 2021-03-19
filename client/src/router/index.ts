@@ -61,7 +61,6 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "info",
         name: "AdminInfo",
-        meta: { requiresAdmin: true },
         component: () => import("@/components/AdminInfo.vue")
       },
       {
@@ -70,7 +69,6 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "ads",
-        meta: { requiresAdmin: true },
         component: () => import("@/components/AdvertOverview.vue")
       }
     ]
