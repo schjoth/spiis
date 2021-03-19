@@ -15,6 +15,8 @@ import spiis.server.repository.AdvertRepository;
 import spiis.server.service.AdvertService;
 import spiis.server.service.AuthService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/adverts")
 public class AdvertController {
@@ -28,6 +30,11 @@ public class AdvertController {
         this.advertService = advertService;
         this.advertRepository = advertRepository;
         this.authService = authService;
+    }
+
+    @GetMapping
+    public List<AdvertResponse> getAllAdverts() {
+        return advertService.makeAdvertResponses();
     }
 
     @GetMapping("/{id}")
