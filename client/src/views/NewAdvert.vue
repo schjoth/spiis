@@ -70,9 +70,9 @@ export default {
 
     const errorMessage = ref("");
 
-    function updateFile(e: { target: { files: Blob[] } }) {
+    function updateFile(event: { target: { files: Blob[] } }) {
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(e.target.files[0]);
+      fileReader.readAsDataURL(event.target.files[0]);
       fileReader.onloadend = () => {
         const noe: string | null =
           fileReader.result instanceof ArrayBuffer ? "" : fileReader.result;
@@ -80,7 +80,7 @@ export default {
       };
     }
 
-    const createClicked = async (e: { target: { files: Blob[] } }) => {
+    const createClicked = async () => {
       errorMessage.value = "";
 
       try {

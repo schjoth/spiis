@@ -1,16 +1,6 @@
 <template>
   <article>
-    <DinnerOverview
-      :adverts="adverts"
-      v-if="dinners"
-      :dinners="
-        dinners.filter(
-          (dinner) =>
-            Date.parse(dinner.date + ' ' + dinner.endTime) >= Date.now()
-        )
-      "
-    />
-    >>>>>>> master
+    <DinnerOverview :adverts="adverts" v-if="dinners" :dinners="dinners" />
   </article>
 </template>
 
@@ -30,7 +20,10 @@ export default {
     const dinners = ref<DinnerResponse[] | null>(null);
     const adverts = ref<AdvertResponse[] | null>(null);
     async function fetchData() {
-      dinners.value = await getAllDinners();
+      const unfilteredDinners = await getAllDinners();
+      dinners.value = unfilteredDinners.filter(
+        (dinner) => Date.parse(dinner.date + " " + dinner.endTime) >= Date.now()
+      );
       adverts.value = await getAllAdverts();
     }
     onMounted(fetchData);
