@@ -43,7 +43,6 @@ public class AdvertController {
     }
 
     @PostMapping
-    @Transactional
     public ResponseEntity<AdvertResponse> createAdvert(@RequestBody AdvertRequest request,
                                                        @RequestHeader("Authorization") String token) {
         if (!authService.isTokenForAdminUser(token))
@@ -69,9 +68,8 @@ public class AdvertController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void deleteAdvert(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
-        if (!authService.isTokenForAdminUser(token)) {
+        if (!authService.isTokenForAdminUser(token))
             throw new ForbiddenException();
-        }
 
         advertService.deleteAdvert(id);
     }

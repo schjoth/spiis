@@ -51,7 +51,6 @@
 </template>
 
 <script lang="ts">
-//import { AdvertRequest, AdvertResponse } from "../api/types";
 import { reactive, ref } from "vue";
 import { createAdvert } from "@/api/adverts";
 import { AdvertRequest } from "@/api/types";
@@ -89,7 +88,7 @@ export default {
         errorMessage.value = error.message;
       }
 
-      router.push("/admin/ads");
+      await router.push("/admin/ads");
     };
 
     return {

@@ -71,8 +71,6 @@ public class Dinner {
     @Nullable
     private OffsetDateTime createdTime;
 
-    public Dinner() {}
-
     @PrePersist
     @PreUpdate
     public void verifyModel() {

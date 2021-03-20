@@ -1,6 +1,6 @@
 <template>
   <article class="box">
-    <div v-if="amIAdmin === true" class="admin-box">
+    <div v-if="amIAdmin" class="admin-box">
       <div class="info">
         <router-view></router-view>
       </div>
@@ -26,7 +26,7 @@ export default {
   components: { AdminLogin },
   setup() {
     const errorText = ref<null | string>(null);
-    const amIAdmin = computed(() => getLogInState().user?.admin);
+    const amIAdmin = computed(() => getLogInState().user?.admin === true);
 
     const router = useRouter();
 

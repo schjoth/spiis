@@ -50,12 +50,12 @@ public class AdvertService {
         Iterable<Advert> advertIterable = advertRepository.findAll();
 
         List<AdvertResponse> responses = new ArrayList<>();
-        for (Advert advert:advertIterable)
+        for (Advert advert : advertIterable)
             responses.add(makeAdvertResponse(advert));
         return responses;
     }
 
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public AdvertResponse createAdvert(AdvertRequest request) {
         Advert advert = new Advert();
         editAdvert(advert, request);
