@@ -63,10 +63,8 @@
       :isHost="isHost"
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
-    ></GuestList>
-
-
-    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost" class="rediger">
+    />
+    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
       Rediger
     </router-link>
     <a v-on:click="cancelDinner" v-if="isHost && !dinner.cancelled"  class="avlys">Avlys</a>
@@ -77,11 +75,8 @@
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
-
   </article>
-
-  <article v-else>Laster inn middag</article>
-
+  <article v-else>Laster inn middag...</article>
 </template>
 
 <script lang="ts">
@@ -178,38 +173,34 @@ export default {
   font-style: normal;
 }
 
-.category{
+.category {
   font-size: 15pt;
 }
 
-.rediger{
+.rediger {
   margin-top: 20px;
   font-weight: lighter;
 }
 
-.rediger, .avlys{
+.rediger, .avlys {
   display: block;
 }
 
-.description{
+.description {
   margin-bottom: 20px;
 }
 
-.info{
+.info {
   min-width: 50%;
 }
 
-td{
+td {
   padding-right: 10px;
-  padding-top: 5px;
   padding-top: 5px;
 }
 
-.expenses{
+.expenses {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
-
-
 </style>

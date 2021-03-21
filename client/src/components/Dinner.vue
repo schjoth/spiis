@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" :style="{ order }">
     <p class="dateLine">
       {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{ dinner.date }}</span>]
       <b><span v-if="dinner.cancelled" class="cancelled">AVLYST</span></b>
@@ -23,14 +23,14 @@
       <img src="assets/location-icon.png" alt="Sted" width="40" height="40"> {{ dinner.postCode }}, {{ dinner.city }}
     </p>
   </div>
-  
 </template>
 
 <script lang="ts">
 export default {
   name: "Dinner",
   props: {
-    dinner: Object
+    dinner: Object,
+    order: Number
   }
 };
 </script>
@@ -80,5 +80,4 @@ export default {
   font-size: 1.4rem;
   font-family: sans-serif;
 }
-
 </style>

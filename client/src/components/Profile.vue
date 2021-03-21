@@ -1,22 +1,42 @@
 <template>
   <div class="box max-500" v-if="user">
     <h1 class="has-text-centered">{{ user.firstName }} {{ user.lastName }}</h1>
-    <p v-if="userIsAdmin" class="admin_text">Administrator</p>
-    <a
-      v-if="loggedInAsAdmin && !isMyUser"
-      class="admin_toggle"
-      v-on:click="toggleAdmin"
-    >
-      {{ userIsAdmin ? "Frata administratorrolle" : "Gi administratorrolle" }}
-    </a>
-    <p v-if="adminErrorText" class="admin_error">{{ adminErrorText }}</p>
-    <p><b>Alder: </b>{{ user.age }}</p>
-    <p v-if="isMyUser"><b>Epost: </b>{{ user.email }}</p>
-    <p><b>By: </b>{{ user.city }}</p>
-    <p>
-      <b>Allergier: </b>
-      {{ user.allergies.join(", ") }}
-    </p>
+    <div class="info_options_divider">
+      <div class="user_info">
+        <p v-if="userIsAdmin" class="admin_text">Administrator</p>
+        <p><b>Alder: </b>{{ user.age }}</p>
+        <p v-if="isMyUser || loggedInAsAdmin"><b>Epost: </b>{{ user.email }}</p>
+        <p><b>By: </b>{{ user.city }}</p>
+        <p>
+          <b>Allergier: </b>
+          {{ user.allergies.join(", ") }}
+        </p>
+      </div>
+
+      <div class="admin_options">
+        <p>
+          <a
+            v-if="loggedInAsAdmin && !isMyUser"
+            class="admin_toggle"
+            v-on:click="toggleAdmin"
+          >
+            {{
+              userIsAdmin ? "Frata administratorrolle" : "Gi administratorrolle"
+            }}
+          </a>
+        </p>
+        <p v-if="adminErrorText" class="admin_error">{{ adminErrorText }}</p>
+        <p>
+          <a
+            class="remove"
+            v-if="loggedInAsAdmin"
+            v-on:click="$emit('deleteProperty', user.id)"
+          >
+            Slett bruker
+          </a>
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,6 +92,24 @@ export default {
   border-radius: 20px;
   padding: 30px;
   background-color: white;
+}
+
+.info_options_divider {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin_options {
+  margin-left: 20px;
+  text-align: end;
+
+  p {
+    margin: 0 20px;
+  }
+}
+
+.user_info {
+  margin-right: auto;
 }
 
 .admin_text {

@@ -40,6 +40,9 @@
       </div>
 
       <div class="navbar-end">
+        <router-link class="navbar-item" to="/admin" v-if="isAdmin">
+          Dashboard
+        </router-link>
         <router-link class="navbar-item" to="/MyProfile" v-if="loggedIn">
           {{ name }}
         </router-link>
@@ -81,11 +84,13 @@ export default {
       () =>
         `${getLogInState().user?.firstName} ${getLogInState().user?.lastName}`
     );
+    const isAdmin = computed(() => getLogInState().user?.admin);
 
     return {
       loggedIn,
       loggedOut,
       name,
+      isAdmin,
       logOut: async () => {
         await logOut();
         await router.replace("/loggedOut");
