@@ -29,15 +29,19 @@ public class UserControllerTest {
         LogInResponse user1 = testUtil.createdLoggedInUser();
         LogInResponse user2 = testUtil.createdLoggedInUser();
         LogInResponse user3 = testUtil.createdLoggedInUser();
+        LogInResponse admin = testUtil.createLoggedInAdmin();
 
-        List<UserResponse> allUsers = userController.getAllUsers();
+        List<UserResponse> allUsers = userController.getAllUsers(admin.getToken());
+
         assertTrue(allUsers.stream().anyMatch(it -> it.getId().equals(user1.getUser().getId())));
         assertTrue(allUsers.stream().anyMatch(it -> it.getId().equals(user2.getUser().getId())));
         assertTrue(allUsers.stream().anyMatch(it -> it.getId().equals(user3.getUser().getId())));
+        assertTrue(allUsers.stream().anyMatch(it -> it.getId().equals(admin.getUser().getId())));
 
         testUtil.deleteUser(user1.getUser().getId());
         testUtil.deleteUser(user2.getUser().getId());
         testUtil.deleteUser(user3.getUser().getId());
+        testUtil.deleteUser(admin.getUser().getId());
     }
 
     @Test

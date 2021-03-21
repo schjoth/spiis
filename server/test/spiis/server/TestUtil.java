@@ -77,6 +77,17 @@ public class TestUtil {
     }
 
     /**
+     * Creates a user with random info and admin access, and logs them in, resulting in a UserResponse and a token
+     * @return LogInResponse for the new logged in admin
+     */
+    public LogInResponse createLoggedInAdmin() {
+        LogInResponse response = createdLoggedInUser();
+        response.getUser().setAdmin(true);
+        return response;
+    }
+
+
+    /**
      * Makes a token for a user, possibly invalidating previous tokens
      * @param userId the id of the user in question
      * @return the new token

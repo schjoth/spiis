@@ -7,3 +7,7 @@ export async function getUser(
 ): Promise<UserResponse> {
   return client.get(`/users/${id}`);
 }
+
+export async function getAllUsers(): Promise<UserResponse[]> {
+  return client.get("/users");
+}

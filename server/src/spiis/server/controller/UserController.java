@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import spiis.server.api.DinnerResponse;
 import spiis.server.api.UserResponse;
+import spiis.server.error.ForbiddenException;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.User;
 import spiis.server.repository.UserRepository;
@@ -35,7 +36,9 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponse> getAllUsers() {
+    public List<UserResponse> getAllUsers(@RequestHeader(value = "Authorization") @Nullable String token) {
+        if (!authService.isTokenForAdminUser(token))
+            throw new ForbiddenException();
         return userService.makeUserResponses();
     }
 
