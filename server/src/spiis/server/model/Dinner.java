@@ -99,12 +99,13 @@ public class Dinner {
         if (getGuests().size() > getMaxGuests())
             throw new ModelError("There are more guests than allowed");
 
-        if (date.isBefore(LocalDate.now()) || (date.equals(LocalDate.now()) && (startTime.isBefore(LocalTime.now()))))
-            throw new ModelError("The date or time selected is not valid");
-
         if ((startTime.isAfter(endTime) || startTime.equals(endTime)))
             throw new ModelError("Start time can not be same as nor later than end time");
+    }
 
+    public void verifyIsInFuture() {
+        if (date.isBefore(LocalDate.now()) || (date.equals(LocalDate.now()) && (startTime.isBefore(LocalTime.now()))))
+            throw new ModelError("The date or time selected is not valid");
     }
 
     public void setHost(@Nullable User user) {
