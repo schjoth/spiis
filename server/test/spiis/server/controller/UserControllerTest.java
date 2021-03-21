@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import spiis.server.AssertUtil;
 import spiis.server.api.*;
+import spiis.server.error.ForbiddenException;
 import spiis.server.model.User;
 import spiis.server.service.AuthService;
 import spiis.server.TestUtil;
@@ -12,6 +13,7 @@ import spiis.server.TestUtil;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class UserControllerTest {
@@ -25,7 +27,7 @@ public class UserControllerTest {
 
 
     @Test
-    void getAllUsersTest() {
+    void getAllUsersTestForAdmin() {
         LogInResponse user1 = testUtil.createdLoggedInUser();
         LogInResponse user2 = testUtil.createdLoggedInUser();
         LogInResponse user3 = testUtil.createdLoggedInUser();
@@ -42,6 +44,13 @@ public class UserControllerTest {
         testUtil.deleteUser(user2.getUser().getId());
         testUtil.deleteUser(user3.getUser().getId());
         testUtil.deleteUser(admin.getUser().getId());
+    }
+
+    @Test
+    void getAllUsersTestForUser() {
+        LogInResponse user1 = testUtil.createdLoggedInUser();
+        assertThrows(ForbiddenException.class, () -> {userController.getAllUsers(user1.getToken());});
+        testUtil.deleteUser(user1.getUser().getId());
     }
 
     @Test
