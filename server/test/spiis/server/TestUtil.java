@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spiis.server.api.*;
+import spiis.server.controller.AdminController;
 import spiis.server.controller.LoginController;
+import spiis.server.error.InvalidTokenException;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.User;
 import spiis.server.repository.UserRepository;
@@ -15,6 +17,8 @@ import spiis.server.service.DinnerService;
 import spiis.server.service.UserService;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @Service
 public class TestUtil {
@@ -29,6 +33,8 @@ public class TestUtil {
     private AuthService authService;
     @Autowired
     private DinnerService dinnerService;
+    @Autowired
+    AdminController adminController;
 
     public String randomName(int length) {
         return RandomStringUtils.random(length, true, false);
@@ -81,9 +87,16 @@ public class TestUtil {
      * @return LogInResponse for the new logged in admin
      */
     public LogInResponse createLoggedInAdmin() {
-        LogInResponse response = createdLoggedInUser();
-        response.getUser().setAdmin(true);
-        return response;
+        LogInResponse testUser = createdLoggedInUser();
+        Long userId = testUser.getUser().getId();
+
+        // First use the secret bootstrap token to make user 1 admin
+        adminController.makeMeAdmin(new ValueWrapper<>(adminController.getAdminBootstrapToken()), testUser.getToken());
+
+        // Get a fresh UserResponse for user1, which is now admin
+        UserResponse adminUser = userService.makeUserResponse(userId, true);
+
+        return new LogInResponse(adminUser, testUser.getToken());
     }
 
 
