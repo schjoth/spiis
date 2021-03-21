@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" :style="{ order }">
     <router-link :to="'/event/' + dinner.id">
       <h1>
         {{ dinner.title }}
@@ -27,7 +27,8 @@
 export default {
   name: "Dinner",
   props: {
-    dinner: Object
+    dinner: Object,
+    order: Number
   }
 };
 </script>

@@ -1,24 +1,46 @@
 <template>
   <div class="dinners">
     <Dinner
-      v-for="dinner in dinners"
-      v-bind:dinner="dinner"
-      v-bind:key="dinner.id"
+      v-for="(dinner, index) in dinners"
+      :dinner="dinner"
+      :key="index"
+      :order="(index + 1) * spacing"
     />
-    <div v-if="invite">
-      <router-link to="/event/new" class="invite"> + </router-link>
-    </div>
+    <Advertisement
+      v-for="(advert, index) in adverts?.slice(
+        0,
+        dinners?.length / advertFrequency
+      )"
+      :ad="advert"
+      :key="index"
+      :order="(index + 1) * advertFrequency * spacing"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Dinner from "./Dinner.vue";
+import Advertisement from "@/components/Advertisement.vue";
 export default {
   name: "DinnerOverview",
   components: {
-    Dinner
+    Dinner,
+    Advertisement
   },
-  props: { dinners: Array, invite: Boolean }
+  props: {
+    dinners: Array,
+    adverts: {
+      type: Array,
+      default() {
+        return [];
+      }
+    }
+  },
+  setup() {
+    const advertFrequency = 4;
+    const spacing = 2;
+    return { advertFrequency, spacing };
+  }
 };
 </script>
 
@@ -30,8 +52,8 @@ export default {
   margin-right: -20px;
 
   > * {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 2%;
+    margin-right: 2%;
   }
 }
 
