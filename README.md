@@ -1,5 +1,10 @@
 # Spiis - Middagsdeling
 
+[![pipeline status](https://gitlab.stud.idi.ntnu.no/tdt4140/landsby-3/gruppe-53/spiis/badges/master/pipeline.svg)](https://gitlab.stud.idi.ntnu.no/tdt4140/landsby-3/gruppe-53/spiis/-/commits/master)
+
+Dette er repoet for gruppe 53 sitt prosjekt i TDT4140 Programvareutvikling. 
+Den nyeste utgaven av kodebaser er alltid online på [spiis.haved.no](https://spiis.haved.no).
+
 ## Organisering
 
 Appen er delt i to deler.
@@ -28,7 +33,7 @@ For å bygge og åpne webappen lokalt, skriv
 mvn generate-resources # Første gangen, for å laste ned pakker
 mvn frontend:yarn@serve -pl client
 ```
-Dette starter en enkel webserver med Vue-nettsiden på `localhost:XXX`.
+Dette starter en enkel webserver med Vue-nettsiden på `localhost:8080`.
 
 **Tips:** Hvis du er i IntelliJ kan man kjøre maven-kommandoer derfra.
 Se [wiki-siden om IntelliJ](https://gitlab.stud.iie.ntnu.no/tdt4140/landsby-3/gruppe-53/spiis/-/wikis/setup-intellij).
@@ -47,6 +52,8 @@ mvn verify
 
 ### CI/CD
 
-Når Pipeline er satt opp skrives det her.
+For hver commit i utviklingsgrener blir `mvn verify` kjørt, som gir advarsler hvis
+noen tester feiler eller regler for kodestil er brutt.
 
-Når kontinuerlig utrulling er satt opp skrives det her.
+Når ny kode flettes inn i master blir hele appen bygget med `mvn install`,
+og artifaktene blir lastet opp og kjørt på [spiis.haved.no](https://spiis.haved.no).
