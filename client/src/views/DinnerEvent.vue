@@ -14,32 +14,37 @@
     </div>
     <h1>{{ dinner.title }}</h1>
 
-    <p class="category">BESKRIVELSE</p>
+    <div class="is-flex is-flex-wrap-wrap-reverse">
+      <p class="category">BESKRIVELSE</p>
+      <div class="is-flex-grow-1"></div>
+      <p class="category">
+        {{ dinner.date }} {{ dinner.startTime }}-{{ dinner.endTime }}
+      </p>
+    </div>
     <p class="description">{{ dinner.description }}</p>
-
 
     <div class="info">
       <p class="category">INFO</p>
       <table>
-      <tr>
-        <td>
-          <b>Arrangør: </b>
-        </td>
-        <td>
-          <router-link :to="'/user/' + dinner.host.id">
-          {{ dinner.host.firstName }} {{ dinner.host.lastName }}
-        </router-link>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <b>Sted:</b>
-        </td>
-        <td>
-          {{ dinner.addressLine }}, {{ dinner.postCode }}
-        {{ dinner.city }}
-        </td>
-      </tr>
+        <tr>
+          <td>
+            <b>Arrangør: </b>
+          </td>
+          <td>
+            <router-link :to="'/user/' + dinner.host.id">
+              {{ dinner.host.firstName }} {{ dinner.host.lastName }}
+            </router-link>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Sted:</b>
+          </td>
+          <td>
+            {{ dinner.addressLine }}, {{ dinner.postCode }}
+            {{ dinner.city }}
+          </td>
+        </tr>
       </table>
     </div>
 
@@ -52,22 +57,32 @@
         </tr>
         <tr>
           <td><b>Pr. pers: </b></td>
-          <td>{{ dinner.expenses / (dinner.guests.length + 1) }}</td>
+          <td>
+            {{ Math.floor(dinner.expenses / (dinner.guests.length + 1)) }}
+          </td>
         </tr>
       </table>
     </div>
 
-    <p class="category">GJESTER ({{ dinner.guests.length }}/{{ dinner.maxGuests }}):</p>
+    <p class="category">
+      GJESTER ({{ dinner.guests.length }}/{{ dinner.maxGuests }}):
+    </p>
     <GuestList
       :guests="dinner.guests"
       :isHost="isHost"
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
     />
+    <p class="category">INNSTILLINGER:</p>
     <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
       Rediger
     </router-link>
-    <a v-on:click="cancelDinner" v-if="isHost && !dinner.cancelled"  class="avlys">Avlys</a>
+    <a
+      v-on:click="cancelDinner"
+      v-if="isHost && !dinner.cancelled"
+      class="avlys"
+      >Avlys</a
+    >
 
     <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
@@ -182,7 +197,8 @@ export default {
   font-weight: lighter;
 }
 
-.rediger, .avlys {
+.rediger,
+.avlys {
   display: block;
 }
 

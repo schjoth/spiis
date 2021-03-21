@@ -69,12 +69,10 @@ export default {
   border-radius: 20px;
 }
 
-
-.invite:hover, a.invite:hover {
+.invite:hover,
+a.invite:hover {
   color: #413d39;
 }
-
-
 
 @media only screen and (max-width: 980px) {
   .invite {
@@ -85,9 +83,10 @@ export default {
     justify-content: center;
   }
 
-  div{}
+  div {
+  }
 
-  .invite{
+  .invite {
     justify-content: center;
     padding-left: 41.75vw;
     padding-right: 41.75vw;
@@ -97,10 +96,8 @@ export default {
   }
 }
 
-
-@media only screen and (max-width: 375px){
-
-  .invite{
+@media only screen and (max-width: 375px) {
+  .invite {
     justify-content: center;
     padding-left: 39vw;
     padding-right: 39vw;
@@ -108,7 +105,5 @@ export default {
     margin-left: 20px;
     margin-right: 20px;
   }
-
 }
-
 </style>

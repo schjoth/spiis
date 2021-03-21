@@ -90,6 +90,7 @@ public class DinnerService {
         Dinner dinner = new Dinner();
         dinner.setHost(user);
         editDinner(dinner, request);
+        dinner.verifyIsInFuture();
 
         dinnerRepository.save(dinner);
         return makeDinnerResponse(dinner, true);
