@@ -75,16 +75,26 @@ public class UserController {
                 .map(it -> dinnerService.makeDinnerResponse(it, true)).collect(Collectors.toList());
     }
 
-    @PutMapping("{id}/deleted")
+    @PutMapping("/{id}/blocked")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void blockUser(@PathVariable("id") Long id,
-                           @RequestBody ValueWrapper<Boolean> deleted,
-                           @RequestHeader("Authorization") String token) {
+                          @RequestBody ValueWrapper<Boolean> blocked,
+                          @RequestHeader("Authorization") String token) {
         if (!authService.isTokenForAdminUser(token))
             throw new ForbiddenException();
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
-        user.setBlocked(deleted.getValue());
+        user.setBlocked(blocked.getValue());
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void deleteUser(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
+        if (!authService.isTokenForAdminUser(token))
+            throw new ForbiddenException();
+        userService.deleteUser(id);
+    }
+
     //TODO: Edit user info
 }
