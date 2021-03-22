@@ -70,5 +70,6 @@ public class UserController {
                 .map(it -> dinnerService.makeDinnerResponse(it, true)).collect(Collectors.toList());
     }
 
+
     //TODO: Edit user info
 }
