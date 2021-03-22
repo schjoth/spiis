@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import spiis.server.api.DinnerResponse;
 import spiis.server.api.UserResponse;
+import spiis.server.api.ValueWrapper;
 import spiis.server.error.ForbiddenException;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.User;
@@ -74,13 +75,16 @@ public class UserController {
                 .map(it -> dinnerService.makeDinnerResponse(it, true)).collect(Collectors.toList());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id}/deleted")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void deleteUser(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
+    public void deleteUser(@PathVariable("id") Long id,
+                           @RequestBody ValueWrapper<Boolean> deleted,
+                           @RequestHeader("Authorization") String token) {
         if (!authService.isTokenForAdminUser(token))
             throw new ForbiddenException();
-        userService.deleteUser(id);
+        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        user.setDeleted(deleted.getValue());
     }
     //TODO: Edit user info
 }
