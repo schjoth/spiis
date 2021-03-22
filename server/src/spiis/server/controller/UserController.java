@@ -1,11 +1,13 @@
 package spiis.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import spiis.server.api.DinnerResponse;
 import spiis.server.api.UserResponse;
+import spiis.server.error.ForbiddenException;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.User;
 import spiis.server.repository.UserRepository;
@@ -61,7 +63,7 @@ public class UserController {
     @GetMapping("/{id}/hosting")
     @Transactional
     public List<DinnerResponse> getHostingForUser(@PathVariable("id") Long id,
-                                                   @RequestHeader("Authorization") String token) {
+                                                  @RequestHeader("Authorization") String token) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
 
         authService.throwIfForbidden(token, user);
@@ -70,5 +72,13 @@ public class UserController {
                 .map(it -> dinnerService.makeDinnerResponse(it, true)).collect(Collectors.toList());
     }
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void deleteUser(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
+        if (!authService.isTokenForAdminUser(token))
+            throw new ForbiddenException();
+        userService.deleteUser(id);
+    }
     //TODO: Edit user info
 }
