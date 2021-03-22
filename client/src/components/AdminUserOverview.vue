@@ -13,7 +13,7 @@
 import { onMounted, ref } from "vue";
 import { UserResponse } from "@/api/types";
 import { getAllUsers } from "@/api/user";
-import {authorized} from "@/api/client";
+import { authorized } from "@/api/client";
 
 export default {
   name: "AdminUserOverview",
@@ -26,7 +26,7 @@ export default {
 
     onMounted(() => authorized(fetchData));
 
-    return {users};
+    return { users };
   }
 };
 </script>
