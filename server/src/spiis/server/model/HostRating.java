@@ -19,11 +19,9 @@ public class HostRating {
     @Nullable
     private Long id;
 
-    @Column(nullable = false)
     @ManyToOne
     private User rater;
 
-    @Column(nullable = false)
     @ManyToOne
     private Dinner dinner;
 
