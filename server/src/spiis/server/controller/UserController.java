@@ -73,10 +73,10 @@ public class UserController {
                 .map(it -> dinnerService.makeDinnerResponse(it, true)).collect(Collectors.toList());
     }
 
-    @DeleteMapping("{id}/deleted")
+    @PutMapping("{id}/deleted")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void deleteUser(@PathVariable("id") Long id,
+    public void blockUser(@PathVariable("id") Long id,
                            @RequestBody ValueWrapper<Boolean> deleted,
                            @RequestHeader("Authorization") String token) {
         if (!authService.isTokenForAdminUser(token))
