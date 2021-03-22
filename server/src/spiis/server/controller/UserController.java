@@ -84,7 +84,7 @@ public class UserController {
         if (!authService.isTokenForAdminUser(token))
             throw new ForbiddenException();
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
-        user.setDeleted(deleted.getValue());
+        user.setBlocked(deleted.getValue());
     }
     //TODO: Edit user info
 }
