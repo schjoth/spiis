@@ -47,13 +47,11 @@ public class RatingController {
             throw new ForbiddenException();
         }
 
-        if (rating.getValue() < 1 || rating.getValue() > 6 ) {
+        if (rating.getValue() < 1 || rating.getValue() > 6) {
             throw new ModelError("Rating must be in range 1-6");
         }
 
-        hostRatingRepository.findByRaterAndDinner(rater, dinner).ifPresentOrElse(it->{
-            it.setRating(rating.getValue());
-        },()->{
+        hostRatingRepository.findByRaterAndDinner(rater, dinner).ifPresentOrElse(it -> it.setRating(rating.getValue()), () -> {
             HostRating ratingObject = new HostRating(rater, dinner, rating.getValue());
             hostRatingRepository.save(ratingObject);
         });
@@ -61,7 +59,7 @@ public class RatingController {
 
     @GetMapping("/users/{userId}/hostRating")
     @Transactional
-    public ValueWrapper<Float> getHostRating(@PathVariable("userId") Long id){
+    public ValueWrapper<Float> getHostRating(@PathVariable("userId") Long id) {
         User host = userRepository.findById(id).orElseThrow(NotFoundException::new);
         return new ValueWrapper<>(hostRatingRepository.getAverageHostRating(host).orElse(null));
     }
