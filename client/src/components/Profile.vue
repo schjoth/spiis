@@ -1,6 +1,9 @@
 <template>
   <div class="box max-500" v-if="user">
-    <h1 class="has-text-centered">{{ user.firstName }} {{ user.lastName }}</h1>
+    <h1 class="has-text-centered">
+      {{ user.firstName }} {{ user.lastName }}
+      <span v-if="user.blocked" style="color: red"> (Blokkert!)</span>
+    </h1>
     <div class="info_options_divider">
       <div class="user_info">
         <p v-if="userIsAdmin" class="admin_text">Administrator</p>
@@ -30,9 +33,9 @@
           <a
             class="remove"
             v-if="loggedInAsAdmin"
-            v-on:click="$emit('deleteProperty', user.id)"
+            v-on:click="$emit('blockThisUser', user.id)"
           >
-            Slett bruker
+            Blokker bruker
           </a>
         </p>
       </div>
@@ -81,6 +84,11 @@ export default {
       loggedInAsAdmin,
       toggleAdmin
     };
+  },
+  emits: {
+    blockThisUser: (payload: number) => {
+      return payload.toString();
+    }
   }
 };
 </script>

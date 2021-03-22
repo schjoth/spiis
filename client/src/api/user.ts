@@ -11,3 +11,11 @@ export async function getUser(
 export async function getAllUsers(): Promise<UserResponse[]> {
   return client.get("/users");
 }
+
+export async function blockUser(id: number, blocked: boolean) {
+  return client.put(`/users/${id}/blocked`, { value: blocked });
+}
+
+export async function deleteUser(id: number) {
+  return client.delete(`/users/${id}`);
+}

@@ -1,6 +1,14 @@
 <template>
   <article>
-    <Profile :user="user" :is-my-user="isMyProfile" v-if="user"></Profile>
+    <Profile
+      :user="user"
+      :is-my-user="isMyProfile"
+      v-if="canSeeUser"
+      @blockThisUser="blockThisUser"
+    />
+    <p v-else class="standalone_p">
+      Brukeren du leter etter finnes ikke, eller har blitt slettet.
+    </p>
   </article>
 </template>
 
@@ -10,7 +18,7 @@ import { useRoute } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { UserResponse } from "@/api/types";
-import { getUser } from "@/api/user";
+import { blockUser, getUser } from "@/api/user";
 export default {
   name: "profile",
   components: {
@@ -25,10 +33,22 @@ export default {
 
     async function fetchData() {
       user.value = await getUser(id);
+      console.log(user.value.blocked);
     }
     onMounted(fetchData);
 
-    return { user, isMyProfile };
+    async function blockThisUser() {
+      if (user.value) await blockUser(user.value.id, true);
+      await fetchData();
+    }
+
+    const amIAdmin = computed(() => getLogInState().user?.admin === true);
+
+    const canSeeUser = computed(
+      () => user.value != null && (user.value.blocked || amIAdmin)
+    );
+
+    return { user, isMyProfile, blockThisUser, canSeeUser };
   }
 };
 </script>

@@ -78,7 +78,7 @@ public class AuthService {
     @Transactional
     public String makeTokenForUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        if (user.isDeleted())
+        if (user.isBlocked())
             throw new ForbiddenException();
         return makeTokenForUser(user);
     }
