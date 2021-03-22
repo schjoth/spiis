@@ -70,6 +70,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "ads",
         component: () => import("@/components/AdvertOverview.vue")
+      },
+      {
+        path: "users",
+        component: () => import("@/components/AdminUserOverview.vue")
       }
     ]
   },

@@ -37,7 +37,9 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponse> getAllUsers() {
+    public List<UserResponse> getAllUsers(@RequestHeader(value = "Authorization") String token) {
+        if (!authService.isTokenForAdminUser(token))
+            throw new ForbiddenException();
         return userService.makeUserResponses();
     }
 

@@ -7,6 +7,7 @@
       <div class="menu">
         <p><router-link to="/admin/info">Informasjon</router-link></p>
         <p><router-link to="/admin/ads">Annonser</router-link></p>
+        <p><router-link to="/admin/users">Brukere</router-link></p>
       </div>
     </div>
     <AdminLogin v-else @tryToken="adminBootstrap" />

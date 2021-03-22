@@ -23,7 +23,7 @@
       {{ dinner.guests.length }}/{{ dinner.maxGuests }} gjester påmeldt
     </p>
     <p class="location">
-      <img src="assets/location-icon.png" alt="Sted" width="40" height="40" />
+      <img src="@/assets/location-icon.png" alt="Sted" width="30" height="30" />
       {{ dinner.postCode }}, {{ dinner.city }}
     </p>
   </div>
