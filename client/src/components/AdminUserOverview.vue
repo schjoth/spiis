@@ -13,17 +13,20 @@
 import { onMounted, ref } from "vue";
 import { UserResponse } from "@/api/types";
 import { getAllUsers } from "@/api/user";
+import {authorized} from "@/api/client";
 
 export default {
   name: "AdminUserOverview",
-  setup() {
+  setup: function () {
     const users = ref<UserResponse[] | null>(null);
+
     async function fetchData() {
       users.value = await getAllUsers();
     }
-    onMounted(fetchData);
 
-    return { users };
+    onMounted(() => authorized(fetchData));
+
+    return {users};
   }
 };
 </script>
