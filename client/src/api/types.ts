@@ -57,3 +57,18 @@ export interface DinnerResponse {
   host: UserResponse;
   guests: UserResponse[] | null;
 }
+
+export interface AdvertRequest {
+  title: string;
+  companyName: string;
+  link: string;
+  picture: string;
+}
+
+export interface AdvertResponse {
+  id: number;
+  title: string;
+  companyName: string;
+  link: string;
+  picture: string;
+}

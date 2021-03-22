@@ -13,36 +13,77 @@
       </button>
     </div>
     <h1>{{ dinner.title }}</h1>
-    <p>
-      <b>Arrangør: </b>
-      <router-link :to="'/user/' + dinner.host.id">
-        {{ dinner.host.firstName }} {{ dinner.host.lastName }}
-      </router-link>
-    </p>
-    <p>
-      <b>Antall gjester:</b> {{ dinner.guests.length }} /
-      {{ dinner.maxGuests }}
-    </p>
-    <p>
-      <b>Sted:</b> {{ dinner.addressLine }} {{ dinner.postCode }}
-      {{ dinner.city }}
-    </p>
-    <p><b>Beskrivelse: </b> {{ dinner.description }}</p>
-    <p><b>Utgifter: </b> {{ dinner.expenses }}</p>
-    <p>
-      <b>Utgifter pr pers: </b>
-      {{ dinner.expenses / (dinner.guests.length + 1) }}
+
+    <div class="is-flex is-flex-wrap-wrap-reverse">
+      <p class="category">BESKRIVELSE</p>
+      <div class="is-flex-grow-1"></div>
+      <p class="category">
+        {{ dinner.date }} {{ dinner.startTime }}-{{ dinner.endTime }}
+      </p>
+    </div>
+    <p class="description">{{ dinner.description }}</p>
+
+    <div class="info">
+      <p class="category">INFO</p>
+      <table>
+        <tr>
+          <td>
+            <b>Arrangør: </b>
+          </td>
+          <td>
+            <router-link :to="'/user/' + dinner.host.id">
+              {{ dinner.host.firstName }} {{ dinner.host.lastName }}
+            </router-link>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Sted:</b>
+          </td>
+          <td>
+            {{ dinner.addressLine }}, {{ dinner.postCode }}
+            {{ dinner.city }}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="expenses">
+      <p class="category">UTGIFTER</p>
+      <table>
+        <tr>
+          <td><b>Totalt: </b></td>
+          <td>{{ dinner.expenses }}</td>
+        </tr>
+        <tr>
+          <td><b>Pr. pers: </b></td>
+          <td>
+            {{ Math.floor(dinner.expenses / (dinner.guests.length + 1)) }}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p class="category">
+      GJESTER ({{ dinner.guests.length }}/{{ dinner.maxGuests }}):
     </p>
     <GuestList
       :guests="dinner.guests"
       :isHost="isHost"
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
-    ></GuestList>
+    />
+    <p class="category">INNSTILLINGER:</p>
     <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
       Rediger
     </router-link>
-    <a v-on:click="cancelDinner" v-if="isHost && !dinner.cancelled">Avlys</a>
+    <a
+      v-on:click="cancelDinner"
+      v-if="isHost && !dinner.cancelled"
+      class="avlys"
+      >Avlys</a
+    >
+
     <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
     </button>
@@ -50,7 +91,7 @@
       Meld meg av
     </button>
   </article>
-  <article v-else>Laster inn middag</article>
+  <article v-else>Laster inn middag...</article>
 </template>
 
 <script lang="ts">
@@ -145,5 +186,37 @@ export default {
 .button.is-primary:focus:not(:active) {
   background-color: #fda45705;
   font-style: normal;
+}
+
+.category {
+  font-size: 15pt;
+}
+
+.rediger {
+  margin-top: 20px;
+  font-weight: lighter;
+}
+
+.rediger,
+.avlys {
+  display: block;
+}
+
+.description {
+  margin-bottom: 20px;
+}
+
+.info {
+  min-width: 50%;
+}
+
+td {
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+.expenses {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>

@@ -1,5 +1,4 @@
 <template>
-  <p><b>Gjester:</b></p>
   <ul>
     <li v-for="guest in guests" v-bind:key="guest.id">
       <router-link :to="'/user/' + guest.id"
@@ -18,7 +17,6 @@ export default {
   props: { guests: Array, isHost: Boolean },
   emits: {
     remove: (payload: number) => {
-      console.log(payload.toString());
       return payload.toString();
     }
   }

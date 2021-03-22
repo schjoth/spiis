@@ -3,16 +3,14 @@
   <main>
     <router-view />
   </main>
-  <head><!--NYTT-->
-    <title>Spiis middagsldeling</title><!--NYTT-->
-    <link rel="icon" type="image/png" href="favicon.ico"> <!--NYTT-->
-  </head><!--NYTT-->
   <footer class="footer">
     <div class="content has-text-centered">
       <strong>Spiis</strong> er laget av gruppe 53 i TDT4140, våren 2021.
     </div>
     <div class="content has-text-centered">
-      <a href="mailto:admin@spiis.no" style="color: white"> <strong>Kontakt oss</strong></a>
+      <a href="mailto:admin@spiis.no" style="color: white">
+        <strong>Kontakt oss</strong></a
+      >
     </div>
   </footer>
 </template>
@@ -30,6 +28,7 @@ export default {
       // If we have logged on previously, we already have a token in localStorage
       tryReusingToken();
     });
+    document.title = "Spiis";
   }
 };
 </script>

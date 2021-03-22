@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { getLogInState } from "@/store/loginState";
 import { watch, computed } from "vue";
 import Home from "@/views/Home.vue";
+import AdminInfo from "@/components/AdminInfo.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -55,7 +56,26 @@ const routes: Array<RouteRecordRaw> = [
     path: "/admin",
     name: "Admin",
     meta: { requiresAuth: true },
-    component: () => import("@/views/AdminPage.vue")
+    component: () => import("@/views/AdminPage.vue"),
+    children: [
+      {
+        path: "info",
+        name: "AdminInfo",
+        component: () => import("@/components/AdminInfo.vue")
+      },
+      {
+        path: "",
+        redirect: AdminInfo
+      },
+      {
+        path: "ads",
+        component: () => import("@/components/AdvertOverview.vue")
+      },
+      {
+        path: "users",
+        component: () => import("@/components/AdminUserOverview.vue")
+      }
+    ]
   },
   {
     path: "/MyDinners",
@@ -70,6 +90,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/EditEvent.vue")
   },
   {
+    path: "/admin/ads/new",
+    name: "NewAdvert",
+    meta: { requiresAdmin: true, requiresAuth: true },
+    component: () => import("@/views/NewAdvert.vue")
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("@/views/NotFound.vue")
@@ -82,11 +108,18 @@ const router = createRouter({
 });
 
 const status = computed(() => getLogInState().status);
+const isAdmin = computed(() => getLogInState().user?.admin);
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && status.value === "loggedOut") next("/login");
   else if (to.meta.requiresAnon && status.value === "loggedIn") next("/");
   else next();
+});
+
+router.afterEach(() => {
+  if (router.currentRoute.value.meta.requiresAdmin && !isAdmin.value) {
+    router.replace("/admin");
+  }
 });
 
 watch(status, async (status) => {

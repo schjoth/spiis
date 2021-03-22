@@ -1,12 +1,16 @@
 <template>
-  <div class="box">
+  <div class="box" :style="{ order }">
     <p class="dateLine">
-      {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{ dinner.date }}</span>]
+      {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{
+        dinner.date
+      }}</span
+      >]
+      <b><span v-if="dinner.cancelled" class="cancelled">AVLYST</span></b>
     </p>
+
     <router-link :to="'/event/' + dinner.id">
       <h1>
         {{ dinner.title }}
-        <span v-if="dinner.cancelled" class="cancelled">(AVLYST)</span>
       </h1>
     </router-link>
     <p class="host">
@@ -19,7 +23,8 @@
       {{ dinner.guests.length }}/{{ dinner.maxGuests }} gjester påmeldt
     </p>
     <p class="location">
-      <img src="assets/location-icon.png" alt="Sted" width="40" height="40"> {{ dinner.postCode }}, {{ dinner.city }}
+      <img src="@/assets/location-icon.png" alt="Sted" width="30" height="30" />
+      {{ dinner.postCode }}, {{ dinner.city }}
     </p>
   </div>
 </template>
@@ -28,7 +33,8 @@
 export default {
   name: "Dinner",
   props: {
-    dinner: Object
+    dinner: Object,
+    order: Number
   }
 };
 </script>
@@ -52,16 +58,16 @@ export default {
     margin-bottom: 10px;
   }
 
-  .guests{}
+  .guests {
+  }
 
-  .host{
+  .host {
     margin-bottom: 15px;
   }
 
-  .location{
+  .location {
     position: absolute;
   }
-
 }
 
 @media only screen and (max-width: 980px) {
