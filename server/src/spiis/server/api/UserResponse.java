@@ -16,5 +16,5 @@ public class UserResponse {
     private String city;
     private List<String> allergies;
     private boolean admin;
-    private boolean deleted;
+    private boolean blocked;
 }

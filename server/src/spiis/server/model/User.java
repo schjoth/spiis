@@ -45,7 +45,7 @@ public class User {
     private boolean admin;
 
     @Column(nullable = false)
-    private boolean deleted;
+    private boolean blocked;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "host")
