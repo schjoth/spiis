@@ -1,9 +1,7 @@
 # Spiis - Middagsdeling
 
-[![pipeline status](https://gitlab.stud.idi.ntnu.no/tdt4140/landsby-3/gruppe-53/spiis/badges/master/pipeline.svg)](https://gitlab.stud.idi.ntnu.no/tdt4140/landsby-3/gruppe-53/spiis/-/commits/master)
-
 Dette er repoet for gruppe 53 sitt prosjekt i TDT4140 Programvareutvikling. 
-Den nyeste utgaven av kodebaser er alltid online på [spiis.haved.no](https://spiis.haved.no).
+Den nyeste utgaven av kodebasen er alltid online på [spiis.haved.no](https://spiis.haved.no).
 
 ## Organisering
 
