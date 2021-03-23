@@ -30,14 +30,11 @@
         </p>
         <p v-if="adminErrorText" class="admin_error">{{ adminErrorText }}</p>
         <p>
-          <a
-            class="remove"
-            v-if="loggedInAsAdmin"
-            v-on:click="$emit('blockThisUser', user.id)"
-          >
-            Blokker bruker
+          <a class="remove" v-if="loggedInAsAdmin" v-on:click="toggleBlocked">
+            {{ userIsBlocked ? "Gi tilgang" : "Blokker bruker" }}
           </a>
         </p>
+        <p v-if="adminErrorText" class="admin_error">{{ adminErrorText }}</p>
       </div>
     </div>
   </div>
@@ -48,6 +45,7 @@ import { getLogInState } from "@/store/loginState";
 import { computed, ref, watchEffect } from "vue";
 import { UserResponse } from "@/api/types";
 import { setAdministrator } from "@/api/admin";
+import { blockUser } from "@/api/user";
 
 export default {
   name: "Profile",
@@ -59,12 +57,29 @@ export default {
     const loggedInAsAdmin = computed(
       () => getLogInState().user?.admin === true
     );
+    const blockedUser = computed(() => getLogInState().user?.blocked === true);
+
+    const userIsBlocked = ref<boolean>(false);
     const userIsAdmin = ref<boolean>(false);
     const adminErrorText = ref<string | null>(null);
 
     watchEffect(() => {
       userIsAdmin.value = props.user?.admin === true;
+      userIsBlocked.value = props.user?.blocked === true;
     });
+
+    const toggleBlocked = async () => {
+      const newState = !userIsBlocked.value;
+
+      try {
+        console.log(userIsBlocked.value);
+        await blockUser(props.user?.id!, newState);
+        userIsBlocked.value = newState;
+        console.log(userIsBlocked.value);
+      } catch (e) {
+        adminErrorText.value = "Failed";
+      }
+    };
 
     const toggleAdmin = async () => {
       const newState = !userIsAdmin.value;
@@ -80,8 +95,11 @@ export default {
 
     return {
       userIsAdmin,
+      userIsBlocked,
       adminErrorText,
       loggedInAsAdmin,
+      blockedUser,
+      toggleBlocked,
       toggleAdmin
     };
   },

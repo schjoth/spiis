@@ -87,14 +87,5 @@ public class UserController {
         user.setBlocked(blocked.getValue());
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Transactional
-    public void deleteUser(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
-        if (!authService.isTokenForAdminUser(token))
-            throw new ForbiddenException();
-        userService.deleteUser(id);
-    }
-
     //TODO: Edit user info
 }
