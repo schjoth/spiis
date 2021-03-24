@@ -84,7 +84,9 @@ public class UserController {
         if (!authService.isTokenForAdminUser(token))
             throw new ForbiddenException();
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        System.out.println(user.isBlocked());
         user.setBlocked(blocked.getValue());
+        System.out.println(user.isBlocked());
     }
 
     //TODO: Edit user info
