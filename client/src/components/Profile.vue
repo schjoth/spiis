@@ -128,14 +128,13 @@ export default {
     margin-bottom: 6%;
   }
 
-  b{
+  b {
     //display: block;
     font-size: small;
     font-weight: lighter;
     font-style: italic;
   }
 }
-
 
 .admin_text {
   font-size: 1.3rem;
@@ -146,10 +145,6 @@ export default {
   color: darkred;
 }
 
-
 @media only screen and (max-width: 980px) {
-
-
 }
-
 </style>

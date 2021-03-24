@@ -16,7 +16,10 @@
     <div class="is-flex is-flex-wrap-wrap-reverse">
       <div class="is-flex-grow-1"></div>
       <p class="dateLine">
-        kl. {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{dinner.date}}</span>]
+        kl. {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{
+          dinner.date
+        }}</span
+        >]
       </p>
     </div>
 
@@ -75,14 +78,19 @@
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
     />
-    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost" class="rediger">
+    <router-link
+      :to="'/event/' + dinner.id + '/edit'"
+      v-if="isHost"
+      class="rediger"
+    >
       Rediger
     </router-link>
 
     <a
       v-on:click="cancelDinner"
       v-if="isHost && !dinner.cancelled"
-      class="avlys">
+      class="avlys"
+    >
       Avlys
     </a>
 
@@ -194,7 +202,6 @@ export default {
   font-size: 15pt;
 }
 
-
 .rediger {
   margin-top: 20px;
   font-weight: lighter;
@@ -222,6 +229,4 @@ td {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
-
 </style>

@@ -2,8 +2,9 @@
   <div class="box" :style="{ order }">
     <p>
       <span class="date">
-      <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
-      {{dinner.date}}</span>
+        <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
+        {{ dinner.date }}</span
+      >
     </p>
     <p class="dateLine">
       <img src="@/assets/clock.svg" alt="Sted" width="16" height="16" />
@@ -11,10 +12,11 @@
 
       <b><span v-if="dinner.cancelled" class="cancelled">AVLYST</span></b>
 
-      <span class="date0">,
-      <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
-        {{dinner.date}}</span>
-
+      <span class="date0"
+        >,
+        <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
+        {{ dinner.date }}</span
+      >
     </p>
 
     <router-link :to="'/event/' + dinner.id">
@@ -32,16 +34,14 @@
 
     <p class="guests">
       <img src="@/assets/users.svg" alt="Sted" width="20" height="20" />
-       {{ dinner.guests.length }}/{{ dinner.maxGuests }}
+      {{ dinner.guests.length }}/{{ dinner.maxGuests }}
     </p>
 
     <p class="location">
       <img src="@/assets/map-pin.svg" alt="Sted" width="20" height="20" />
-       {{ dinner.postCode }}, {{ dinner.city }}
+      {{ dinner.postCode }}, {{ dinner.city }}
     </p>
-
   </div>
-
 </template>
 
 <script lang="ts">
@@ -75,10 +75,9 @@ export default {
     position: absolute;
   }
 
-  .date0{
+  .date0 {
     display: none;
   }
-
 }
 
 .cancelled {
@@ -88,27 +87,21 @@ export default {
   font-family: sans-serif;
 }
 
-
 @media only screen and (max-width: 980px) {
   .box {
     box-sizing: border-box;
     width: 100%;
   }
 
-  .date{
+  .date {
     display: none;
   }
 
-  .date0{
+  .date0 {
     display: inline;
   }
-
 }
 
-
-
-@media only screen and (max-width: 375px){
+@media only screen and (max-width: 375px) {
 }
-
-
 </style>
