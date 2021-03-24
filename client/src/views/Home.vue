@@ -17,7 +17,7 @@ s
 <script lang="ts">
 import DinnerOverview from "@/components/DinnerOverview.vue";
 import { getAllDinners } from "@/api/dinner";
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { AdvertResponse, DinnerResponse } from "@/api/types";
 import { getAllAdverts } from "@/api/adverts";
 
