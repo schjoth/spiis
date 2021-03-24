@@ -99,8 +99,6 @@ public class UserController {
             Iterable<DinnerResponse> guesting = getGuestingForUser(id, user.getToken().getToken());
             for (DinnerResponse dinner : guesting)
                 dinnerController.removeGuestFromDinner(dinner.getId(), id, user.getToken().getToken());
-
-            user.setToken(null);
         }
     }
 
