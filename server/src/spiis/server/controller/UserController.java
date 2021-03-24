@@ -27,14 +27,17 @@ public class UserController {
     private final UserService userService;
     private final DinnerService dinnerService;
     private final UserRepository userRepository;
+    private final DinnerController dinnerController;
 
     @Autowired
     public UserController(AuthService authService, UserService userService,
-                          DinnerService dinnerService, UserRepository userRepository) {
+                          DinnerService dinnerService, UserRepository userRepository,
+                          DinnerController dinnerController) {
         this.authService = authService;
         this.userService = userService;
         this.dinnerService = dinnerService;
         this.userRepository = userRepository;
+        this.dinnerController = dinnerController;
     }
 
     @GetMapping
@@ -84,9 +87,21 @@ public class UserController {
         if (!authService.isTokenForAdminUser(token))
             throw new ForbiddenException();
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
-        System.out.println(user.isBlocked());
         user.setBlocked(blocked.getValue());
-        System.out.println(user.isBlocked());
+        ValueWrapper<Boolean> value = new ValueWrapper<>();
+        value.setValue(true);
+
+        if (user.getToken() != null) {
+            Iterable<DinnerResponse> dinners = getHostingForUser(id, user.getToken().getToken());
+            for (DinnerResponse dinner : dinners)
+                dinnerController.setDinnerCancelled(dinner.getId(), value, user.getToken().getToken());
+
+            Iterable<DinnerResponse> guesting = getGuestingForUser(id, user.getToken().getToken());
+            for (DinnerResponse dinner : guesting)
+                dinnerController.removeGuestFromDinner(dinner.getId(), id, user.getToken().getToken());
+
+            user.setToken(null);
+        }
     }
 
     //TODO: Edit user info
