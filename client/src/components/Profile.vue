@@ -1,8 +1,8 @@
 <template>
-  <div class="box max-500" v-if="user">
+  <div class="box max-500" v-if="!userIsBlocked || loggedInAsAdmin">
     <h1 class="has-text-centered">
       {{ user.firstName }} {{ user.lastName }}
-      <span v-if="user.blocked" style="color: red"> (Blokkert!)</span>
+      <span v-if="userIsBlocked" style="color: red"> (Blokkert!)</span>
     </h1>
     <div class="info_options_divider">
       <div class="user_info">
@@ -16,13 +16,9 @@
         </p>
       </div>
 
-      <div class="admin_options">
+      <div class="admin_options" v-if="loggedInAsAdmin && !isMyUser">
         <p>
-          <a
-            v-if="loggedInAsAdmin && !isMyUser"
-            class="admin_toggle"
-            v-on:click="toggleAdmin"
-          >
+          <a class="admin_toggle" v-on:click="toggleAdmin">
             {{
               userIsAdmin ? "Frata administratorrolle" : "Gi administratorrolle"
             }}
@@ -30,7 +26,7 @@
         </p>
         <p v-if="adminErrorText" class="admin_error">{{ adminErrorText }}</p>
         <p>
-          <a class="remove" v-if="loggedInAsAdmin" v-on:click="toggleBlocked">
+          <a class="remove" v-on:click="toggleBlocked">
             {{ userIsBlocked ? "Gi tilgang" : "Blokker bruker" }}
           </a>
         </p>
@@ -38,6 +34,9 @@
       </div>
     </div>
   </div>
+  <p v-else class="standalone_p">
+    Denne brukeren er for øyeblikket suspendert.
+  </p>
 </template>
 
 <script lang="ts">
@@ -53,29 +52,25 @@ export default {
     user: Object,
     isMyUser: Boolean
   },
-  setup(props: { user: UserResponse | null; isMyUser: boolean }) {
-    const loggedInAsAdmin = computed(
-      () => getLogInState().user?.admin === true
-    );
-    const blockedUser = computed(() => getLogInState().user?.blocked === true);
+  setup(props: { user: UserResponse; isMyUser: boolean }) {
+    const loggedInAsAdmin = computed(() => getLogInState().user?.admin);
 
-    const userIsBlocked = ref<boolean>(false);
-    const userIsAdmin = ref<boolean>(false);
+    const userIsBlocked = ref<boolean>(props.user.blocked);
+    const userIsAdmin = ref<boolean>(props.user.admin);
     const adminErrorText = ref<string | null>(null);
 
     watchEffect(() => {
-      userIsAdmin.value = props.user?.admin === true;
-      userIsBlocked.value = props.user?.blocked === true;
+      userIsAdmin.value = props.user.admin;
+      userIsBlocked.value = props.user.blocked;
     });
 
     const toggleBlocked = async () => {
       const newState = !userIsBlocked.value;
 
       try {
-        console.log(userIsBlocked.value);
-        await blockUser(props.user?.id!, newState);
-        userIsBlocked.value = newState;
-        console.log(userIsBlocked.value);
+        await blockUser(props.user?.id!, newState).then(
+          () => (userIsBlocked.value = newState)
+        );
       } catch (e) {
         adminErrorText.value = "Failed";
       }
@@ -86,8 +81,9 @@ export default {
 
       try {
         adminErrorText.value = null;
-        await setAdministrator(props.user?.id!, newState);
-        userIsAdmin.value = newState;
+        await setAdministrator(props.user?.id!, newState).then(
+          () => (userIsAdmin.value = newState)
+        );
       } catch (e) {
         adminErrorText.value = `Failed setting admin: ${e.message}`;
       }
@@ -98,15 +94,9 @@ export default {
       userIsBlocked,
       adminErrorText,
       loggedInAsAdmin,
-      blockedUser,
       toggleBlocked,
       toggleAdmin
     };
-  },
-  emits: {
-    blockThisUser: (payload: number) => {
-      return payload.toString();
-    }
   }
 };
 </script>

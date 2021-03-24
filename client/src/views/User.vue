@@ -1,8 +1,8 @@
 <template>
   <article>
-    <Profile :user="user" :is-my-user="isMyProfile" v-if="canSeeUser" />
-    <p v-else class="standalone_p">
-      Brukeren du leter etter finnes ikke, eller har blitt slettet.
+    <Profile :user="user" :is-my-user="isMyProfile" v-if="user" />
+    <p class="standalone_p" v-else>
+      Brukeren du leter etter finnes ikke eller har blitt slettet
     </p>
   </article>
 </template>
@@ -28,18 +28,10 @@ export default {
 
     async function fetchData() {
       user.value = await getUser(id);
-      console.log(user.value.blocked);
     }
     onMounted(fetchData);
 
-    const isBlocked = computed(() => getLogInState().user?.blocked === true);
-    const amIAdmin = computed(() => getLogInState().user?.admin === true);
-
-    const canSeeUser = computed(
-      () => user.value != null && (isBlocked.value || amIAdmin)
-    );
-
-    return { user, isMyProfile, canSeeUser };
+    return { user, isMyProfile };
   }
 };
 </script>
