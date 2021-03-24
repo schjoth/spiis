@@ -115,6 +115,14 @@ h2 {
 @import "dark-form";
 
 
+.date {
+  font-size: small;
+}
+
+.dateLine {
+  margin-bottom: 10px;
+}
+
 
 @media only screen and (max-width: 980px) {
   .input {

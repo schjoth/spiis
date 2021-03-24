@@ -4,13 +4,24 @@
     <div class="info_options_divider">
       <div class="user_info">
         <p v-if="userIsAdmin" class="admin_text">Administrator</p>
-        <p><b>Alder: </b>{{ user.age }}</p>
-        <p v-if="isMyUser || loggedInAsAdmin"><b>Epost: </b>{{ user.email }}</p>
-        <p><b>By: </b>{{ user.city }}</p>
-        <p>
-          <b>Allergier: </b>
-          {{ user.allergies.join(", ") }}
-        </p>
+        <table>
+          <tr>
+            <td><b>Alder: </b></td>
+            <td>{{ user.age }}</td>
+          </tr>
+          <tr v-if="isMyUser || loggedInAsAdmin">
+            <td><b>Epost: </b></td>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <td><b>By: </b></td>
+            <td>{{ user.city }}</td>
+          </tr>
+          <tr>
+            <td><b>Allergier: </b></td>
+            <td>{{ user.allergies.join(", ") }}</td>
+          </tr>
+        </table>
       </div>
 
       <div class="admin_options">
@@ -112,6 +123,20 @@ export default {
   margin-right: auto;
 }
 
+.user_info {
+  p {
+    margin-bottom: 6%;
+  }
+
+  b{
+    //display: block;
+    font-size: small;
+    font-weight: lighter;
+    font-style: italic;
+  }
+}
+
+
 .admin_text {
   font-size: 1.3rem;
   color: brown;
@@ -120,4 +145,11 @@ export default {
 .admin_error {
   color: darkred;
 }
+
+
+@media only screen and (max-width: 980px) {
+
+
+}
+
 </style>

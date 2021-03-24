@@ -12,15 +12,17 @@
         Angre
       </button>
     </div>
-    <h1>{{ dinner.title }}</h1>
 
     <div class="is-flex is-flex-wrap-wrap-reverse">
-      <p class="category">BESKRIVELSE</p>
       <div class="is-flex-grow-1"></div>
-      <p class="category">
-        {{ dinner.date }} {{ dinner.startTime }}-{{ dinner.endTime }}
+      <p class="dateLine">
+        kl. {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{dinner.date}}</span>]
       </p>
     </div>
+
+    <h1>{{ dinner.title }}</h1>
+
+    <p class="category">BESKRIVELSE</p>
     <p class="description">{{ dinner.description }}</p>
 
     <div class="info">
@@ -73,16 +75,16 @@
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
     />
-    <p class="category">INNSTILLINGER:</p>
-    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
+    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost" class="rediger">
       Rediger
     </router-link>
+
     <a
       v-on:click="cancelDinner"
       v-if="isHost && !dinner.cancelled"
-      class="avlys"
-      >Avlys</a
-    >
+      class="avlys">
+      Avlys
+    </a>
 
     <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
@@ -192,6 +194,7 @@ export default {
   font-size: 15pt;
 }
 
+
 .rediger {
   margin-top: 20px;
   font-weight: lighter;
@@ -219,4 +222,6 @@ td {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+
 </style>
