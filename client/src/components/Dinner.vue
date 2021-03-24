@@ -1,11 +1,22 @@
 <template>
   <div class="box" :style="{ order }">
+    <p>
+      <span class="date">
+        <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
+        {{ dinner.date }}</span
+      >
+    </p>
     <p class="dateLine">
-      {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{
-        dinner.date
-      }}</span
-      >]
+      <img src="@/assets/clock.svg" alt="Sted" width="16" height="16" />
+      {{ dinner.startTime }} - {{ dinner.endTime }}
+
       <b><span v-if="dinner.cancelled" class="cancelled">AVLYST</span></b>
+
+      <span class="date0"
+        >,
+        <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
+        {{ dinner.date }}</span
+      >
     </p>
 
     <router-link :to="'/event/' + dinner.id">
@@ -13,17 +24,21 @@
         {{ dinner.title }}
       </h1>
     </router-link>
+
     <p class="host">
       hos
       <router-link :to="'/user/' + dinner.host.id">
         {{ dinner.host.firstName }} {{ dinner.host.lastName }}
       </router-link>
     </p>
+
     <p class="guests">
-      {{ dinner.guests.length }}/{{ dinner.maxGuests }} gjester påmeldt
+      <img src="@/assets/users.svg" alt="Sted" width="20" height="20" />
+      {{ dinner.guests.length }}/{{ dinner.maxGuests }}
     </p>
+
     <p class="location">
-      <img src="@/assets/location-icon.png" alt="Sted" width="30" height="30" />
+      <img src="@/assets/map-pin.svg" alt="Sted" width="20" height="20" />
       {{ dinner.postCode }}, {{ dinner.city }}
     </p>
   </div>
@@ -49,15 +64,6 @@ export default {
     color: inherit;
   }
 
-  .date {
-    font-size: small;
-    justify-content: right;
-  }
-
-  .dateLine {
-    margin-bottom: 10px;
-  }
-
   .guests {
   }
 
@@ -68,12 +74,9 @@ export default {
   .location {
     position: absolute;
   }
-}
 
-@media only screen and (max-width: 980px) {
-  .box {
-    box-sizing: border-box;
-    width: 100%;
+  .date0 {
+    display: none;
   }
 }
 
@@ -82,5 +85,23 @@ export default {
   font-style: normal;
   font-size: 1.4rem;
   font-family: sans-serif;
+}
+
+@media only screen and (max-width: 980px) {
+  .box {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .date {
+    display: none;
+  }
+
+  .date0 {
+    display: inline;
+  }
+}
+
+@media only screen and (max-width: 375px) {
 }
 </style>
