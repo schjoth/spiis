@@ -27,6 +27,10 @@ export async function removeGuest(dinnerId: number, userId: number) {
   await client.delete(`/dinners/${dinnerId}/guests/${userId}`);
 }
 
+export async function blockGuest(dinnerId: number, userId: number) {
+  await client.put(`/dinners/${dinnerId}/guests/blocked/${userId}`);
+}
+
 export async function getHostDinners(
   userId: number
 ): Promise<DinnerResponse[]> {

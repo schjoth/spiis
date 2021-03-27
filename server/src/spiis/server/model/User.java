@@ -52,6 +52,10 @@ public class User {
     @ManyToMany(mappedBy = "guests")
     private final Set<Dinner> guesting = new HashSet<>();
 
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "blockedGuests")
+    private final Set<Dinner> blockedFrom = new HashSet<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Allergy> allergies = new HashSet<>();
 
@@ -121,6 +125,9 @@ public class User {
         }
         for (Dinner guesting : this.guesting) {
             guesting.removeGuest(this);
+        }
+        for (Dinner blockedFrom : this.blockedFrom) {
+            blockedFrom.unblockGuest(this);
         }
     }
 
