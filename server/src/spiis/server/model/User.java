@@ -44,6 +44,9 @@ public class User {
     @Column(nullable = false)
     private boolean admin;
 
+    @Column(nullable = false)
+    private boolean blocked;
+
     @ToString.Exclude
     @OneToMany(mappedBy = "host")
     private final Set<Dinner> hosting = new HashSet<>();
