@@ -76,6 +76,17 @@ public class UserController {
                 .map(it -> dinnerService.makeDinnerResponse(it, true)).collect(Collectors.toList());
     }
 
+    /**
+     * Blocks the user, which:
+     *  - logs them out (deletes their token)
+     *  - prevents them from logging back in
+     *  - removes them from guesting dinners
+     *  - cancels their dinners
+     * Can only be called by an admin. Can also unblock the user, which will allow them to log back in
+     * @param id the id of the user
+     * @param blocked if they should be blocked or unblocked
+     * @param token the authorization token of the admin calling this
+     */
     @PutMapping("/{id}/blocked")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
@@ -87,9 +98,12 @@ public class UserController {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
         user.setBlocked(blocked.getValue());
 
-        for (Dinner dinner : user.getHosting())
-            dinner.setCancelled(true);
-        for (Dinner dinner : user.getGuesting())
-            dinner.removeGuest(user);
+        if (blocked.getValue()) {
+            user.setToken(null);
+            for (Dinner dinner : user.getHosting())
+                dinner.setCancelled(true);
+            for (Dinner dinner : user.getGuesting())
+                dinner.removeGuest(user);
+        }
     }
 }

@@ -60,19 +60,19 @@ export default {
     const adminErrorText = ref<string | null>(null);
 
     watchEffect(() => {
-      userIsAdmin.value = props.user.admin;
-      userIsBlocked.value = props.user.blocked;
+      userIsAdmin.value = props.user?.admin === true;
+      userIsBlocked.value = props.user?.blocked === true;
     });
 
     const toggleBlocked = async () => {
       const newState = !userIsBlocked.value;
 
       try {
-        await blockUser(props.user?.id!, newState).then(
-          () => (userIsBlocked.value = newState)
-        );
+        adminErrorText.value = null;
+        await blockUser(props.user?.id!, newState);
+        userIsBlocked.value = newState;
       } catch (e) {
-        adminErrorText.value = "Failed";
+        adminErrorText.value = `Failed blocking: ${e.message}`;
       }
     };
 
@@ -81,9 +81,8 @@ export default {
 
       try {
         adminErrorText.value = null;
-        await setAdministrator(props.user?.id!, newState).then(
-          () => (userIsAdmin.value = newState)
-        );
+        await setAdministrator(props.user?.id!, newState);
+        userIsAdmin.value = newState;
       } catch (e) {
         adminErrorText.value = `Failed setting admin: ${e.message}`;
       }

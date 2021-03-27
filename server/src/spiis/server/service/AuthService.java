@@ -65,9 +65,13 @@ public class AuthService {
      * @param user the user
      * @return the new token for the user
      * @throws NotFoundException if no user exists with the given id
+     * @throws ForbiddenException if the user is blocked
      */
     @Transactional(propagation = Propagation.MANDATORY)
     public String makeTokenForUser(User user) {
+        if (user.isBlocked())
+            throw new ForbiddenException("This user has been blocked");
+
         String tokenText = generateToken();
         AuthToken token = new AuthToken(tokenText);
 
@@ -78,8 +82,6 @@ public class AuthService {
     @Transactional
     public String makeTokenForUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
-        if (user.isBlocked())
-            throw new ForbiddenException();
         return makeTokenForUser(user);
     }
 
