@@ -67,6 +67,9 @@ public class Dinner {
     @ManyToMany
     private final Set<User> guests = new HashSet<>();
 
+    @ManyToMany
+    private final Set<User> removedGuests = new HashSet<>();
+
     @CreatedDate
     @Nullable
     private OffsetDateTime createdTime;
@@ -124,6 +127,7 @@ public class Dinner {
     public void removeGuest(User guest) {
         guests.remove(guest);
         guest.getGuesting().remove(this);
+        removedGuests.add(guest);
     }
 
     @Override

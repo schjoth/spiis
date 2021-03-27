@@ -107,7 +107,8 @@ public class DinnerController {
             throw new ConflictException("The user is already a guest");
         if (dinner.getGuests().size() >= dinner.getMaxGuests())
             throw new ConflictException("There is not room for more guests!");
-
+        if (dinner.getRemovedGuests().contains(user))
+            throw new ConflictException("The user has been removed");
         dinner.addGuest(user);
     }
 
