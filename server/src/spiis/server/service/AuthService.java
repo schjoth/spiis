@@ -6,7 +6,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import spiis.server.api.LogInRequest;
 import spiis.server.api.LogInResponse;
 import spiis.server.api.UserResponse;
 import spiis.server.error.ForbiddenException;
@@ -17,10 +16,8 @@ import spiis.server.model.User;
 import spiis.server.repository.UserRepository;
 
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -68,9 +65,13 @@ public class AuthService {
      * @param user the user
      * @return the new token for the user
      * @throws NotFoundException if no user exists with the given id
+     * @throws ForbiddenException if the user is blocked
      */
     @Transactional(propagation = Propagation.MANDATORY)
     public String makeTokenForUser(User user) {
+        if (user.isBlocked())
+            throw new ForbiddenException("This user has been blocked");
+
         String tokenText = generateToken();
         AuthToken token = new AuthToken(tokenText);
 
@@ -80,7 +81,8 @@ public class AuthService {
 
     @Transactional
     public String makeTokenForUser(Long userId) {
-        return makeTokenForUser(userRepository.findById(userId).orElseThrow(NotFoundException::new));
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        return makeTokenForUser(user);
     }
 
     /**

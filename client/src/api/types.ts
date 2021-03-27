@@ -7,6 +7,7 @@ export interface UserResponse {
   city: string;
   allergies: string[];
   admin: boolean;
+  blocked: boolean;
 }
 
 export interface LogInRequest {

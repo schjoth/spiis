@@ -112,8 +112,25 @@ h2 {
   }
 }
 
+.standalone_p {
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  color: black;
+  max-width: max-content;
+  margin: auto;
+}
+
 @import "dark-form";
 
+
+.date {
+  font-size: small;
+}
+
+.dateLine {
+  margin-bottom: 10px;
+}
 
 
 @media only screen and (max-width: 980px) {
