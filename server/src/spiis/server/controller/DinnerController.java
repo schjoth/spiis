@@ -107,12 +107,13 @@ public class DinnerController {
             throw new ConflictException("The user is already a guest");
         if (dinner.getGuests().size() >= dinner.getMaxGuests())
             throw new ConflictException("There is not room for more guests!");
-
+        if (dinner.getBlockedGuests().contains(user))
+            throw new ConflictException("You have been blocked from this dinner");
         dinner.addGuest(user);
     }
 
     /**
-     * Removes a user as guest from the given dinner
+     * Removes a user as guest from the given dinner.
      *
      * @param dinnerId the id of the dinner
      * @param userId the id of the user
@@ -131,5 +132,27 @@ public class DinnerController {
             throw new ForbiddenException();
 
         dinner.removeGuest(user);
+    }
+
+    /**
+     * Removes and blocks a user as guest from the given dinner.
+     *
+     * @param dinnerId the id of the dinner
+     * @param userId the id of the user
+     * @param token authorization. Only the dinner host user can call this
+     */
+    @PutMapping("/{id}/guests/blocked/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void removeAndBlockGuestFromDinner(@PathVariable("id") Long dinnerId, @PathVariable("userId") Long userId,
+                                      @RequestHeader("Authorization") String token) {
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        Dinner dinner = dinnerRepository.findById(dinnerId).orElseThrow(NotFoundException::new);
+        User host = Objects.requireNonNull(dinner.getHost());
+
+        if (!authService.doesTokenGiveAccess(token, host))
+            throw new ForbiddenException();
+
+        dinner.removeAndBlockGuest(user);
     }
 }

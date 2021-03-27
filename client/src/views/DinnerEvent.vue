@@ -77,6 +77,7 @@
       :isHost="isHost"
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
+      @block="blockGuestFromDinner"
     />
     <router-link
       :to="'/event/' + dinner.id + '/edit'"
@@ -100,6 +101,7 @@
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
+    <p v-if="errorText">{{ errorText }}</p>
   </article>
   <article v-else>Laster inn middag...</article>
 </template>
@@ -110,7 +112,8 @@ import {
   getDinner,
   addGuest,
   removeGuest,
-  setDinnerCancelled
+  setDinnerCancelled,
+  blockGuest
 } from "@/api/dinner";
 import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
@@ -128,6 +131,7 @@ export default {
     if (!Number.isInteger(dinnerId)) useRouter().replace("/404");
     const dinner = ref<DinnerResponse | null>(null);
     const userId = computed(() => getLogInState().user?.id);
+    const errorText = ref("");
 
     async function fetchData() {
       dinner.value = await getDinner(dinnerId);
@@ -139,30 +143,36 @@ export default {
       dinner.value?.guests?.some((a) => a.id == userId.value)
     );
 
-    async function addToDinner() {
-      await addGuest(dinnerId, userId.value!);
-      await fetchData();
+    function errorWrapped<T>(func: (args: T) => void): (args: T) => void {
+      return async (args: T) => {
+        try {
+          errorText.value = "";
+          await func(args);
+          await fetchData();
+        } catch (e) {
+          errorText.value = e.message;
+        }
+      };
     }
 
-    async function removeFromDinner() {
-      await removeGuest(dinnerId, userId.value!);
-      await fetchData();
-    }
-
-    async function removeGuestFromDinner(guestId: number) {
-      await removeGuest(dinnerId, guestId);
-      await fetchData();
-    }
-
-    async function cancelDinner() {
-      await setDinnerCancelled(dinnerId, true);
-      await fetchData();
-    }
-
-    async function unCancelDinner() {
-      await setDinnerCancelled(dinnerId, false);
-      await fetchData();
-    }
+    const addToDinner = errorWrapped(
+      async () => await addGuest(dinnerId, userId.value!)
+    );
+    const removeFromDinner = errorWrapped(
+      async () => await removeGuest(dinnerId, userId.value!)
+    );
+    const removeGuestFromDinner = errorWrapped(
+      async (guestId: number) => await removeGuest(dinnerId, guestId)
+    );
+    const blockGuestFromDinner = errorWrapped(
+      async (guestId: number) => await blockGuest(dinnerId, guestId)
+    );
+    const cancelDinner = errorWrapped(
+      async () => await setDinnerCancelled(dinnerId, true)
+    );
+    const unCancelDinner = errorWrapped(
+      async () => await setDinnerCancelled(dinnerId, false)
+    );
 
     onMounted(() => authorized(fetchData));
 
@@ -173,8 +183,10 @@ export default {
       addToDinner,
       removeFromDinner,
       removeGuestFromDinner,
+      blockGuestFromDinner,
       cancelDinner,
-      unCancelDinner
+      unCancelDinner,
+      errorText
     };
   }
 };
