@@ -204,6 +204,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+img {
+  top: 1px;
+  position: relative;
+}
+
 .cancelled {
   padding: 20px;
   margin-bottom: 10px;
