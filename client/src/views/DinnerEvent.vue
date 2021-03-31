@@ -12,15 +12,20 @@
         Angre
       </button>
     </div>
-    <h1>{{ dinner.title }}</h1>
 
     <div class="is-flex is-flex-wrap-wrap-reverse">
-      <p class="category">BESKRIVELSE</p>
       <div class="is-flex-grow-1"></div>
-      <p class="category">
-        {{ dinner.date }} {{ dinner.startTime }}-{{ dinner.endTime }}
+      <p class="dateLine">
+        kl. {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{
+          dinner.date
+        }}</span
+        >]
       </p>
     </div>
+
+    <h1>{{ dinner.title }}</h1>
+
+    <p class="category">BESKRIVELSE</p>
     <p class="description">{{ dinner.description }}</p>
 
     <div class="info">
@@ -72,17 +77,23 @@
       :isHost="isHost"
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
+      @block="blockGuestFromDinner"
     />
-    <p class="category">INNSTILLINGER:</p>
-    <router-link :to="'/event/' + dinner.id + '/edit'" v-if="isHost">
+    <router-link
+      :to="'/event/' + dinner.id + '/edit'"
+      v-if="isHost"
+      class="rediger"
+    >
       Rediger
     </router-link>
+
     <a
       v-on:click="cancelDinner"
       v-if="isHost && !dinner.cancelled"
       class="avlys"
-      >Avlys</a
     >
+      Avlys
+    </a>
 
     <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
@@ -90,6 +101,7 @@
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
+    <p v-if="errorText">{{ errorText }}</p>
   </article>
   <article v-else>Laster inn middag...</article>
 </template>
@@ -100,7 +112,8 @@ import {
   getDinner,
   addGuest,
   removeGuest,
-  setDinnerCancelled
+  setDinnerCancelled,
+  blockGuest
 } from "@/api/dinner";
 import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
@@ -118,6 +131,7 @@ export default {
     if (!Number.isInteger(dinnerId)) useRouter().replace("/404");
     const dinner = ref<DinnerResponse | null>(null);
     const userId = computed(() => getLogInState().user?.id);
+    const errorText = ref("");
 
     async function fetchData() {
       dinner.value = await getDinner(dinnerId);
@@ -129,30 +143,36 @@ export default {
       dinner.value?.guests?.some((a) => a.id == userId.value)
     );
 
-    async function addToDinner() {
-      await addGuest(dinnerId, userId.value!);
-      await fetchData();
+    function errorWrapped<T>(func: (args: T) => void): (args: T) => void {
+      return async (args: T) => {
+        try {
+          errorText.value = "";
+          await func(args);
+          await fetchData();
+        } catch (e) {
+          errorText.value = e.message;
+        }
+      };
     }
 
-    async function removeFromDinner() {
-      await removeGuest(dinnerId, userId.value!);
-      await fetchData();
-    }
-
-    async function removeGuestFromDinner(guestId: number) {
-      await removeGuest(dinnerId, guestId);
-      await fetchData();
-    }
-
-    async function cancelDinner() {
-      await setDinnerCancelled(dinnerId, true);
-      await fetchData();
-    }
-
-    async function unCancelDinner() {
-      await setDinnerCancelled(dinnerId, false);
-      await fetchData();
-    }
+    const addToDinner = errorWrapped(
+      async () => await addGuest(dinnerId, userId.value!)
+    );
+    const removeFromDinner = errorWrapped(
+      async () => await removeGuest(dinnerId, userId.value!)
+    );
+    const removeGuestFromDinner = errorWrapped(
+      async (guestId: number) => await removeGuest(dinnerId, guestId)
+    );
+    const blockGuestFromDinner = errorWrapped(
+      async (guestId: number) => await blockGuest(dinnerId, guestId)
+    );
+    const cancelDinner = errorWrapped(
+      async () => await setDinnerCancelled(dinnerId, true)
+    );
+    const unCancelDinner = errorWrapped(
+      async () => await setDinnerCancelled(dinnerId, false)
+    );
 
     onMounted(() => authorized(fetchData));
 
@@ -163,8 +183,10 @@ export default {
       addToDinner,
       removeFromDinner,
       removeGuestFromDinner,
+      blockGuestFromDinner,
       cancelDinner,
-      unCancelDinner
+      unCancelDinner,
+      errorText
     };
   }
 };

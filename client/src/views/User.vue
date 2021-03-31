@@ -1,6 +1,9 @@
 <template>
   <article>
-    <Profile :user="user" :is-my-user="isMyProfile" v-if="user"></Profile>
+    <Profile :user="user" :is-my-user="isMyProfile" v-if="user" />
+    <p class="standalone_p" v-else>
+      Brukeren du leter etter finnes ikke eller har blitt slettet
+    </p>
   </article>
 </template>
 

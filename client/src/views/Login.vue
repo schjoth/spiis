@@ -68,6 +68,9 @@ export default {
       } catch (error) {
         if (error.status === 401)
           errorMessage.value = "Feil brukernavn / passord";
+        else if (error.status == 403)
+          errorMessage.value =
+            "Denne brukeren en blitt blokkert av administator!";
         else errorMessage.value = error.message;
       }
     };

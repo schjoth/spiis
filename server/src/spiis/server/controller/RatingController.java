@@ -51,10 +51,11 @@ public class RatingController {
             throw new ModelError("Rating must be in range 1-6");
         }
 
-        hostRatingRepository.findByRaterAndDinner(rater, dinner).ifPresentOrElse(it -> it.setRating(rating.getValue()), () -> {
-            HostRating ratingObject = new HostRating(rater, dinner, rating.getValue());
-            hostRatingRepository.save(ratingObject);
-        });
+        hostRatingRepository.findByRaterAndDinner(rater, dinner)
+                .ifPresentOrElse(it -> it.setRating(rating.getValue()), () -> {
+                    HostRating ratingObject = new HostRating(rater, dinner, rating.getValue());
+                    hostRatingRepository.save(ratingObject);
+                });
     }
 
     @GetMapping("/users/{userId}/hostRating")
