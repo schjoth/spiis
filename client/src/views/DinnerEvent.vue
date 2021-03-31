@@ -72,6 +72,7 @@
     <p class="category">
       GJESTER ({{ dinner.guests.length }}/{{ dinner.maxGuests }}):
     </p>
+
     <GuestList
       :guests="dinner.guests"
       :isHost="isHost"
@@ -79,21 +80,6 @@
       @remove="removeGuestFromDinner"
       @block="blockGuestFromDinner"
     />
-    <router-link
-      :to="'/event/' + dinner.id + '/edit'"
-      v-if="isHost"
-      class="rediger"
-    >
-      Rediger
-    </router-link>
-
-    <a
-      v-on:click="cancelDinner"
-      v-if="isHost && !dinner.cancelled"
-      class="avlys"
-    >
-      Avlys
-    </a>
 
     <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
@@ -102,6 +88,31 @@
       Meld meg av
     </button>
     <p v-if="errorText">{{ errorText }}</p>
+
+    <div>
+      <router-link
+        :to="'/event/' + dinner.id + '/edit'"
+        v-if="isHost"
+        class="rediger"
+      >
+        <img src="@/assets/edit.svg" width="16" />
+        Rediger
+      </router-link>
+
+      <a
+        v-on:click="cancelDinner"
+        v-if="isHost && !dinner.cancelled"
+        class="avlys"
+      >
+        <img src="@/assets/x-circle.svg" width="16" />
+        Avlys
+      </a>
+
+      <a href="mailto:report@spiis.no" v-if="!isHost">
+        <img src="@/assets/report.svg" width="16" />
+        Rapporter Arrangement
+      </a>
+    </div>
   </article>
   <article v-else>Laster inn middag...</article>
 </template>
@@ -208,6 +219,11 @@ export default {
 .button.is-primary:focus:not(:active) {
   background-color: #fda45705;
   font-style: normal;
+}
+
+button {
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .category {
