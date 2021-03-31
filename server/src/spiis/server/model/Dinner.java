@@ -75,6 +75,9 @@ public class Dinner {
     @ManyToMany
     private final Set<User> guests = new HashSet<>();
 
+    @ManyToMany
+    private final Set<User> blockedGuests = new HashSet<>();
+
     @CreatedDate
     @Nullable
     private OffsetDateTime createdTime;
@@ -96,7 +99,6 @@ public class Dinner {
         ModelUtil.requireNonNull(registrationDeadlineDate);
         ModelUtil.requireNonNull(registrationDeadlineTime);
 
-
         ModelUtil.ensureTextTrimAndLength(title, 4, 200, "title");
         ModelUtil.ensureTextMaxLength(description, MAX_DESCRIPTION_LENGTH, "description");
         ModelUtil.ensureTextMaxLength(expenses, MAX_DESCRIPTION_LENGTH, "expenses");
@@ -113,8 +115,8 @@ public class Dinner {
         if ((startTime.isAfter(endTime) || startTime.equals(endTime)))
             throw new ModelError("Start time can not be same as nor later than end time");
 
-        if (registrationDeadlineDate.isAfter(date) ||
-                (registrationDeadlineDate.equals(date) && registrationDeadlineTime.isAfter(startTime)))
+        if (registrationDeadlineDate.isAfter(date)
+                || (registrationDeadlineDate.equals(date) && registrationDeadlineTime.isAfter(startTime)))
             throw new ModelError("registration deadline can not be later than start time");
     }
 
@@ -132,6 +134,8 @@ public class Dinner {
     }
 
     public void addGuest(User guest) {
+        if (blockedGuests.contains(guest))
+            throw new IllegalArgumentException("This user is blocked!");
         guests.add(guest);
         guest.getGuesting().add(this);
     }
@@ -139,6 +143,17 @@ public class Dinner {
     public void removeGuest(User guest) {
         guests.remove(guest);
         guest.getGuesting().remove(this);
+    }
+
+    public void removeAndBlockGuest(User guest) {
+        removeGuest(guest);
+        blockedGuests.add(guest);
+        guest.getBlockedFrom().add(this);
+    }
+
+    public void unblockGuest(User guest) {
+        blockedGuests.remove(guest);
+        guest.getBlockedFrom().remove(this);
     }
 
     @Override
