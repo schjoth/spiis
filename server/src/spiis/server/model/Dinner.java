@@ -3,11 +3,13 @@ package spiis.server.model;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.relational.core.sql.TrueCondition;
 import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
@@ -58,6 +60,12 @@ public class Dinner {
     @Column(nullable = false)
     private boolean cancelled;
 
+    @Column(nullable = false)
+    private LocalDate registrationDeadlineDate;
+
+    @Column(nullable = false)
+    private LocalTime registrationDeadlineTime;
+
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @Nullable
@@ -85,6 +93,9 @@ public class Dinner {
         ModelUtil.requireNonNull(city);
         ModelUtil.requireNonNull(host);
         ModelUtil.requireNonNull(guests);
+        ModelUtil.requireNonNull(registrationDeadlineDate);
+        ModelUtil.requireNonNull(registrationDeadlineTime);
+
 
         ModelUtil.ensureTextTrimAndLength(title, 4, 200, "title");
         ModelUtil.ensureTextMaxLength(description, MAX_DESCRIPTION_LENGTH, "description");
@@ -101,6 +112,10 @@ public class Dinner {
 
         if ((startTime.isAfter(endTime) || startTime.equals(endTime)))
             throw new ModelError("Start time can not be same as nor later than end time");
+
+        if (registrationDeadlineDate.isAfter(date) ||
+                (registrationDeadlineDate.equals(date) && registrationDeadlineTime.isAfter(startTime)))
+            throw new ModelError("registration deadline can not be later than start time");
     }
 
     public void verifyIsInFuture() {

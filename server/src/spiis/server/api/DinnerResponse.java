@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -23,5 +22,7 @@ public class DinnerResponse {
     private int maxGuests;
     private boolean cancelled;
     private UserResponse host;
+    private String registrationDeadlineDate;
+    private String registrationDeadlineTime;
     @Nullable private List<UserResponse> guests;
 }
