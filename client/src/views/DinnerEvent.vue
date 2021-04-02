@@ -15,11 +15,16 @@
 
     <div class="is-flex is-flex-wrap-wrap-reverse">
       <div class="is-flex-grow-1"></div>
+      <p>
+        <img src="@/assets/calendar.svg" alt="Dato" width="16" height="16" />
+        <span class="date"> {{ dinner.date }}</span>
+      </p>
+    </div>
+    <div class="is-flex is-flex-wrap-wrap-reverse">
+      <div class="is-flex-grow-1"></div>
       <p class="dateLine">
-        kl. {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{
-          dinner.date
-        }}</span
-        >]
+        <img src="@/assets/clock.svg" alt="Tid" width="16" height="16" />
+        {{ dinner.startTime }} - {{ dinner.endTime }}
       </p>
     </div>
 
@@ -78,19 +83,21 @@
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
     />
+
     <router-link
       :to="'/event/' + dinner.id + '/edit'"
       v-if="isHost"
       class="rediger"
     >
+      <img src="@/assets/edit.svg" width="16" />
       Rediger
     </router-link>
-
     <a
       v-on:click="cancelDinner"
       v-if="isHost && !dinner.cancelled"
       class="avlys"
     >
+      <img src="@/assets/x-circle.svg" width="16"/>
       Avlys
     </a>
 
@@ -100,9 +107,20 @@
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
+
+    <a href="mailto:report@spiis.no" v-if="!isHost">
+      <img src="@/assets/flag.svg" width="16" />
+      Rapporter Arrangement
+    </a>
+
   </article>
+
   <article v-else>Laster inn middag...</article>
+
 </template>
+
+
+
 
 <script lang="ts">
 import { DinnerResponse } from "@/api/types";
@@ -180,6 +198,9 @@ export default {
 };
 </script>
 
+
+
+
 <style lang="scss" scoped>
 .cancelled {
   padding: 20px;
@@ -212,6 +233,7 @@ export default {
   display: block;
 }
 
+
 .description {
   margin-bottom: 20px;
 }
@@ -229,4 +251,5 @@ td {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 </style>
