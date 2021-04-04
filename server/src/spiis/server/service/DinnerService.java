@@ -50,7 +50,8 @@ public class DinnerService {
                 .postCode(dinner.getPostCode())
                 .city(dinner.getCity())
                 .maxGuests(dinner.getMaxGuests())
-                .cancelled(dinner.isCancelled());
+                .cancelled(dinner.isCancelled())
+                .lockedByAdmin(dinner.isLockedByAdmin());
 
         User host = Objects.requireNonNull(dinner.getHost());
         builder.host(userService.makeUserResponse(host, false));
