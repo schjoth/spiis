@@ -16,6 +16,3 @@ public interface HostRatingRepository extends CrudRepository<HostRating, Long> {
     Optional<Float> getAverageHostRating(User user);
 
 }
-
-
-

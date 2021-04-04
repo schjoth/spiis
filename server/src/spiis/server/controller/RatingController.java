@@ -58,16 +58,20 @@ public class RatingController {
                 });
     }
 
-    @GetMapping("/dinners/{dinnerId)/rater/{guestId}")
+    @GetMapping("/dinners/{dinnerId}/rater/{guestId}")
     @Transactional
     public boolean hasGuestRatedDinner(@PathVariable("dinnerId") Long dinnerId,
-                                       @PathVariable("guestID") Long guestId) {
+                                       @PathVariable("guestId") Long guestId) {
         Dinner dinner = dinnerRepository.findById(dinnerId).orElseThrow(NotFoundException::new);
         User guest = userRepository.findById(guestId).orElseThrow(NotFoundException::new);
+        System.out.println(dinner);
+        System.out.println(guest);
         try {
             hostRatingRepository.findByRaterAndDinner(guest, dinner).orElseThrow(NotFoundException::new);
+            //return new ValueWrapper<>(true);
             return true;
         } catch (Exception e) {
+            //return new ValueWrapper<>(false);
             return false;
         }
 

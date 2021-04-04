@@ -1,8 +1,8 @@
 <template>
   <article v-if="unratedGuesting">
     <p class="standalone_p">
-      Heisann, du har deltatt på følgende arrangementer og vi setter pris på om
-      du kunne tatt deg tiden til å gi arrangørene en liten feedback av dem
+      Heisann, du har deltatt på følgende arrangementer og vi håper du vil gi
+      arrangørene en liten tilbakemelding på deres arrangement.
     </p>
     <div class="noe">
       <RateDinner
@@ -74,24 +74,25 @@ export default {
         (dinner) => Date.parse(dinner.date + " " + dinner.endTime) < Date.now()
       );
     });
-    const unratedGuesting = computed(() => {
-      if (guesting.value === null || userId.value == undefined) return null;
-      const currentUserID: number = userId.value;
-      console.log(guesting.value);
-      guesting.value.forEach((a) =>
-        console.log(a.title + ", " + !!hasUserRatedDinner(a.id, currentUserID))
-      );
 
-      return guesting.value.filter(
-        (dinner) =>
-          Date.parse(dinner.date + " " + dinner.endTime) < Date.now() &&
-          !hasUserRatedDinner(dinner.id, currentUserID)
-      );
-    });
+    const unratedGuesting = ref<DinnerResponse[] | null>(null);
 
     async function fetchData() {
       hosting.value = await getHostDinners(userId.value!);
       guesting.value = await getGuestDinners(userId.value!);
+
+      if (userId.value != undefined) {
+        const currentUserID: number = userId.value;
+        const listOfUnratedDinners = [];
+        for (const dinner of guesting.value) {
+          const hasRated = await hasUserRatedDinner(dinner.id, currentUserID);
+          if (!hasRated) {
+            listOfUnratedDinners.push(dinner);
+          }
+        }
+        unratedGuesting.value =
+          listOfUnratedDinners.length > 0 ? listOfUnratedDinners : null;
+      }
     }
 
     onMounted(() => authorized(fetchData));
