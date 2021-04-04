@@ -3,10 +3,19 @@
     <h1>Mine Middager</h1>
 
     <h2>Arrangerer</h2>
-    <DinnerOverview v-bind:dinners="hosting" />
+    <DinnerOverview :dinners="activeHosting" />
 
     <h2>Deltar på</h2>
-    <DinnerOverview v-bind:dinners="guesting" />
+    <DinnerOverview :dinners="activeGuesting" />
+  </article>
+  <article>
+    <h1>Arkiverte middager</h1>
+
+    <h2>Arrangerte</h2>
+    <DinnerOverview :dinners="expiredHosting" />
+
+    <h2>Deltok på</h2>
+    <DinnerOverview :dinners="expiredGuesting" />
   </article>
 </template>
 
@@ -25,6 +34,31 @@ export default {
     const guesting = ref<DinnerResponse[] | null>(null);
     const userId = computed(() => getLogInState().user?.id);
 
+    const activeHosting = computed(() => {
+      if (hosting.value === null) return null;
+      return hosting.value.filter(
+        (dinner) => Date.parse(dinner.date + " " + dinner.endTime) >= Date.now()
+      );
+    });
+    const activeGuesting = computed(() => {
+      if (guesting.value === null) return null;
+      return guesting.value.filter(
+        (dinner) => Date.parse(dinner.date + " " + dinner.endTime) >= Date.now()
+      );
+    });
+    const expiredHosting = computed(() => {
+      if (hosting.value === null) return null;
+      return hosting.value.filter(
+        (dinner) => Date.parse(dinner.date + " " + dinner.endTime) < Date.now()
+      );
+    });
+    const expiredGuesting = computed(() => {
+      if (guesting.value === null) return null;
+      return guesting.value.filter(
+        (dinner) => Date.parse(dinner.date + " " + dinner.endTime) < Date.now()
+      );
+    });
+
     async function fetchData() {
       hosting.value = await getHostDinners(userId.value!);
       guesting.value = await getGuestDinners(userId.value!);
@@ -32,7 +66,12 @@ export default {
 
     onMounted(() => authorized(fetchData));
 
-    return { hosting, guesting };
+    return {
+      activeHosting,
+      activeGuesting,
+      expiredHosting,
+      expiredGuesting
+    };
   }
 };
 </script>
