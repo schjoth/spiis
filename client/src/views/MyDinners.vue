@@ -1,14 +1,15 @@
 <template>
   <article v-if="unratedGuesting">
     <p class="standalone_p">
-      Heisann, du har deltatt på følgende arrangementer og vi håper du vil gi
-      arrangørene en liten tilbakemelding på deres arrangement.
+      Heisann, du har deltatt på følgende arrangementer og vi håper du har to
+      sekunder til å gi arrangøren en tilbakemelding i form av en terningkast.
     </p>
-    <div class="noe">
+    <div class="container">
       <RateDinner
         v-for="dinner in unratedGuesting"
         :dinner="dinner"
         :key="dinner.id"
+        @rateHost="rateHost"
       />
     </div>
   </article>
@@ -41,7 +42,7 @@ import { getLogInState } from "@/store/loginState";
 import { getGuestDinners, getHostDinners } from "@/api/dinner";
 import { authorized } from "@/api/client";
 import { DinnerResponse } from "@/api/types";
-import { hasUserRatedDinner } from "@/api/rating";
+import { hasUserRatedDinner, setHostRating } from "@/api/rating";
 export default {
   name: "MyDinners",
   components: { DinnerOverview, RateDinner },
@@ -77,6 +78,15 @@ export default {
 
     const unratedGuesting = ref<DinnerResponse[] | null>(null);
 
+    async function rateHost(rating: number, dinnerId: number) {
+      try {
+        await setHostRating(dinnerId, rating);
+      } catch (error) {
+        console.log(error);
+      }
+      await fetchData();
+    }
+
     async function fetchData() {
       hosting.value = await getHostDinners(userId.value!);
       guesting.value = await getGuestDinners(userId.value!);
@@ -102,14 +112,15 @@ export default {
       activeGuesting,
       expiredHosting,
       expiredGuesting,
-      unratedGuesting
+      unratedGuesting,
+      rateHost
     };
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.noe {
+.container {
   display: flex;
   flex-wrap: wrap;
 }

@@ -8,7 +8,7 @@ export async function hasUserRatedDinner(
 }
 
 export async function setHostRating(dinnerId: number, rating: number) {
-  return client.put(`/dinners/${dinnerId}/hostRating`, { rating: rating });
+  return client.put(`/dinners/${dinnerId}/hostRating`, { value: rating });
 }
 
 export async function getHostRating(hostId: number): Promise<number> {
