@@ -46,7 +46,8 @@ export default {
       const unfilteredDinners = await getAllDinners();
 
       allDinners.value = unfilteredDinners.filter(
-        (dinner) => Date.parse(dinner.date + " " + dinner.endTime) >= Date.now()
+        (dinner) =>
+          Date.parse(dinner.date + " " + dinner.startTime) >= Date.now()
       );
       adverts.value = await getAllAdverts();
     }
