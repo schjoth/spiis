@@ -59,6 +59,7 @@ export interface DinnerResponse {
   lockedByAdmin: boolean;
   host: UserResponse;
   guests: UserResponse[] | null;
+  createdTime: string;
 }
 
 export interface AdvertRequest {

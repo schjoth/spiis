@@ -55,6 +55,14 @@ export default {
         return filteredDinners.value
           ?.slice(0)
           .sort((a, b) => +new Date(b.date) - +new Date(a.date));
+      if (dateFilter.value === "Nyeste")
+        return filteredDinners.value
+          ?.slice(0)
+          .sort((a, b) => +new Date(b.createdTime) - +new Date(a.createdTime));
+      if (dateFilter.value === "Eldste")
+        return filteredDinners.value
+          ?.slice(0)
+          .sort((a, b) => +new Date(a.createdTime) - +new Date(b.createdTime));
       return filteredDinners.value;
     });
 
@@ -67,6 +75,8 @@ export default {
     allDates.add("Ingen");
     allDates.add("Tidlig-sent");
     allDates.add("Sent-tidlig");
+    allDates.add("Nyeste");
+    allDates.add("Eldste");
 
     async function fetchData() {
       const unfilteredDinners = await getAllDinners();

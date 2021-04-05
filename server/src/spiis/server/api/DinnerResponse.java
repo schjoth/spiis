@@ -24,4 +24,5 @@ public class DinnerResponse {
     private boolean lockedByAdmin;
     private UserResponse host;
     @Nullable private List<UserResponse> guests;
+    private String createdTime;
 }

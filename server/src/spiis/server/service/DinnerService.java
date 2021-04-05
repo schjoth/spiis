@@ -51,7 +51,8 @@ public class DinnerService {
                 .city(dinner.getCity())
                 .maxGuests(dinner.getMaxGuests())
                 .cancelled(dinner.isCancelled())
-                .lockedByAdmin(dinner.isLockedByAdmin());
+                .lockedByAdmin(dinner.isLockedByAdmin())
+                .createdTime(dinner.getCreatedTime().toString());
 
         User host = Objects.requireNonNull(dinner.getHost());
         builder.host(userService.makeUserResponse(host, false));
