@@ -41,6 +41,7 @@ main {
   padding: 0;
 }
 
+
 #bakgrunn {
   position: fixed;
   top: 0;
