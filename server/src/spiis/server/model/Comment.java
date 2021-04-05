@@ -1,11 +1,14 @@
 package spiis.server.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -18,9 +21,25 @@ public class Comment {
 
     public enum Visibility {
         //Important! Do not change the order!
-        HOST_ONLY,
-        GUESTS_ONLY,
-        PUBLIC
+        HOST_ONLY("host_only"),
+        GUESTS_ONLY("guests_only"),
+        PUBLIC("public");
+
+        private final String name;
+        Visibility(String name) {
+            this.name = name;
+        }
+
+        @JsonCreator
+        public static Visibility decode(String name) {
+            return Arrays.stream(values()).filter(it -> it.name.equals(name)).findFirst().orElseThrow();
+        }
+
+        @JsonValue
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     @Id

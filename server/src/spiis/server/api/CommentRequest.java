@@ -7,5 +7,4 @@ import spiis.server.model.Comment;
 public class CommentRequest {
     private String content;
     private Comment.Visibility visibility;
-    private boolean deleted;
 }

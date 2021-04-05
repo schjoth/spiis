@@ -16,6 +16,7 @@ import spiis.server.repository.CommentReplyRepository;
 import spiis.server.repository.CommentRepository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +43,8 @@ public class CommentService {
         var builder = CommentResponse.builder();
         builder.commentId(comment.getId())
                 .content(comment.isDeleted() ? null : comment.getContent())
+                .dinnerId(comment.getDinner().getId())
+                .visibility(comment.getVisibility())
                 .postedAt(comment.getCreatedTime())
                 .editedAt(comment.getLastModifiedTime());
         User commenter = comment.getCommenter();
@@ -54,6 +57,7 @@ public class CommentService {
         for (CommentReply reply : comment.getReplies())
             replies.add(makeCommentReplyResponse(reply));
 
+        replies.sort(Comparator.comparing(CommentReplyResponse::getPostedAt));
         builder.replies(replies);
 
         return builder.build();
@@ -97,6 +101,8 @@ public class CommentService {
             if (canUserSeeCommentInternal(user, comment, isGuest, isHost, isAdmin))
                 responses.add(makeCommentResponse(comment));
         }
+
+        responses.sort(Comparator.comparing(CommentResponse::getPostedAt));
 
         return responses;
     }
@@ -194,7 +200,7 @@ public class CommentService {
     @Transactional(propagation = Propagation.MANDATORY)
     public void deleteCommentReply(CommentReply reply, User user) {
         if (user.isAdmin() || user.equals(reply.getCommenter()))
-            reply.setParentComment(null); //Will delete the reply though orphanRemoval
+            replyRepository.delete(reply);
         else
             throw new ForbiddenException("Only the replier or an admin can delete a comment reply");
     }
@@ -261,7 +267,6 @@ public class CommentService {
 
     private void editCommentInternal(Comment comment, CommentRequest request) {
         comment.setContent(request.getContent());
-        comment.setDeleted(request.isDeleted());
         comment.setVisibility(request.getVisibility());
     }
 }
