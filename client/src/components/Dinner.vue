@@ -1,12 +1,15 @@
 <template>
   <div class="box" :style="{ order }">
-
-
     <table class="timeAndDate">
       <tr>
         <td>
           <span class="date0">
-            <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
+            <img
+              src="@/assets/calendar.svg"
+              alt="Sted"
+              width="16"
+              height="16"
+            />
             {{ dinner.date }}</span
           >
         </td>
@@ -16,8 +19,6 @@
         </td>
       </tr>
     </table>
-
-
 
     <p>
       <span class="date">
@@ -77,7 +78,6 @@ export default {
     color: inherit;
   }
 
-
   .host {
     margin-bottom: 15px;
   }
@@ -85,14 +85,11 @@ export default {
   .location {
     position: absolute;
   }
-
 }
 
-.timeAndDate{
+.timeAndDate {
   display: none;
 }
-
-
 
 .cancelled {
   color: red;
@@ -107,30 +104,29 @@ export default {
     width: 100%;
   }
 
-  .dateLine, .date {
+  .dateLine,
+  .date {
     display: none;
   }
 
-  .timeAndDate{
+  .timeAndDate {
     display: inline;
     width: 100%;
     font-size: 16px;
 
-    img{
+    img {
       width: 14px;
       height: 14px;
     }
-
   }
 
-  .time{
+  .time {
     padding-left: 25px;
   }
-
 }
 
 @media only screen and (max-width: 375px) {
-  .time{
+  .time {
     padding-left: 24vw;
   }
 }
