@@ -27,6 +27,10 @@ export async function removeGuest(dinnerId: number, userId: number) {
   await client.delete(`/dinners/${dinnerId}/guests/${userId}`);
 }
 
+export async function blockGuest(dinnerId: number, userId: number) {
+  await client.put(`/dinners/${dinnerId}/guests/blocked/${userId}`);
+}
+
 export async function getHostDinners(
   userId: number
 ): Promise<DinnerResponse[]> {
@@ -41,4 +45,13 @@ export async function getGuestDinners(
 
 export async function setDinnerCancelled(dinnerId: number, cancelled: boolean) {
   await client.put(`/dinners/${dinnerId}/cancelled`, { value: cancelled });
+}
+
+export async function lockDinnerByAdmin(
+  dinnerId: number,
+  lockedByAdmin: boolean
+) {
+  await client.put(`/dinners/${dinnerId}/lockedByAdmin`, {
+    value: lockedByAdmin
+  });
 }

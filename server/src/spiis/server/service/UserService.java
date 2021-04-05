@@ -51,7 +51,8 @@ public class UserService {
                 .age(user.getAge())
                 .city(user.getCity())
                 .allergies(makeAllergyList(user))
-                .admin(user.isAdmin());
+                .admin(user.isAdmin())
+                .blocked(user.isBlocked());
 
         if (yourself)
             builder.email(user.getEmail());
@@ -96,6 +97,7 @@ public class UserService {
         user.setCity(request.getCity().trim());
         user.setAge(request.getAge());
         user.setAdmin(false);
+        user.setBlocked(false);
 
         for (String allergy : request.getAllergies())
             user.addAllergy(new Allergy(allergy));

@@ -22,6 +22,7 @@ public class DinnerResponse {
     private String city;
     private int maxGuests;
     private boolean cancelled;
+    private boolean lockedByAdmin;
     private UserResponse host;
     @Nullable private List<UserResponse> guests;
 }

@@ -8,6 +8,10 @@ import org.springframework.http.HttpStatus;
  */
 public class ForbiddenException extends SpiisException {
     public ForbiddenException() {
-        super(HttpStatus.FORBIDDEN, "Forbidden action for this user");
+        this("Forbidden action for this user");
+    }
+
+    public ForbiddenException(String message) {
+        super(HttpStatus.FORBIDDEN, message);
     }
 }

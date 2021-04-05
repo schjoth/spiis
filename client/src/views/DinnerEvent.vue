@@ -2,11 +2,17 @@
   <article class="box" v-if="dinner">
     <div class="hero cancelled" v-if="dinner?.cancelled">
       <div class="is-flex-grow-1"></div>
-      <div>Middagen er avlyst!</div>
+      <div>
+        {{
+          dinner.lockedByAdmin
+            ? "Middagen har blitt avlyst av admin"
+            : "Middagen er avlyst!"
+        }}
+      </div>
       <div class="is-flex-grow-1"></div>
       <button
         class="button is-primary"
-        v-if="isHost"
+        v-if="isHost && !dinner.lockedByAdmin"
         v-on:click="unCancelDinner"
       >
         Angre
@@ -77,29 +83,14 @@
     <p class="category">
       GJESTER ({{ dinner.guests.length }}/{{ dinner.maxGuests }}):
     </p>
+
     <GuestList
       :guests="dinner.guests"
       :isHost="isHost"
       v-if="isGuest || isHost"
       @remove="removeGuestFromDinner"
+      @block="blockGuestFromDinner"
     />
-
-    <router-link
-      :to="'/event/' + dinner.id + '/edit'"
-      v-if="isHost"
-      class="rediger"
-    >
-      <img src="@/assets/edit.svg" width="16" />
-      Rediger
-    </router-link>
-    <a
-      v-on:click="cancelDinner"
-      v-if="isHost && !dinner.cancelled"
-      class="avlys"
-    >
-      <img src="@/assets/x-circle.svg" width="16"/>
-      Avlys
-    </a>
 
     <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
@@ -108,19 +99,42 @@
       Meld meg av
     </button>
 
-    <a href="mailto:report@spiis.no" v-if="!isHost">
-      <img src="@/assets/flag.svg" width="16" />
-      Rapporter Arrangement
-    </a>
+    <div>
+      <router-link
+        :to="'/event/' + dinner.id + '/edit'"
+        class="rediger"
+        v-if="isHost && !dinner.lockedByAdmin"
+      >
+        <img src="@/assets/edit.svg" width="16" />
+        Rediger
+      </router-link>
 
+      <a
+        v-on:click="cancelDinner"
+        class="avlys"
+        v-if="isHost && !dinner.cancelled"
+      >
+        <img src="@/assets/x-circle.svg" width="16" />
+        Avlys
+      </a>
+
+      <a v-on:click="toggleAdminCancelDinner" class="avlys" v-if="isAdmin">
+        <img src="@/assets/x-circle.svg" width="16" />
+        {{
+          dinner.lockedByAdmin ? "Åpne arrangement" : "Avlys og lås arrangement"
+        }}
+      </a>
+
+      <a href="mailto:report@spiis.no" v-if="!isHost">
+        <img src="@/assets/report.svg" width="16" />
+        Rapporter Arrangement
+      </a>
+    </div>
+    <p v-if="errorText" class="error">{{ errorText }}</p>
   </article>
 
   <article v-else>Laster inn middag...</article>
-
 </template>
-
-
-
 
 <script lang="ts">
 import { DinnerResponse } from "@/api/types";
@@ -128,7 +142,9 @@ import {
   getDinner,
   addGuest,
   removeGuest,
-  setDinnerCancelled
+  setDinnerCancelled,
+  blockGuest,
+  lockDinnerByAdmin
 } from "@/api/dinner";
 import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
@@ -146,6 +162,7 @@ export default {
     if (!Number.isInteger(dinnerId)) useRouter().replace("/404");
     const dinner = ref<DinnerResponse | null>(null);
     const userId = computed(() => getLogInState().user?.id);
+    const errorText = ref("");
 
     async function fetchData() {
       dinner.value = await getDinner(dinnerId);
@@ -156,31 +173,42 @@ export default {
     const isGuest = computed(() =>
       dinner.value?.guests?.some((a) => a.id == userId.value)
     );
+    const isAdmin = computed(() => getLogInState().user?.admin);
 
-    async function addToDinner() {
-      await addGuest(dinnerId, userId.value!);
-      await fetchData();
+    function errorWrapped<T>(func: (args: T) => void): (args: T) => void {
+      return async (args: T) => {
+        try {
+          errorText.value = "";
+          await func(args);
+          await fetchData();
+        } catch (e) {
+          errorText.value = e.message;
+        }
+      };
     }
 
-    async function removeFromDinner() {
-      await removeGuest(dinnerId, userId.value!);
-      await fetchData();
-    }
-
-    async function removeGuestFromDinner(guestId: number) {
-      await removeGuest(dinnerId, guestId);
-      await fetchData();
-    }
-
-    async function cancelDinner() {
-      await setDinnerCancelled(dinnerId, true);
-      await fetchData();
-    }
-
-    async function unCancelDinner() {
-      await setDinnerCancelled(dinnerId, false);
-      await fetchData();
-    }
+    const addToDinner = errorWrapped(
+      async () => await addGuest(dinnerId, userId.value!)
+    );
+    const removeFromDinner = errorWrapped(
+      async () => await removeGuest(dinnerId, userId.value!)
+    );
+    const removeGuestFromDinner = errorWrapped(
+      async (guestId: number) => await removeGuest(dinnerId, guestId)
+    );
+    const blockGuestFromDinner = errorWrapped(
+      async (guestId: number) => await blockGuest(dinnerId, guestId)
+    );
+    const cancelDinner = errorWrapped(
+      async () => await setDinnerCancelled(dinnerId, true)
+    );
+    const unCancelDinner = errorWrapped(
+      async () => await setDinnerCancelled(dinnerId, false)
+    );
+    const toggleAdminCancelDinner = errorWrapped(
+      async () =>
+        await lockDinnerByAdmin(dinnerId, !dinner.value!.lockedByAdmin)
+    );
 
     onMounted(() => authorized(fetchData));
 
@@ -188,20 +216,26 @@ export default {
       dinner,
       isHost,
       isGuest,
+      isAdmin,
       addToDinner,
       removeFromDinner,
       removeGuestFromDinner,
+      blockGuestFromDinner,
       cancelDinner,
-      unCancelDinner
+      unCancelDinner,
+      toggleAdminCancelDinner,
+      errorText
     };
   }
 };
 </script>
 
-
-
-
 <style lang="scss" scoped>
+img {
+  top: 1px;
+  position: relative;
+}
+
 .cancelled {
   padding: 20px;
   margin-bottom: 10px;
@@ -219,6 +253,11 @@ export default {
   font-style: normal;
 }
 
+button {
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
 .category {
   font-size: 15pt;
 }
@@ -232,7 +271,6 @@ export default {
 .avlys {
   display: block;
 }
-
 
 .description {
   margin-bottom: 20px;
@@ -252,4 +290,7 @@ td {
   margin-bottom: 20px;
 }
 
+.error {
+  color: red;
+}
 </style>

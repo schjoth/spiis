@@ -7,6 +7,7 @@ export interface UserResponse {
   city: string;
   allergies: string[];
   admin: boolean;
+  blocked: boolean;
 }
 
 export interface LogInRequest {
@@ -54,6 +55,8 @@ export interface DinnerResponse {
   startTime: string;
   endTime: string;
   maxPeople: number;
+  cancelled: boolean;
+  lockedByAdmin: boolean;
   host: UserResponse;
   guests: UserResponse[] | null;
 }

@@ -23,7 +23,8 @@ describe("login.ts", () => {
     city: "Trondheim",
     age: 20,
     allergies: [],
-    admin: false
+    admin: false,
+    blocked: false
   };
   const dummyToken = "HE845AXE2F9CE";
 
