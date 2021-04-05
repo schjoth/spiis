@@ -7,11 +7,17 @@
           {{ city }}
         </option>
       </select>
+      <label for="date">Sorter på dato:</label>
+      <select name="date" id="date" v-model="dateFilter" v-if="allDates">
+        <option v-for="(title, index) in allDates" :key="index" :value="title">
+          {{ title }}
+        </option>
+      </select>
     </div>
     <DinnerOverview
       :adverts="adverts"
-      v-if="filteredDinners"
-      :dinners="filteredDinners"
+      v-if="filteredByDate"
+      :dinners="filteredByDate"
     />
   </article>
 </template>
@@ -33,16 +39,34 @@ export default {
     const adverts = ref<AdvertResponse[] | null>(null);
 
     const cityFilter = ref("Alle");
+    const dateFilter = ref("Ingen");
     const filteredDinners = computed(() => {
       if (allDinners.value === null) return null;
       if (cityFilter.value === "Alle") return allDinners.value;
       return allDinners.value.filter((it) => it.city === cityFilter.value);
     });
 
+    const filteredByDate = computed(() => {
+      if (dateFilter.value === "Tidlig-sent")
+        return filteredDinners.value
+          ?.slice(0)
+          .sort((a, b) => +new Date(a.date) - +new Date(b.date));
+      if (dateFilter.value === "Sent-tidlig")
+        return filteredDinners.value
+          ?.slice(0)
+          .sort((a, b) => +new Date(b.date) - +new Date(a.date));
+      return filteredDinners.value;
+    });
+
     const allCities = computed(() => {
       if (allDinners.value === null) return null;
       return ["Alle", ...new Set(allDinners.value.map((it) => it.city))];
     });
+
+    const allDates = new Set();
+    allDates.add("Ingen");
+    allDates.add("Tidlig-sent");
+    allDates.add("Sent-tidlig");
 
     async function fetchData() {
       const unfilteredDinners = await getAllDinners();
@@ -55,10 +79,24 @@ export default {
     }
     onMounted(fetchData);
 
-    return { adverts, cityFilter, allCities, filteredDinners };
+    return {
+      adverts,
+      cityFilter,
+      allCities,
+      filteredDinners,
+      dateFilter,
+      allDates,
+      filteredByDate
+    };
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.options {
+  margin-bottom: 10px;
+}
+</style>
 
 <style lang="scss" scoped>
 .options {
