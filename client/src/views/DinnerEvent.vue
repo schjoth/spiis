@@ -2,11 +2,17 @@
   <article class="box" v-if="dinner">
     <div class="hero cancelled" v-if="dinner?.cancelled">
       <div class="is-flex-grow-1"></div>
-      <div>Middagen er avlyst!</div>
+      <div>
+        {{
+          dinner.lockedByAdmin
+            ? "Middagen har blitt avlyst av admin"
+            : "Middagen er avlyst!"
+        }}
+      </div>
       <div class="is-flex-grow-1"></div>
       <button
         class="button is-primary"
-        v-if="isHost"
+        v-if="isHost && !dinner.lockedByAdmin"
         v-on:click="unCancelDinner"
       >
         Angre
@@ -87,13 +93,12 @@
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
-    <p v-if="errorText">{{ errorText }}</p>
 
     <div class="settings">
       <router-link
         :to="'/event/' + dinner.id + '/edit'"
-        v-if="isHost"
         class="rediger"
+        v-if="isHost && !dinner.lockedByAdmin"
       >
         <img src="@/assets/edit.svg" width="16" />
         Rediger
@@ -101,11 +106,18 @@
 
       <a
         v-on:click="cancelDinner"
-        v-if="isHost && !dinner.cancelled"
         class="avlys"
+        v-if="isHost && !dinner.cancelled"
       >
         <img src="@/assets/x-circle.svg" width="16" />
         Avlys
+      </a>
+
+      <a v-on:click="toggleAdminCancelDinner" class="avlys" v-if="isAdmin">
+        <img src="@/assets/x-circle.svg" width="16" />
+        {{
+          dinner.lockedByAdmin ? "Åpne arrangement" : "Avlys og lås arrangement"
+        }}
       </a>
 
       <a href="mailto:report@spiis.no" v-if="!isHost">
@@ -113,6 +125,8 @@
         Rapporter Arrangement
       </a>
     </div>
+
+    <p v-if="errorText" class="error">{{ errorText }}</p>
 
     <p class="category">KOMMENTARER</p>
 
@@ -133,7 +147,8 @@ import {
   addGuest,
   removeGuest,
   setDinnerCancelled,
-  blockGuest
+  blockGuest,
+  lockDinnerByAdmin
 } from "@/api/dinner";
 import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
@@ -197,6 +212,10 @@ export default {
     const unCancelDinner = errorWrapped(
       async () => await setDinnerCancelled(dinnerId, false)
     );
+    const toggleAdminCancelDinner = errorWrapped(
+      async () =>
+        await lockDinnerByAdmin(dinnerId, !dinner.value!.lockedByAdmin)
+    );
 
     onMounted(() => authorized(fetchData));
 
@@ -211,6 +230,7 @@ export default {
       blockGuestFromDinner,
       cancelDinner,
       unCancelDinner,
+      toggleAdminCancelDinner,
       errorText
     };
   }
@@ -270,5 +290,14 @@ button {
 td {
   padding-right: 10px;
   padding-top: 5px;
+}
+
+.expenses {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
 }
 </style>

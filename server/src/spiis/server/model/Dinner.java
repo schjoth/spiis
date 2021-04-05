@@ -57,6 +57,9 @@ public class Dinner {
     @Column(nullable = false)
     private boolean cancelled;
 
+    @Column(nullable = false)
+    private boolean lockedByAdmin;
+
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @Nullable
