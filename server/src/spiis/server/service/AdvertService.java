@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import spiis.server.api.AdvertRequest;
 import spiis.server.api.AdvertResponse;
-import spiis.server.api.DinnerResponse;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.Advert;
 import spiis.server.repository.AdvertRepository;

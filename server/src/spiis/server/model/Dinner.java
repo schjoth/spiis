@@ -2,7 +2,6 @@ package spiis.server.model;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
 
@@ -73,11 +72,12 @@ public class Dinner {
     @ManyToMany
     private final Set<User> blockedGuests = new HashSet<>();
 
-    @CreatedDate
+    @OneToMany(mappedBy = "dinner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Set<Comment> comments = new HashSet<>();
+
     @Nullable
     private OffsetDateTime createdTime;
 
-    @PrePersist
     @PreUpdate
     public void verifyModel() {
         ModelUtil.requireNonNull(title);
@@ -112,6 +112,12 @@ public class Dinner {
     public void verifyIsInFuture() {
         if (date.isBefore(LocalDate.now()) || (date.equals(LocalDate.now()) && (startTime.isBefore(LocalTime.now()))))
             throw new ModelError("The date or time selected is not valid");
+    }
+
+    @PrePersist
+    protected void prePersist() {
+        createdTime = OffsetDateTime.now();
+        verifyModel();
     }
 
     public void setHost(@Nullable User user) {

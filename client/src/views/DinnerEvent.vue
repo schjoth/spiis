@@ -94,7 +94,7 @@
       Meld meg av
     </button>
 
-    <div>
+    <div class="settings">
       <router-link
         :to="'/event/' + dinner.id + '/edit'"
         class="rediger"
@@ -125,7 +125,17 @@
         Rapporter Arrangement
       </a>
     </div>
+
     <p v-if="errorText" class="error">{{ errorText }}</p>
+
+    <p class="category">KOMMENTARER</p>
+
+    <CommentSection
+      :dinner-id="dinner.id"
+      :is-guest="isGuest"
+      :is-host="isHost"
+      :is-admin="isAdmin"
+    />
   </article>
   <article v-else>Laster inn middag...</article>
 </template>
@@ -145,10 +155,12 @@ import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { authorized } from "@/api/client";
 import GuestList from "@/components/GuestList.vue";
+import CommentSection from "@/components/comments/CommentSection.vue";
 
 export default {
   name: "DinnerEvent",
   components: {
+    CommentSection,
     GuestList
   },
   setup() {
@@ -167,7 +179,8 @@ export default {
     const isGuest = computed(() =>
       dinner.value?.guests?.some((a) => a.id == userId.value)
     );
-    const isAdmin = computed(() => getLogInState().user?.admin);
+
+    const isAdmin = computed(() => getLogInState().user?.admin === true);
 
     function errorWrapped<T>(func: (args: T) => void): (args: T) => void {
       return async (args: T) => {
@@ -254,11 +267,7 @@ button {
 
 .category {
   font-size: 15pt;
-}
-
-.rediger {
   margin-top: 20px;
-  font-weight: lighter;
 }
 
 .rediger,
@@ -268,6 +277,10 @@ button {
 
 .description {
   margin-bottom: 20px;
+}
+
+.settings {
+  margin-top: 20px;
 }
 
 .info {
