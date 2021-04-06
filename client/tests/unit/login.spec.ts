@@ -24,7 +24,8 @@ describe("login.ts", () => {
     age: 20,
     allergies: [],
     admin: false,
-    blocked: false
+    blocked: false,
+    averageHostRating: 5.6
   };
   const dummyToken = "HE845AXE2F9CE";
 
