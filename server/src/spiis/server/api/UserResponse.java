@@ -2,6 +2,7 @@ package spiis.server.api;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public class UserResponse {
     private List<String> allergies;
     private boolean admin;
     private boolean blocked;
+    @Nullable
+    private Float averageHostRating;
 }

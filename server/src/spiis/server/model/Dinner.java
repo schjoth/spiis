@@ -116,7 +116,7 @@ public class Dinner {
 
     @PrePersist
     protected void prePersist() {
-        createdTime = OffsetDateTime.now();
+        createdTime = OffsetDateTime.now().withNano(0);
         verifyModel();
     }
 

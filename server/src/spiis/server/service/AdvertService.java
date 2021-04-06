@@ -13,6 +13,7 @@ import spiis.server.repository.AdvertRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AdvertService {
@@ -45,12 +46,17 @@ public class AdvertService {
     }
 
     @Transactional(readOnly = true)
-    public List<AdvertResponse> makeAdvertResponses() {
+    public List<AdvertResponse> makeAdvertResponses(Optional<Integer> amount) {
         Iterable<Advert> advertIterable = advertRepository.findAll();
 
         List<AdvertResponse> responses = new ArrayList<>();
-        for (Advert advert : advertIterable)
+
+        for (Advert advert : advertIterable) {
             responses.add(makeAdvertResponse(advert));
+            if (amount.isPresent() && responses.size() >= amount.get())
+                break;
+        }
+
         return responses;
     }
 

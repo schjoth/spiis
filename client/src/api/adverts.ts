@@ -19,6 +19,14 @@ export async function getAllAdverts(): Promise<AdvertResponse[]> {
   return client.get(`/adverts`);
 }
 
+export async function getRandomAdverts(
+  amount: number
+): Promise<AdvertResponse[]> {
+  amount = Math.floor(amount);
+  if (amount == 0) return [];
+  return client.get(`/adverts?amount=${amount}`);
+}
+
 export async function deleteAdvert(id: number) {
   await client.delete(`/adverts/${id}`);
 }

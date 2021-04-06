@@ -41,13 +41,13 @@ public class CommentReply {
 
     @PrePersist
     protected void prePersist() {
-        createdTime = OffsetDateTime.now();
+        createdTime = OffsetDateTime.now().withNano(0);
         lastModifiedTime = createdTime;
     }
 
     @PreUpdate
     protected void preUpdate() {
-        lastModifiedTime = OffsetDateTime.now();
+        lastModifiedTime = OffsetDateTime.now().withNano(0);
     }
 
     public void setCommenter(@Nullable User commenter) {

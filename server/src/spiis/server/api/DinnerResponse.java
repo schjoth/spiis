@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -24,4 +25,5 @@ public class DinnerResponse {
     private boolean lockedByAdmin;
     private UserResponse host;
     @Nullable private List<UserResponse> guests;
+    private OffsetDateTime createdTime;
 }

@@ -3,17 +3,14 @@
     <Dinner
       v-for="(dinner, index) in dinners"
       :dinner="dinner"
-      :key="index"
-      :order="(index + 1) * spacing"
+      :key="dinner.id"
+      :order="index"
     />
     <Advertisement
-      v-for="(advert, index) in adverts?.slice(
-        0,
-        dinners?.length / advertFrequency
-      )"
+      v-for="(advert, index) in adverts"
       :ad="advert"
-      :key="index"
-      :order="(index + 1) * advertFrequency * spacing"
+      :key="advert.id"
+      :order="(index + 1) * advertFrequency"
     />
   </div>
 </template>
@@ -21,27 +18,21 @@
 <script lang="ts">
 import Dinner from "./Dinner.vue";
 import Advertisement from "@/components/Advertisement.vue";
-export default {
+import { computed, defineComponent } from "vue";
+export default defineComponent({
   name: "DinnerOverview",
   components: {
     Dinner,
     Advertisement
   },
-  props: {
-    dinners: Array,
-    adverts: {
-      type: Array,
-      default() {
-        return [];
-      }
-    }
-  },
-  setup() {
-    const advertFrequency = 4;
-    const spacing = 2;
-    return { advertFrequency, spacing };
+  props: ["dinners", "adverts"],
+  setup(props) {
+    const advertFrequency = computed(() =>
+      Math.floor(props.dinners.length / (props.adverts.length + 1))
+    );
+    return { advertFrequency };
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
