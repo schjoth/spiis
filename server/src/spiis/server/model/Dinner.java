@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -58,7 +57,14 @@ public class Dinner {
     private boolean cancelled;
 
     @Column(nullable = false)
+    private LocalDate registrationDeadlineDate;
+
+    @Column(nullable = false)
+    private LocalTime registrationDeadlineTime;
+
+    @Column(nullable = false)
     private boolean lockedByAdmin;
+
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -91,6 +97,8 @@ public class Dinner {
         ModelUtil.requireNonNull(city);
         ModelUtil.requireNonNull(host);
         ModelUtil.requireNonNull(guests);
+        ModelUtil.requireNonNull(registrationDeadlineDate);
+        ModelUtil.requireNonNull(registrationDeadlineTime);
 
         ModelUtil.ensureTextTrimAndLength(title, 4, 200, "title");
         ModelUtil.ensureTextMaxLength(description, MAX_DESCRIPTION_LENGTH, "description");
@@ -107,6 +115,10 @@ public class Dinner {
 
         if ((startTime.isAfter(endTime) || startTime.equals(endTime)))
             throw new ModelError("Start time can not be same as nor later than end time");
+
+        if (registrationDeadlineDate.isAfter(date)
+                || (registrationDeadlineDate.equals(date) && registrationDeadlineTime.isAfter(startTime)))
+            throw new ModelError("registration deadline can not be later than start time");
     }
 
     public void verifyIsInFuture() {

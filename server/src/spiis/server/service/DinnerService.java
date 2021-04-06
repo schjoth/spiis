@@ -52,6 +52,8 @@ public class DinnerService {
                 .postCode(dinner.getPostCode())
                 .city(dinner.getCity())
                 .maxGuests(dinner.getMaxGuests())
+                .registrationDeadlineTime(dinner.getRegistrationDeadlineTime().toString())
+                .registrationDeadlineDate(dinner.getRegistrationDeadlineDate().toString())
                 .cancelled(dinner.isCancelled())
                 .lockedByAdmin(dinner.isLockedByAdmin())
                 .createdTime(dinner.getCreatedTime());
@@ -112,6 +114,8 @@ public class DinnerService {
         dinner.setPostCode(request.getPostCode().trim());
         dinner.setCity(request.getCity().trim());
         dinner.setMaxGuests(request.getMaxGuests());
+        dinner.setRegistrationDeadlineDate(ModelUtil.parseLocalDate(request.getRegistrationDeadlineDate()));
+        dinner.setRegistrationDeadlineTime(ModelUtil.parseLocalTime(request.getRegistrationDeadlineTime()));
 
         dinner.verifyModel();
     }

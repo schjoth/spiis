@@ -18,6 +18,8 @@ import spiis.server.repository.UserRepository;
 import spiis.server.service.AuthService;
 import spiis.server.service.DinnerService;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -112,6 +114,10 @@ public class DinnerController {
 
         authService.throwIfForbidden(token, user);
 
+        if (LocalDate.now().isAfter(dinner.getRegistrationDeadlineDate())
+                || (LocalDate.now().equals(dinner.getDate())
+                && LocalTime.now().isAfter(dinner.getRegistrationDeadlineTime())))
+            throw new ConflictException("to late to join dinner");
         if (user.equals(dinner.getHost()))
             throw new ConflictException("The host can't be a guest");
         if (dinner.getGuests().contains(user))

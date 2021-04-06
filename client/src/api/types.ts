@@ -42,6 +42,8 @@ export interface DinnerRequest {
   date: string;
   startTime: string;
   endTime: string;
+  registrationDeadlineDate: string;
+  registrationDeadlineTime: string;
 }
 
 export interface DinnerResponse {
@@ -57,6 +59,8 @@ export interface DinnerResponse {
   endTime: string;
   maxPeople: number;
   cancelled: boolean;
+  registrationDeadlineDate: string;
+  registrationDeadlineTime: string;
   lockedByAdmin: boolean;
   host: UserResponse;
   guests: UserResponse[] | null;

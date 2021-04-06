@@ -125,6 +125,8 @@ public class TestUtil {
         request.setCity(randomName(10));
         request.setMaxGuests(randomInt(2,10));
         request.setExpenses("None!");
+        request.setRegistrationDeadlineDate("2022-11-03");
+        request.setRegistrationDeadlineTime("17:00");
         return request;
     }
 
