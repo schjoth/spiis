@@ -2,8 +2,11 @@ package spiis.server.model;
 
 import lombok.Data;
 import lombok.ToString;
+<<<<<<< HEAD
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.relational.core.sql.TrueCondition;
+=======
+>>>>>>> master
 import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
 
@@ -61,10 +64,14 @@ public class Dinner {
     private boolean cancelled;
 
     @Column(nullable = false)
+
     private LocalDate registrationDeadlineDate;
 
     @Column(nullable = false)
     private LocalTime registrationDeadlineTime;
+
+    private boolean lockedByAdmin;
+
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -78,11 +85,12 @@ public class Dinner {
     @ManyToMany
     private final Set<User> blockedGuests = new HashSet<>();
 
-    @CreatedDate
+    @OneToMany(mappedBy = "dinner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Set<Comment> comments = new HashSet<>();
+
     @Nullable
     private OffsetDateTime createdTime;
 
-    @PrePersist
     @PreUpdate
     public void verifyModel() {
         ModelUtil.requireNonNull(title);
@@ -123,6 +131,12 @@ public class Dinner {
     public void verifyIsInFuture() {
         if (date.isBefore(LocalDate.now()) || (date.equals(LocalDate.now()) && (startTime.isBefore(LocalTime.now()))))
             throw new ModelError("The date or time selected is not valid");
+    }
+
+    @PrePersist
+    protected void prePersist() {
+        createdTime = OffsetDateTime.now();
+        verifyModel();
     }
 
     public void setHost(@Nullable User user) {

@@ -52,7 +52,8 @@ public class DinnerService {
                 .maxGuests(dinner.getMaxGuests())
                 .registrationDeadlineTime(dinner.getRegistrationDeadlineTime().toString())
                 .registrationDeadlineDate(dinner.getRegistrationDeadlineDate().toString())
-                .cancelled(dinner.isCancelled());
+                .cancelled(dinner.isCancelled())
+                .lockedByAdmin(dinner.isLockedByAdmin());
 
         User host = Objects.requireNonNull(dinner.getHost());
         builder.host(userService.makeUserResponse(host, false));

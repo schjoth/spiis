@@ -68,6 +68,9 @@ public class DinnerController {
                            @RequestHeader("Authorization") String token) {
         Dinner dinner = dinnerRepository.findById(id).orElseThrow(NotFoundException::new);
 
+        if (dinner.isLockedByAdmin())
+            throw new ForbiddenException();
+
         authService.throwIfForbidden(token, Objects.requireNonNull(dinner.getHost()));
 
         dinnerService.editDinner(dinner, request);
@@ -77,9 +80,12 @@ public class DinnerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void setDinnerCancelled(@PathVariable("id") Long id,
-                             @RequestBody ValueWrapper<Boolean> value,
-                             @RequestHeader("Authorization") String token) {
+                                   @RequestBody ValueWrapper<Boolean> value,
+                                   @RequestHeader("Authorization") String token) {
         Dinner dinner = dinnerRepository.findById(id).orElseThrow(NotFoundException::new);
+
+        if (dinner.isLockedByAdmin())
+            throw new ForbiddenException();
 
         authService.throwIfForbidden(token, Objects.requireNonNull(dinner.getHost()));
 
@@ -90,8 +96,8 @@ public class DinnerController {
      * Adds a user as a guest, unless already added, is host, or dinner is full.
      *
      * @param dinnerId the id of the dinner
-     * @param userId the id of the user
-     * @param token authorization. Only the userId user can call this
+     * @param userId   the id of the user
+     * @param token    authorization. Only the userId user can call this
      */
     @PutMapping("/{id}/guests/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -122,14 +128,14 @@ public class DinnerController {
      * Removes a user as guest from the given dinner.
      *
      * @param dinnerId the id of the dinner
-     * @param userId the id of the user
-     * @param token authorization. Only the userId user or dinner host user can call this
+     * @param userId   the id of the user
+     * @param token    authorization. Only the userId user or dinner host user can call this
      */
     @DeleteMapping("/{id}/guests/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void removeGuestFromDinner(@PathVariable("id") Long dinnerId, @PathVariable("userId") Long userId,
-                                 @RequestHeader("Authorization") String token) {
+                                      @RequestHeader("Authorization") String token) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         Dinner dinner = dinnerRepository.findById(dinnerId).orElseThrow(NotFoundException::new);
         User host = Objects.requireNonNull(dinner.getHost());
@@ -144,14 +150,14 @@ public class DinnerController {
      * Removes and blocks a user as guest from the given dinner.
      *
      * @param dinnerId the id of the dinner
-     * @param userId the id of the user
-     * @param token authorization. Only the dinner host user can call this
+     * @param userId   the id of the user
+     * @param token    authorization. Only the dinner host user can call this
      */
     @PutMapping("/{id}/guests/blocked/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void removeAndBlockGuestFromDinner(@PathVariable("id") Long dinnerId, @PathVariable("userId") Long userId,
-                                      @RequestHeader("Authorization") String token) {
+                                              @RequestHeader("Authorization") String token) {
         User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         Dinner dinner = dinnerRepository.findById(dinnerId).orElseThrow(NotFoundException::new);
         User host = Objects.requireNonNull(dinner.getHost());
@@ -160,5 +166,18 @@ public class DinnerController {
             throw new ForbiddenException();
 
         dinner.removeAndBlockGuest(user);
+    }
+
+    @PutMapping("/{id}/lockedByAdmin")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void deleteDinner(@PathVariable("id") Long id, @RequestBody ValueWrapper<Boolean> locked,
+                             @RequestHeader("Authorization") String token) {
+        if (!authService.isTokenForAdminUser(token))
+            throw new ForbiddenException();
+
+        Dinner dinner = dinnerRepository.findById(id).orElseThrow(NotFoundException::new);
+        dinner.setLockedByAdmin(locked.getValue());
+        dinner.setCancelled(true);
     }
 }

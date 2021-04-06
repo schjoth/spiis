@@ -28,6 +28,9 @@
       </div>
 
       <div class="admin_options" v-if="loggedInAsAdmin && !isMyUser">
+        <p class="report">
+          <a href="mailto:report@spiis.no"> Rapporter Bruker </a>
+        </p>
         <p>
           <a class="admin_toggle" v-on:click="toggleAdmin">
             {{
@@ -161,5 +164,11 @@ export default {
 }
 
 @media only screen and (max-width: 980px) {
+}
+
+.report {
+  a {
+    color: red;
+  }
 }
 </style>

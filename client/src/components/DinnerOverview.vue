@@ -52,8 +52,9 @@ export default {
   margin-right: -20px;
 
   > * {
-    margin-left: 2%;
-    margin-right: 2%;
+    flex-grow: 1;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 }
 
@@ -62,10 +63,7 @@ export default {
   font-size: 50pt;
   width: 100%;
   background-color: white;
-  padding-top: 260%;
-  padding-bottom: 267%;
-  padding-left: 50%;
-  padding-right: 50%;
+  padding: 260% 50% 267%;
   border-radius: 20px;
 }
 
@@ -88,10 +86,7 @@ a.invite:hover {
 
   .invite {
     justify-content: center;
-    padding-left: 41.75vw;
-    padding-right: 41.75vw;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0 41.75vw;
     line-height: 150px;
   }
 }

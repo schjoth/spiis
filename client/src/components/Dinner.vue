@@ -57,7 +57,7 @@ export default {
 <style lang="scss" scoped>
 .box {
   width: 40%;
-  height: 300px;
+  min-height: 300px;
   border-radius: 20px;
 
   h1 {

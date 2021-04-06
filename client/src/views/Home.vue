@@ -1,11 +1,13 @@
 <template>
   <article>
-    <label for="city"> Velg by:</label>
-    <select name="city" id="city" v-model="cityFilter" v-if="allCities">
-      <option v-for="(city, index) in allCities" :key="index" :value="city">
-        {{ city }}
-      </option>
-    </select>
+    <div class="options">
+      <label for="city"> Velg by:</label>
+      <select name="city" id="city" v-model="cityFilter" v-if="allCities">
+        <option v-for="(city, index) in allCities" :key="index" :value="city">
+          {{ city }}
+        </option>
+      </select>
+    </div>
     <DinnerOverview
       :adverts="adverts"
       v-if="filteredDinners"
@@ -46,7 +48,8 @@ export default {
       const unfilteredDinners = await getAllDinners();
 
       allDinners.value = unfilteredDinners.filter(
-        (dinner) => Date.parse(dinner.date + " " + dinner.endTime) >= Date.now()
+        (dinner) =>
+          Date.parse(dinner.date + " " + dinner.startTime) >= Date.now()
       );
       adverts.value = await getAllAdverts();
     }
@@ -56,3 +59,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.options {
+  margin-bottom: 10px;
+}
+</style>

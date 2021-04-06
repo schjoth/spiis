@@ -2,11 +2,17 @@
   <article class="box" v-if="dinner">
     <div class="hero cancelled" v-if="dinner?.cancelled">
       <div class="is-flex-grow-1"></div>
-      <div>Middagen er avlyst!</div>
+      <div>
+        {{
+          dinner.lockedByAdmin
+            ? "Middagen har blitt avlyst av admin"
+            : "Middagen er avlyst!"
+        }}
+      </div>
       <div class="is-flex-grow-1"></div>
       <button
         class="button is-primary"
-        v-if="isHost"
+        v-if="isHost && !dinner.lockedByAdmin"
         v-on:click="unCancelDinner"
       >
         Angre
@@ -72,6 +78,7 @@
     <p class="category">
       GJESTER ({{ dinner.guests.length }}/{{ dinner.maxGuests }}):
     </p>
+
     <GuestList
       :guests="dinner.guests"
       :isHost="isHost"
@@ -79,21 +86,6 @@
       @remove="removeGuestFromDinner"
       @block="blockGuestFromDinner"
     />
-    <router-link
-      :to="'/event/' + dinner.id + '/edit'"
-      v-if="isHost"
-      class="rediger"
-    >
-      Rediger
-    </router-link>
-
-    <a
-      v-on:click="cancelDinner"
-      v-if="isHost && !dinner.cancelled"
-      class="avlys"
-    >
-      Avlys
-    </a>
 
     <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
       Meld deg på
@@ -101,7 +93,49 @@
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
-    <p v-if="errorText">{{ errorText }}</p>
+
+    <div class="settings">
+      <router-link
+        :to="'/event/' + dinner.id + '/edit'"
+        class="rediger"
+        v-if="isHost && !dinner.lockedByAdmin"
+      >
+        <img src="@/assets/edit.svg" width="16" />
+        Rediger
+      </router-link>
+
+      <a
+        v-on:click="cancelDinner"
+        class="avlys"
+        v-if="isHost && !dinner.cancelled"
+      >
+        <img src="@/assets/x-circle.svg" width="16" />
+        Avlys
+      </a>
+
+      <a v-on:click="toggleAdminCancelDinner" class="avlys" v-if="isAdmin">
+        <img src="@/assets/x-circle.svg" width="16" />
+        {{
+          dinner.lockedByAdmin ? "Åpne arrangement" : "Avlys og lås arrangement"
+        }}
+      </a>
+
+      <a href="mailto:report@spiis.no" v-if="!isHost">
+        <img src="@/assets/report.svg" width="16" />
+        Rapporter Arrangement
+      </a>
+    </div>
+
+    <p v-if="errorText" class="error">{{ errorText }}</p>
+
+    <p class="category">KOMMENTARER</p>
+
+    <CommentSection
+      :dinner-id="dinner.id"
+      :is-guest="isGuest"
+      :is-host="isHost"
+      :is-admin="isAdmin"
+    />
   </article>
   <article v-else>Laster inn middag...</article>
 </template>
@@ -113,17 +147,20 @@ import {
   addGuest,
   removeGuest,
   setDinnerCancelled,
-  blockGuest
+  blockGuest,
+  lockDinnerByAdmin
 } from "@/api/dinner";
 import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { authorized } from "@/api/client";
 import GuestList from "@/components/GuestList.vue";
+import CommentSection from "@/components/comments/CommentSection.vue";
 
 export default {
   name: "DinnerEvent",
   components: {
+    CommentSection,
     GuestList
   },
   setup() {
@@ -142,6 +179,8 @@ export default {
     const isGuest = computed(() =>
       dinner.value?.guests?.some((a) => a.id == userId.value)
     );
+
+    const isAdmin = computed(() => getLogInState().user?.admin === true);
 
     function errorWrapped<T>(func: (args: T) => void): (args: T) => void {
       return async (args: T) => {
@@ -173,6 +212,10 @@ export default {
     const unCancelDinner = errorWrapped(
       async () => await setDinnerCancelled(dinnerId, false)
     );
+    const toggleAdminCancelDinner = errorWrapped(
+      async () =>
+        await lockDinnerByAdmin(dinnerId, !dinner.value!.lockedByAdmin)
+    );
 
     onMounted(() => authorized(fetchData));
 
@@ -180,12 +223,14 @@ export default {
       dinner,
       isHost,
       isGuest,
+      isAdmin,
       addToDinner,
       removeFromDinner,
       removeGuestFromDinner,
       blockGuestFromDinner,
       cancelDinner,
       unCancelDinner,
+      toggleAdminCancelDinner,
       errorText
     };
   }
@@ -193,6 +238,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+img {
+  top: 1px;
+  position: relative;
+}
+
 .cancelled {
   padding: 20px;
   margin-bottom: 10px;
@@ -210,13 +260,14 @@ export default {
   font-style: normal;
 }
 
-.category {
-  font-size: 15pt;
+button {
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
-.rediger {
+.category {
+  font-size: 15pt;
   margin-top: 20px;
-  font-weight: lighter;
 }
 
 .rediger,
@@ -226,6 +277,10 @@ export default {
 
 .description {
   margin-bottom: 20px;
+}
+
+.settings {
+  margin-top: 20px;
 }
 
 .info {
@@ -240,5 +295,9 @@ td {
 .expenses {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.error {
+  color: red;
 }
 </style>
