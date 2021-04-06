@@ -57,12 +57,12 @@ public class Dinner {
     private boolean cancelled;
 
     @Column(nullable = false)
-
     private LocalDate registrationDeadlineDate;
 
     @Column(nullable = false)
     private LocalTime registrationDeadlineTime;
 
+    @Column(nullable = false)
     private boolean lockedByAdmin;
 
 

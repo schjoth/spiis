@@ -2,95 +2,134 @@
   <article class="box max-600">
     <h1>{{ !edit ? "Inviter til middag!" : "Rediger arrangment" }}</h1>
     <div class="field">
-      <label class="label">Tittel</label>
-      <div class="control">
-        <input class="input" type="text" placeholder="" v-model="input.title" />
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Beskrivelse</label>
-      <div class="control">
-        <textarea class="textarea" placeholder="" v-model="input.description" />
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Gateadresse</label>
+      <label class="label" for="title">Tittel</label>
       <div class="control">
         <input
           class="input"
           type="text"
           placeholder=""
+          v-model="input.title"
+          id="title"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label" for="description">Beskrivelse</label>
+      <div class="control">
+        <textarea
+          class="textarea"
+          placeholder=""
+          v-model="input.description"
+          id="description"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label" for="address">Gateadresse</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
           v-model="input.addressLine"
+          id="address"
         />
       </div>
     </div>
     <div class="field">
-      <label class="label">Postnummer</label>
+      <label class="label" for="postcode">Postnummer</label>
       <div class="control">
         <input
           class="input"
           type="text"
-          placeholder=""
           v-model="input.postCode"
+          id="postcode"
         />
       </div>
     </div>
     <div class="field">
-      <label class="label">By</label>
+      <label class="label" for="city">By</label>
       <div class="control">
-        <input class="input" type="text" placeholder="" v-model="input.city" />
+        <input class="input" type="text" v-model="input.city" id="city" />
       </div>
     </div>
     <div class="field">
-      <label class="label">Maks antall gjester</label>
+      <label class="label" for="guests">Maks antall gjester</label>
       <div class="control">
         <input
           class="input"
           type="number"
-          placeholder=""
           v-model="input.maxGuests"
+          id="guests"
         />
       </div>
     </div>
     <div class="field">
-      <label class="label">Utgifter</label>
+      <label class="label" for="expenses">Utgifter</label>
       <div class="control">
         <input
           class="input"
           type="number"
-          placeholder=""
           v-model="input.expenses"
+          id="expenses"
         />
       </div>
     </div>
     <div class="field">
-      <label class="label">Dato</label>
+      <label class="label" for="date">Dato</label>
       <div class="control">
-        <input class="input" type="date" v-model="input.date" />
+        <input class="input" type="date" v-model="input.date" id="date" />
       </div>
     </div>
     <div class="field">
-      <label class="label">Start-tidspunkt</label>
+      <label class="label" for="starttime">Start-tidspunkt</label>
       <div class="control">
         <input
           class="input"
           type="text"
           placeholder="16:00"
           v-model="input.startTime"
+          id="starttime"
         />
       </div>
     </div>
     <div class="field">
-      <label class="label">Slutt-tidspunkt</label>
+      <label class="label" for="endtime">Slutt-tidspunkt</label>
       <div class="control">
         <input
           class="input"
           type="text"
           placeholder="20:00"
           v-model="input.endTime"
+          id="endtime"
         />
       </div>
     </div>
+    <div class="field">
+      <label class="label" for="deadlinedate">Dato for påmeldingsfrist</label>
+      <div class="control">
+        <input
+          class="input"
+          type="date"
+          v-model="input.registrationDeadlineDate"
+          id="deadlinedate"
+        />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label" for="deadlinetime">
+        Tidspunkt for påmeldingfrist
+      </label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="14:00"
+          v-model="input.registrationDeadlineTime"
+          id="deadlinetime"
+        />
+      </div>
+    </div>
+
     <div class="content has-text-centered" v-if="errorMessage">
       <p class="has-text-danger">
         {{ errorMessage }}
@@ -132,8 +171,11 @@ export default defineComponent({
       maxGuests: props.dinner?.maxGuests ?? 4,
       date: props.dinner?.date ?? todayAsIsoDate(),
       startTime: props.dinner?.startTime ?? "",
-      endTime: props.dinner?.endTime ?? ""
+      endTime: props.dinner?.endTime ?? "",
+      registrationDeadlineDate: props.dinner?.registrationDeadlineDate ?? "",
+      registrationDeadlineTime: props.dinner?.registrationDeadlineTime ?? ""
     };
+
     const router = useRouter();
     const id = +useRoute().params.dinnerId;
 
