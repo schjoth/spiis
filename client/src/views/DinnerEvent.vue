@@ -46,6 +46,10 @@
               {{ dinner.host.firstName }} {{ dinner.host.lastName }}
             </router-link>
           </td>
+          <td v-if="dinner.host.averageHostRating !== null">
+            <img src="@/assets/star.svg" width="16" />
+            {{ dinner.host.averageHostRating }} / 6
+          </td>
         </tr>
         <tr>
           <td>

@@ -1,13 +1,13 @@
 <template>
   <div class="dinners">
     <Dinner
-      v-for="dinner in dinners"
+      v-for="(dinner, index) in dinners"
       :dinner="dinner"
       :key="dinner.id"
       :order="index"
     />
     <Advertisement
-      v-for="advert in adverts"
+      v-for="(advert, index) in adverts"
       :ad="advert"
       :key="advert.id"
       :order="(index + 1) * advertFrequency"
@@ -18,16 +18,18 @@
 <script lang="ts">
 import Dinner from "./Dinner.vue";
 import Advertisement from "@/components/Advertisement.vue";
-import {computed, defineComponent} from "vue";
+import { computed, defineComponent } from "vue";
 export default defineComponent({
   name: "DinnerOverview",
   components: {
     Dinner,
     Advertisement
   },
-  props: ['dinners', 'adverts'],
+  props: ["dinners", "adverts"],
   setup(props) {
-    const advertFrequency = computed(() => Math.floor(props.dinners.length / (props.adverts.length+1)));
+    const advertFrequency = computed(() =>
+      Math.floor(props.dinners.length / (props.adverts.length + 1))
+    );
     return { advertFrequency };
   }
 });
