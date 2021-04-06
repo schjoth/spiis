@@ -2,17 +2,10 @@ package spiis.server.model;
 
 import lombok.Data;
 import lombok.ToString;
-<<<<<<< HEAD
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.relational.core.sql.TrueCondition;
-=======
->>>>>>> master
 import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
