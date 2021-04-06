@@ -44,6 +44,11 @@ public class DinnerController {
         return dinnerService.makeDinnerResponses(false);
     }
 
+    @GetMapping("/future")
+    public List<DinnerResponse> getAllFutureDinners() {
+        return dinnerService.makeDinnerResponses(true);
+    }
+
     @GetMapping("/{id}")
     public DinnerResponse getDinner(@PathVariable("id") Long id) {
         return dinnerService.makeDinnerResponse(id);

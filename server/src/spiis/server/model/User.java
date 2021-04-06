@@ -103,14 +103,14 @@ public class User {
 
     @PrePersist
     protected void prePersist() {
-        createdTime = OffsetDateTime.now();
+        createdTime = OffsetDateTime.now().withNano(0);
         lastModifiedTime = createdTime;
         verifyModel();
     }
 
     @PreUpdate
     protected void preUpdate() {
-        lastModifiedTime = OffsetDateTime.now();
+        lastModifiedTime = OffsetDateTime.now().withNano(0);
         verifyModel();
     }
 

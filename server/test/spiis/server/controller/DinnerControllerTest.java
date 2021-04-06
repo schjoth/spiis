@@ -74,8 +74,6 @@ public class DinnerControllerTest {
         DinnerResponse dinnerResponse = dinnerController.createDinner(dinnerRequest, logInResponse.getToken()).getBody();
         assertNotNull(dinnerResponse);
         DinnerResponse dinner = dinnerController.getDinner(dinnerResponse.getId());
-        dinnerResponse.setCreatedTime("2021-12-12");
-        dinner.setCreatedTime("2021-12-12");
         assertEquals(dinnerResponse, dinner);
         testUtil.deleteDinner(dinnerResponse.getId());
     }

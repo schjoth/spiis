@@ -6,14 +6,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import spiis.server.AssertUtil;
 import spiis.server.api.*;
 import spiis.server.error.ForbiddenException;
-import spiis.server.model.User;
 import spiis.server.service.AuthService;
 import spiis.server.TestUtil;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class UserControllerTest {
@@ -24,7 +22,6 @@ public class UserControllerTest {
     private UserController userController;
     @Autowired
     private AuthService authService;
-
 
     @Test
     void getAllUsersTestForAdmin() {
@@ -65,9 +62,7 @@ public class UserControllerTest {
         assertEquals(user1.getCity(), user.getCity());
         assertEquals(user1.getFirstName(), user.getFirstName());
         assertEquals(user1.getLastName(), user.getLastName());
-    }
-
-    private void assertTrue(boolean anyMatch) {
+        assertNull(user1.getAverageHostRating());
     }
 
     @Test
@@ -79,9 +74,8 @@ public class UserControllerTest {
         DinnerResponse dinnerResponse1 = testUtil.createTestDinner(userId);
         List<DinnerResponse> dinners = userController.getHostingForUser(userId, firstToken);
 
-        assertTrue(dinners.stream().anyMatch(it -> it.getId() == dinnerResponse1.getId()));
+        assertTrue(dinners.stream().anyMatch(it -> it.getId().equals(dinnerResponse1.getId())));
 
         testUtil.deleteDinner(dinnerResponse1.getId());
     }
-
 }

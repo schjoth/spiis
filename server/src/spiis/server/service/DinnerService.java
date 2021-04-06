@@ -13,6 +13,8 @@ import spiis.server.model.ModelUtil;
 import spiis.server.model.User;
 import spiis.server.repository.DinnerRepository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,7 +54,7 @@ public class DinnerService {
                 .maxGuests(dinner.getMaxGuests())
                 .cancelled(dinner.isCancelled())
                 .lockedByAdmin(dinner.isLockedByAdmin())
-                .createdTime(dinner.getCreatedTime().toString());
+                .createdTime(dinner.getCreatedTime());
 
         User host = Objects.requireNonNull(dinner.getHost());
         builder.host(userService.makeUserResponse(host, false));
@@ -75,11 +77,11 @@ public class DinnerService {
     }
 
     @Transactional(readOnly = true)
-    public List<DinnerResponse> makeDinnerResponses(boolean includeCancelled) {
+    public List<DinnerResponse> makeDinnerResponses(boolean onlyFuture) {
 
-        Iterable<Dinner> dinnerIterable = includeCancelled
-                ? dinnerRepository.findAll()
-                : dinnerRepository.findAllByCancelledFalse();
+        Iterable<Dinner> dinnerIterable = onlyFuture
+                ? dinnerRepository.findAllFuture(LocalDate.now(), LocalTime.now())
+                : dinnerRepository.findAll();
 
         List<DinnerResponse> responses = new ArrayList<>();
         for (Dinner dinner : dinnerIterable)

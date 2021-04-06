@@ -8,6 +8,7 @@ export interface UserResponse {
   allergies: string[];
   admin: boolean;
   blocked: boolean;
+  averageHostRating: number | null;
 }
 
 export interface LogInRequest {

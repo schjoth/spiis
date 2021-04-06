@@ -19,6 +19,10 @@ export async function getAllDinners(): Promise<DinnerResponse[]> {
   return client.get(`/dinners`);
 }
 
+export async function getAllFutureDinners(): Promise<DinnerResponse[]> {
+  return client.get(`/dinners/future`);
+}
+
 export async function addGuest(dinnerId: number, userId: number) {
   await client.put(`/dinners/${dinnerId}/guests/${userId}`);
 }
