@@ -48,7 +48,7 @@
           </td>
           <td v-if="dinner.host.averageHostRating !== null">
             <img src="@/assets/star.svg" width="16" />
-            {{ dinner.host.averageHostRating }} / 6
+            {{ dinner.host.averageHostRating.toFixed(1) }} / 6
           </td>
         </tr>
         <tr>
