@@ -5,6 +5,7 @@
         v-for="comment in comments"
         :key="comment.commentId"
         :comment="comment"
+        :is-admin="isAdmin"
         @editMade="loadComments"
       />
     </div>
