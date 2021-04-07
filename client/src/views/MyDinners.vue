@@ -96,7 +96,10 @@ export default {
         const listOfUnratedDinners = [];
         for (const dinner of guesting.value) {
           const hasRated = await hasUserRatedDinner(dinner.id, currentUserID);
-          if (!hasRated) {
+          if (
+            !hasRated &&
+            Date.parse(dinner.date + " " + dinner.endTime) < Date.now()
+          ) {
             listOfUnratedDinners.push(dinner);
           }
         }
