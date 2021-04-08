@@ -13,48 +13,8 @@
         />
       </router-link>
 
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <router-link to="/" class="navbar-item"> Forside </router-link>
-
-          <router-link to="/MyDinners" class="navbar-item"
-            >Mine Middager</router-link
-          >
-
-          <router-link to="/event/new" class="navbar-item"
-            >Inviter til Middag</router-link
-          >
-        </div>
-
-        <div class="navbar-end">
-          <router-link class="navbar-item" to="/admin" v-if="isAdmin"
-            >Dashboard</router-link
-          >
-          <router-link class="navbar-item" to="/MyProfile" v-if="loggedIn">{{
-            name
-          }}</router-link>
-          <div class="navbar-item" v-if="loggedIn">
-            <div class="buttons">
-              <a class="button is-primary" v-on:click="logOut">
-                <strong>Logg ut</strong>
-              </a>
-            </div>
-          </div>
-          <div class="navbar-item" v-if="loggedOut">
-            <div class="buttons">
-              <router-link to="/signup" class="button is-primary">
-                <strong>Opprett bruker</strong>
-              </router-link>
-              <router-link to="/Login" class="button is-light">
-                Logg inn
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div
-        :class="'navbar-burger burgerIcon' + abcd"
+        :class="'navbar-burger burgerIcon' + closeHam"
         role="button"
         v-on:click="toggleHamburger"
         aria-label="menu"
@@ -66,10 +26,54 @@
         <span aria-hidden="true" class="L1"></span>
       </div>
     </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <router-link to="/" class="navbar-item"> Forside </router-link>
+
+        <router-link to="/MyDinners" class="navbar-item"
+        >Mine Middager</router-link
+        >
+
+        <router-link to="/event/new" class="navbar-item"
+        >Inviter til Middag</router-link
+        >
+      </div>
+
+      <div class="navbar-end">
+        <router-link class="navbar-item" to="/admin" v-if="isAdmin"
+        >Dashboard</router-link
+        >
+        <router-link class="navbar-item" to="/MyProfile" v-if="loggedIn">{{
+            name
+          }}</router-link>
+        <div class="navbar-item" v-if="loggedIn">
+          <div class="buttons">
+            <a class="button is-primary" v-on:click="logOut">
+              <strong>Logg ut</strong>
+            </a>
+          </div>
+        </div>
+        <div class="navbar-item" v-if="loggedOut">
+          <div class="buttons">
+            <router-link to="/signup" class="button is-primary">
+              <strong>Opprett bruker</strong>
+            </router-link>
+            <router-link to="/Login" class="button is-light">
+              Logg inn
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </nav>
 
-  <div :class="'hamburgerDiv' + abc">
-    <li><router-link to="/" class="navbar-item"> Forside </router-link></li>
+  <div :class="'hamburgerDiv' + openHam">
+    <li>
+      <router-link to="/" class="navbar-item">
+        Forside
+      </router-link>
+    </li>
     <li>
       <router-link to="/MyDinners" class="navbar-item">
         Mine Middager
@@ -106,16 +110,18 @@
     </li>
     <li>
       <div class="navbar-item buttons" v-if="loggedOut">
-        <router-link to="/Login" class="button is-light">
+        <router-link to="/Login" class="button is-primary">
           Logg inn
         </router-link>
       </div>
     </li>
+    <!--
     <li>
       <div class="navbar-item buttons">
         <a v-on:click="toggleHamburger">Lukk</a>
       </div>
     </li>
+    -->
   </div>
 </template>
 
@@ -137,19 +143,19 @@ export default {
     );
     const isAdmin = computed(() => getLogInState().user?.admin);
 
-    const abc = ref<string>(""); //TODO: bytt navn til noe som er litt mer beskrivende ;)
-    const abcd = ref<string>(""); //TODO: bytt navn til noe som er litt mer beskrivende ;)
+    const openHam = ref<string>("");
+    const closeHam = ref<string>("");
 
     const isHamburgerActive = ref<boolean>(false);
 
     const toggleHamburger = () => {
       isHamburgerActive.value = !isHamburgerActive.value;
       if (isHamburgerActive.value) {
-        abc.value = "hamburgerDiv-active";
-        abcd.value = "exit";
+        openHam.value = "hamburgerDiv-active";
+        closeHam.value = "exit";
       } else {
-        abc.value = ""; //TODO: endre til riktig klasse
-        abcd.value = ""; //TODO: endre til riktig klasse her også ;)
+        openHam.value = "";
+        closeHam.value = "";
       }
     };
 
@@ -158,8 +164,8 @@ export default {
       loggedOut,
       name,
       isAdmin,
-      abc, //TODO: husk å oppdatere denne ved navnbytte, og i htmlen hvor du bruker variabelen
-      abcd, //TODO: husk å oppdatere denne ved navnbytte, og i htmlen hvor du bruker variabelen
+      openHam,
+      closeHam,
       toggleHamburger,
       logOut: async () => {
         await logOut();
@@ -171,6 +177,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+a.navbar-item:focus,
+a.navbar-item:focus-within{
+  color: white;
+  text-decoration: overline;
+  text-decoration-color: rgba(255,255,255,0.5);
+}
+
+a.navbar-item:focus-within,
+a.navbar-item:hover,
+a.navbar-item:focus{
+  background-color: transparent;
+}
+
+
 nav {
   position: fixed;
   width: 100%;
@@ -180,27 +201,14 @@ nav {
   max-height: 90px;
 }
 
-a.navbar-item:focus,
-a.navbar-item:focus-within,
-a.navbar-item:hover,
-a.navbar-item.is-active,
-.buttons:focus,
-.buttons:focus-within,
-.buttons:hover,
-.buttons.is-active {
-  color: white;
-  font-size: larger;
-  background-color: rgb(227, 153, 87, 0.55);
-}
 
-.hamburgerDivhamburgerDiv-active {
+.hamburgerDivhamburgerDiv-active{
   z-index: 3;
   position: absolute;
   right: 0;
   text-align: right;
   top: 105px;
   padding: 0;
-  //height: 100vh; /*gir hamburgermenyen høyden til hele viewporten*/
   min-width: 20vw; /*gir hamburgermenyen bredden til hele viewporten*/
   color: white;
 
@@ -209,6 +217,18 @@ a.navbar-item.is-active,
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+
+  transform: translateX(0%);
+  background: rgb(227, 153, 87, 0.8);
+}
+
+.navbar-burger:hover{
+  background-color: rgba(0,0,0,0);
+
+  span{
+    color: rgba(255, 255, 255, 0.6);
+  }
+
 }
 
 .hamburgerDiv {
@@ -217,18 +237,8 @@ a.navbar-item.is-active,
   transition: transform 0.15s ease-in;
 }
 
-/* Viser hamburgermenyen når brukeren trykker på hamburger ikonet */
-.hamburgerDiv-active {
-  transform: translateX(0%);
-}
-
-.hamburgerDivhamburgerDiv-active {
-  background: rgb(227, 153, 87, 0.8);
-  transform: translateX(0%);
-}
-
 .navbar-burger {
-  //display: none; /*hamburger ikonet skal syntes når det er behov for å bruke hamburgermenyen (skjermen er såpass liten at det ikke
+  /*display: none; /*hamburger ikonet skal syntes når det er behov for å bruke hamburgermenyen (skjermen er såpass liten at det ikke
   //er særlig brukervennlig å ha menyen i navbaren)*/
 
   /*plasserer ikonet*/
@@ -237,16 +247,16 @@ a.navbar-item.is-active,
   right: 5%;
   top: 50%;
   transform: translate(-5%, -50%);
+  line-height: 1.5;
 }
 
-.navbar-burger div {
+.navbar-burger span {
   z-index: 3;
-  width: 30px;
-  height: 3px;
-  margin: 6px;
+  width: 25px;
   background-color: white;
   border-radius: 5px;
 }
+
 
 ul,
 li {
@@ -254,7 +264,7 @@ li {
 }
 
 .hamLinks:hover,
-.hamburgerDiv .dropbutton:hover {
+.hamburgerDiv .buttons:hover{
   font-size: 18pt;
 }
 
@@ -283,17 +293,47 @@ li {
     display: flex;
   }
 
+  .hamburgerDiv-active{
+    transform: translateX(0%);  
+  }
+
   .hamburgerDivhamburgerDiv-active {
     width: 100vw;
   }
 
-  #navbarBasixExample {
-    display: none;
+  a.navbar-item:focus,
+  a.navbar-item:focus-within,
+  a.navbar-item:hover,
+  a.navbar-item.is-active, 
+  .buttons:focus,
+  .buttons:focus-within,
+  .buttons:hover,
+  .buttons.is-active {
+    color: white;
+    font-size: larger;
+    background-color: rgb(227, 153, 87, 0.55);
+
   }
+
+  #navbarBasixExample {
+    display: none;     
+  }                    
 
   .buttons:last-child {
     margin-bottom: 0;
   }
+
+  a.navbar-item:focus,
+  a.navbar-item:focus-within,
+  a.navbar-item:hover,
+  a.navbar-item.is-active,
+  .buttons:focus,
+  .buttons:focus-within,
+  .buttons:hover,
+  .buttons.is-active {
+    text-decoration: none;
+  }
+
 }
 
 @media only screen and (max-width: 375px) {
