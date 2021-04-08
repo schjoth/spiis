@@ -69,13 +69,14 @@ export default {
             new Date(b.createdTime).valueOf() -
             new Date(a.createdTime).valueOf()
         );
-      else if (sorting.value.startsWith("host-rating"))
+      else if (sorting.value.startsWith("host-rating")) {
         filteredDinners = filteredDinners.filter(
           (it) => it.host.averageHostRating !== null
         );
-      filteredDinners.sort(
-        (a, b) => b.host.averageHostRating! - a.host.averageHostRating!
-      );
+        filteredDinners.sort(
+          (a, b) => b.host.averageHostRating! - a.host.averageHostRating!
+        );
+      }
 
       if (sorting.value.endsWith("!")) filteredDinners.reverse();
 
