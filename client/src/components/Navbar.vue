@@ -32,21 +32,21 @@
         <router-link to="/" class="navbar-item"> Forside </router-link>
 
         <router-link to="/MyDinners" class="navbar-item"
-        >Mine Middager</router-link
+          >Mine Middager</router-link
         >
 
         <router-link to="/event/new" class="navbar-item"
-        >Inviter til Middag</router-link
+          >Inviter til Middag</router-link
         >
       </div>
 
       <div class="navbar-end">
         <router-link class="navbar-item" to="/admin" v-if="isAdmin"
-        >Dashboard</router-link
+          >Dashboard</router-link
         >
         <router-link class="navbar-item" to="/MyProfile" v-if="loggedIn">{{
-            name
-          }}</router-link>
+          name
+        }}</router-link>
         <div class="navbar-item" v-if="loggedIn">
           <div class="buttons">
             <a class="button is-primary" v-on:click="logOut">
@@ -70,9 +70,7 @@
 
   <div :class="'hamburgerDiv' + openHam">
     <li>
-      <router-link to="/" class="navbar-item">
-        Forside
-      </router-link>
+      <router-link to="/" class="navbar-item"> Forside </router-link>
     </li>
     <li>
       <router-link to="/MyDinners" class="navbar-item">
@@ -177,20 +175,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 a.navbar-item:focus,
-a.navbar-item:focus-within{
+a.navbar-item:focus-within {
   color: white;
   text-decoration: overline;
-  text-decoration-color: rgba(255,255,255,0.5);
+  text-decoration-color: rgba(255, 255, 255, 0.5);
 }
 
 a.navbar-item:focus-within,
 a.navbar-item:hover,
-a.navbar-item:focus{
+a.navbar-item:focus {
   background-color: transparent;
 }
-
 
 nav {
   position: fixed;
@@ -201,8 +197,7 @@ nav {
   max-height: 90px;
 }
 
-
-.hamburgerDivhamburgerDiv-active{
+.hamburgerDivhamburgerDiv-active {
   z-index: 3;
   position: absolute;
   right: 0;
@@ -222,13 +217,12 @@ nav {
   background: rgb(227, 153, 87, 0.8);
 }
 
-.navbar-burger:hover{
-  background-color: rgba(0,0,0,0);
+.navbar-burger:hover {
+  background-color: rgba(0, 0, 0, 0);
 
-  span{
+  span {
     color: rgba(255, 255, 255, 0.6);
   }
-
 }
 
 .hamburgerDiv {
@@ -257,14 +251,13 @@ nav {
   border-radius: 5px;
 }
 
-
 ul,
 li {
   list-style-type: none;
 }
 
 .hamLinks:hover,
-.hamburgerDiv .buttons:hover{
+.hamburgerDiv .buttons:hover {
   font-size: 18pt;
 }
 
@@ -293,8 +286,8 @@ li {
     display: flex;
   }
 
-  .hamburgerDiv-active{
-    transform: translateX(0%);  
+  .hamburgerDiv-active {
+    transform: translateX(0%);
   }
 
   .hamburgerDivhamburgerDiv-active {
@@ -304,7 +297,7 @@ li {
   a.navbar-item:focus,
   a.navbar-item:focus-within,
   a.navbar-item:hover,
-  a.navbar-item.is-active, 
+  a.navbar-item.is-active,
   .buttons:focus,
   .buttons:focus-within,
   .buttons:hover,
@@ -312,12 +305,11 @@ li {
     color: white;
     font-size: larger;
     background-color: rgb(227, 153, 87, 0.55);
-
   }
 
   #navbarBasixExample {
-    display: none;     
-  }                    
+    display: none;
+  }
 
   .buttons:last-child {
     margin-bottom: 0;
@@ -333,7 +325,6 @@ li {
   .buttons.is-active {
     text-decoration: none;
   }
-
 }
 
 @media only screen and (max-width: 375px) {

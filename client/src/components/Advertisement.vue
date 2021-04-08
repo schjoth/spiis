@@ -49,14 +49,12 @@ export default {
     width: 100vw;
   }
 
-  .inner-ad-box{
+  .inner-ad-box {
     width: auto;
     height: auto;
   }
-
 }
 
-@media only screen and (max-width: 375px) {}
-
-
+@media only screen and (max-width: 375px) {
+}
 </style>
