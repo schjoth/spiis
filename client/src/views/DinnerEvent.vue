@@ -21,11 +21,16 @@
 
     <div class="is-flex is-flex-wrap-wrap-reverse">
       <div class="is-flex-grow-1"></div>
+      <p>
+        <img src="@/assets/calendar.svg" alt="Dato" width="16" height="16" />
+        <span class="date"> {{ dinner.date }}</span>
+      </p>
+    </div>
+    <div class="is-flex is-flex-wrap-wrap-reverse">
+      <div class="is-flex-grow-1"></div>
       <p class="dateLine">
-        kl. {{ dinner.startTime }} - {{ dinner.endTime }} [<span class="date">{{
-          dinner.date
-        }}</span
-        >]
+        <img src="@/assets/clock.svg" alt="Tid" width="16" height="16" />
+        {{ dinner.startTime }} - {{ dinner.endTime }}
       </p>
     </div>
 
@@ -150,6 +155,7 @@
       :is-admin="isAdmin"
     />
   </article>
+
   <article v-else>Laster inn middag...</article>
 </template>
 

@@ -1,5 +1,25 @@
 <template>
   <div class="box" :style="{ order }">
+    <table class="timeAndDate">
+      <tr>
+        <td>
+          <span class="date0">
+            <img
+              src="@/assets/calendar.svg"
+              alt="Sted"
+              width="16"
+              height="16"
+            />
+            {{ dinner.date }}</span
+          >
+        </td>
+        <td class="time">
+          <img src="@/assets/clock.svg" alt="Sted" width="16" height="16" />
+          {{ dinner.startTime }} - {{ dinner.endTime }}
+        </td>
+      </tr>
+    </table>
+
     <p>
       <span class="date">
         <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
@@ -11,12 +31,6 @@
       {{ dinner.startTime }} - {{ dinner.endTime }}
 
       <b><span v-if="dinner.cancelled" class="cancelled">AVLYST</span></b>
-
-      <span class="date0"
-        >,
-        <img src="@/assets/calendar.svg" alt="Sted" width="16" height="16" />
-        {{ dinner.date }}</span
-      >
     </p>
 
     <router-link :to="'/event/' + dinner.id">
@@ -64,9 +78,6 @@ export default {
     color: inherit;
   }
 
-  .guests {
-  }
-
   .host {
     margin-bottom: 15px;
   }
@@ -74,10 +85,10 @@ export default {
   .location {
     position: absolute;
   }
+}
 
-  .date0 {
-    display: none;
-  }
+.timeAndDate {
+  display: none;
 }
 
 .cancelled {
@@ -93,15 +104,30 @@ export default {
     width: 100%;
   }
 
+  .dateLine,
   .date {
     display: none;
   }
 
-  .date0 {
+  .timeAndDate {
     display: inline;
+    width: 100%;
+    font-size: 16px;
+
+    img {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .time {
+    padding-left: 25px;
   }
 }
 
 @media only screen and (max-width: 375px) {
+  .time {
+    padding-left: 24vw;
+  }
 }
 </style>
