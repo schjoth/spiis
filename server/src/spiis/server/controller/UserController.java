@@ -17,6 +17,7 @@ import spiis.server.service.AuthService;
 import spiis.server.service.DinnerService;
 import spiis.server.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,9 +101,9 @@ public class UserController {
 
         if (blocked.getValue()) {
             user.setToken(null);
-            for (Dinner dinner : user.getHosting())
+            for (Dinner dinner : new ArrayList<>(user.getHosting()))
                 dinner.setCancelled(true);
-            for (Dinner dinner : user.getGuesting())
+            for (Dinner dinner : new ArrayList<>(user.getGuesting()))
                 dinner.removeGuest(user);
         }
     }

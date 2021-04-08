@@ -91,7 +91,16 @@
       @block="blockGuestFromDinner"
     />
 
-    <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
+    <p>
+      Påmeldingsfrist: {{ dinner.registrationDeadlineDate }}
+      {{ dinner.registrationDeadlineTime }}
+    </p>
+
+    <button
+      type="button"
+      v-on:click="addToDinner"
+      v-if="!isGuest && !isHost && !tooLateToJoin"
+    >
       Meld deg på
     </button>
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
@@ -186,6 +195,16 @@ export default {
 
     const isAdmin = computed(() => getLogInState().user?.admin === true);
 
+    const tooLateToJoin = computed(() =>
+      dinner.value === null
+        ? false
+        : Date.parse(
+            dinner.value.registrationDeadlineDate +
+              " " +
+              dinner.value.registrationDeadlineTime
+          ) < Date.now()
+    );
+
     function errorWrapped<T>(func: (args: T) => void): (args: T) => void {
       return async (args: T) => {
         try {
@@ -228,6 +247,7 @@ export default {
       isHost,
       isGuest,
       isAdmin,
+      tooLateToJoin,
       addToDinner,
       removeFromDinner,
       removeGuestFromDinner,
