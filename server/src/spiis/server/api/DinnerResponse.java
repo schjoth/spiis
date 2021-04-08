@@ -24,5 +24,8 @@ public class DinnerResponse {
     private boolean cancelled;
     private boolean lockedByAdmin;
     private UserResponse host;
+    private String registrationDeadlineDate;
+    private String registrationDeadlineTime;
     @Nullable private List<UserResponse> guests;
+    private OffsetDateTime createdTime;
 }

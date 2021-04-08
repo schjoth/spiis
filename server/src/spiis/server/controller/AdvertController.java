@@ -4,6 +4,7 @@ package spiis.server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import spiis.server.api.AdvertRequest;
@@ -16,6 +17,7 @@ import spiis.server.service.AdvertService;
 import spiis.server.service.AuthService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/adverts")
@@ -33,8 +35,8 @@ public class AdvertController {
     }
 
     @GetMapping
-    public List<AdvertResponse> getAllAdverts() {
-        return advertService.makeAdvertResponses();
+    public List<AdvertResponse> getAllAdverts(@RequestParam Optional<Integer> amount) {
+        return advertService.makeAdvertResponses(amount);
     }
 
     @GetMapping("/{id}")

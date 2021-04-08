@@ -40,7 +40,6 @@ export default {
 
 <style lang="scss" scoped>
 .guest-list {
-  min-width: 500px;
   display: flex;
   flex-direction: column;
 }

@@ -51,6 +51,10 @@
               {{ dinner.host.firstName }} {{ dinner.host.lastName }}
             </router-link>
           </td>
+          <td v-if="dinner.host.averageHostRating !== null">
+            <img src="@/assets/star.svg" width="16" />
+            {{ dinner.host.averageHostRating }} / 6
+          </td>
         </tr>
         <tr>
           <td>
@@ -92,14 +96,23 @@
       @block="blockGuestFromDinner"
     />
 
-    <button type="button" v-on:click="addToDinner" v-if="!isGuest && !isHost">
+    <p>
+      Påmeldingsfrist: {{ dinner.registrationDeadlineDate }}
+      {{ dinner.registrationDeadlineTime }}
+    </p>
+
+    <button
+      type="button"
+      v-on:click="addToDinner"
+      v-if="!isGuest && !isHost && !tooLateToJoin"
+    >
       Meld deg på
     </button>
     <button type="button" v-on:click="removeFromDinner" v-else-if="!isHost">
       Meld meg av
     </button>
 
-    <div>
+    <div class="settings">
       <router-link
         :to="'/event/' + dinner.id + '/edit'"
         class="rediger"
@@ -130,7 +143,17 @@
         Rapporter Arrangement
       </a>
     </div>
+
     <p v-if="errorText" class="error">{{ errorText }}</p>
+
+    <p class="category">KOMMENTARER</p>
+
+    <CommentSection
+      :dinner-id="dinner.id"
+      :is-guest="isGuest"
+      :is-host="isHost"
+      :is-admin="isAdmin"
+    />
   </article>
 
   <article v-else>Laster inn middag...</article>
@@ -151,10 +174,12 @@ import { computed, onMounted, ref } from "vue";
 import { getLogInState } from "@/store/loginState";
 import { authorized } from "@/api/client";
 import GuestList from "@/components/GuestList.vue";
+import CommentSection from "@/components/comments/CommentSection.vue";
 
 export default {
   name: "DinnerEvent",
   components: {
+    CommentSection,
     GuestList
   },
   setup() {
@@ -173,7 +198,18 @@ export default {
     const isGuest = computed(() =>
       dinner.value?.guests?.some((a) => a.id == userId.value)
     );
-    const isAdmin = computed(() => getLogInState().user?.admin);
+
+    const isAdmin = computed(() => getLogInState().user?.admin === true);
+
+    const tooLateToJoin = computed(() =>
+      dinner.value === null
+        ? false
+        : Date.parse(
+            dinner.value.registrationDeadlineDate +
+              " " +
+              dinner.value.registrationDeadlineTime
+          ) < Date.now()
+    );
 
     function errorWrapped<T>(func: (args: T) => void): (args: T) => void {
       return async (args: T) => {
@@ -217,6 +253,7 @@ export default {
       isHost,
       isGuest,
       isAdmin,
+      tooLateToJoin,
       addToDinner,
       removeFromDinner,
       removeGuestFromDinner,
@@ -260,11 +297,7 @@ button {
 
 .category {
   font-size: 15pt;
-}
-
-.rediger {
   margin-top: 20px;
-  font-weight: lighter;
 }
 
 .rediger,
@@ -274,6 +307,10 @@ button {
 
 .description {
   margin-bottom: 20px;
+}
+
+.settings {
+  margin-top: 20px;
 }
 
 .info {

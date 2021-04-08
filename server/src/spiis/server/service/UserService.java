@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import spiis.server.api.LogInResponse;
 import spiis.server.api.SignUpRequest;
 import spiis.server.api.UserResponse;
 import spiis.server.error.ConflictException;
-import spiis.server.error.InvalidTokenException;
 import spiis.server.error.ModelError;
 import spiis.server.error.NotFoundException;
 import spiis.server.model.Allergy;
 import spiis.server.model.User;
+import spiis.server.repository.HostRatingRepository;
 import spiis.server.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -24,10 +23,12 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final HostRatingRepository hostRatingRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, HostRatingRepository hostRatingRepository) {
         this.userRepository = userRepository;
+        this.hostRatingRepository = hostRatingRepository;
     }
 
     private List<String> makeAllergyList(User user) {
@@ -52,7 +53,8 @@ public class UserService {
                 .city(user.getCity())
                 .allergies(makeAllergyList(user))
                 .admin(user.isAdmin())
-                .blocked(user.isBlocked());
+                .blocked(user.isBlocked())
+                .averageHostRating(hostRatingRepository.getAverageHostRating(user).orElse(null));
 
         if (yourself)
             builder.email(user.getEmail());

@@ -14,4 +14,6 @@ public class DinnerRequest {
     private String postCode;
     private String city;
     private int maxGuests;
+    private String registrationDeadlineDate;
+    private String registrationDeadlineTime;
 }

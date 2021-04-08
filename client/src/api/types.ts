@@ -8,6 +8,7 @@ export interface UserResponse {
   allergies: string[];
   admin: boolean;
   blocked: boolean;
+  averageHostRating: number | null;
 }
 
 export interface LogInRequest {
@@ -41,6 +42,8 @@ export interface DinnerRequest {
   date: string;
   startTime: string;
   endTime: string;
+  registrationDeadlineDate: string;
+  registrationDeadlineTime: string;
 }
 
 export interface DinnerResponse {
@@ -56,9 +59,12 @@ export interface DinnerResponse {
   endTime: string;
   maxPeople: number;
   cancelled: boolean;
+  registrationDeadlineDate: string;
+  registrationDeadlineTime: string;
   lockedByAdmin: boolean;
   host: UserResponse;
   guests: UserResponse[] | null;
+  createdTime: string;
 }
 
 export interface AdvertRequest {
@@ -74,4 +80,39 @@ export interface AdvertResponse {
   companyName: string;
   link: string;
   picture: string;
+}
+
+export type CommentVisibility = "host_only" | "guests_only" | "public";
+
+export interface CommentRequest {
+  content: string;
+  visibility: CommentVisibility;
+}
+
+export interface CommentResponse {
+  commentId: number;
+  content: string | null; //null if deleted
+  dinnerId: number;
+  visibility: CommentVisibility;
+  userId: number | null; //null if deleted
+  userLastName: string | null;
+  userFirstName: string | null;
+  postedAt: string;
+  editedAt: string;
+
+  replies: CommentReplyResponse[];
+}
+
+export interface CommentReplyRequest {
+  value: string;
+}
+
+export interface CommentReplyResponse {
+  replyId: number;
+  content: string | null;
+  userId: number | null;
+  userFirstName: string | null;
+  userLastName: string | null;
+  postedAt: string;
+  editedAt: string;
 }

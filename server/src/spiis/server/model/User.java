@@ -2,13 +2,12 @@ package spiis.server.model;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.lang.Nullable;
 import spiis.server.error.ModelError;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -47,6 +46,13 @@ public class User {
     @Column(nullable = false)
     private boolean blocked;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Set<Allergy> allergies = new HashSet<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Nullable
+    private AuthToken token;
+
     @ToString.Exclude
     @OneToMany(mappedBy = "host")
     private final Set<Dinner> hosting = new HashSet<>();
@@ -59,23 +65,20 @@ public class User {
     @ManyToMany(mappedBy = "blockedGuests")
     private final Set<Dinner> blockedFrom = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final Set<Allergy> allergies = new HashSet<>();
+    @ToString.Exclude
+    @OneToMany(mappedBy = "commenter")
+    private final Set<Comment> comments = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Nullable
-    private AuthToken token;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "commenter")
+    private final Set<CommentReply> commentReplies = new HashSet<>();
 
-    @CreatedDate
     @Nullable
     private OffsetDateTime createdTime;
 
-    @LastModifiedDate
     @Nullable
     private OffsetDateTime lastModifiedTime;
 
-    @PrePersist
-    @PreUpdate
     public void verifyModel() {
         ModelUtil.requireNonNull(email);
         ModelUtil.requireNonNull(password);
@@ -96,6 +99,19 @@ public class User {
 
         if (age < 0 || age > 200)
             throw new ModelError("Age is illegal");
+    }
+
+    @PrePersist
+    protected void prePersist() {
+        createdTime = OffsetDateTime.now().withNano(0);
+        lastModifiedTime = createdTime;
+        verifyModel();
+    }
+
+    @PreUpdate
+    protected void preUpdate() {
+        lastModifiedTime = OffsetDateTime.now().withNano(0);
+        verifyModel();
     }
 
     public void addAllergy(Allergy allergy) {
@@ -123,14 +139,20 @@ public class User {
 
     @PreRemove
     protected void onRemove() {
-        for (Dinner hosting : this.hosting) {
+        for (Dinner hosting : new ArrayList<>(hosting)) {
             hosting.setHost(null);
         }
-        for (Dinner guesting : this.guesting) {
+        for (Dinner guesting : new ArrayList<>(guesting)) {
             guesting.removeGuest(this);
         }
-        for (Dinner blockedFrom : this.blockedFrom) {
+        for (Dinner blockedFrom : new ArrayList<>(blockedFrom)) {
             blockedFrom.unblockGuest(this);
+        }
+        for (Comment comment : new ArrayList<>(comments)) {
+            comment.setCommenter(null);
+        }
+        for (CommentReply reply : new ArrayList<>(commentReplies)) {
+            reply.setCommenter(null);
         }
     }
 
