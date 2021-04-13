@@ -1,23 +1,23 @@
 <template>
   <div class="guest-list">
     <div class="guest" v-for="guest in guests" v-bind:key="guest.id">
-      <router-link :to="'/user/' + guest.id">
-        {{ guest.firstName }} {{ guest.lastName }}
-      </router-link>
-      <div class="is-flex-grow-1"></div>
       <div class="remove-area" v-if="isHost">
         <a
-          class="remove"
-          v-if="removing !== guest.id"
-          v-on:click="removing = guest.id"
+            class="remove"
+            v-if="removing !== guest.id"
+            v-on:click="removing = guest.id"
         >
-          X
+          X <span></span>
         </a>
         <div v-else>
           <a class="remove" v-on:click="$emit('remove', guest.id)"> Kick </a>
           <a class="remove" v-on:click="$emit('block', guest.id)"> Block </a>
         </div>
       </div>
+      <router-link :to="'/user/' + guest.id">
+        {{ guest.firstName }} {{ guest.lastName }}
+      </router-link>
+      <!--<div class="is-flex-grow-1"></div>-->
     </div>
   </div>
 </template>
@@ -42,12 +42,16 @@ export default {
 .guest-list {
   display: flex;
   flex-direction: column;
+  flex-direction: column;
+  border-left: 2px solid gray;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .guest {
   display: flex;
   padding: 3px;
-  border-bottom: 2px dotted #777;
+  //border-bottom: 2px solid #777;
 }
 
 .remove {
@@ -59,4 +63,10 @@ export default {
 .remove:hover {
   text-decoration: underline;
 }
+
+span{
+  display: inline-block;
+  width: 20px;
+}
+
 </style>
